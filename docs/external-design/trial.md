@@ -5,7 +5,6 @@
 ```mermaid
 flowchart LR
   entry(["Opens ReFeed"])
-  expired(["Session expired"])
   notif(["Notification: draft agreement ready"])
   menu(["Supplier main menu"])
   S00_01["S-F00-01<br>Sign in"]
