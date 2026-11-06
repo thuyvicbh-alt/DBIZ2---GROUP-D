@@ -72,7 +72,7 @@ flowchart LR
     E -->|"!: information<br/>sharing"| R
 
     %% ECO OIL - CERTIFICATION BODIES
-    E -->|"--"| B
+    E -->|"!"| B
     B -->|"Certificate"| E
 
     %% ECO OIL - EU SAF PRODUCER / BUYER
