@@ -1,7 +1,5 @@
 # Screen Transition Diagram: ReFeed System
 
-> Source: [screen-list.md](screen-list.md) (21 screens, 5 modals). Main menus are navigation hubs, not screens, so they are drawn as entry points.
-
 ## 1. Supplier
 
 ```mermaid
