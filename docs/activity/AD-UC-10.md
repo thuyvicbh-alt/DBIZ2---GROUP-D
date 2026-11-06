@@ -15,7 +15,7 @@
 | FRs covered | `FR-04-01` |
 | Business rules applied | `BR-04-01` |
 | Version / status | v0.1 · Reviewed |
-| Author | Group D |
+| Author | Vu Quynh Tho - 2411560045 | Group D |
 
 ## 1. Diagram
 
