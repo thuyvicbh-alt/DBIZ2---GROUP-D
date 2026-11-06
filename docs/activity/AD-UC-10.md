@@ -20,7 +20,7 @@
 ## 1. Diagram
 
 ```mermaid
-swimlane-beta TB
+swimlane-beta LR
   subgraph WHS["Warehouse Staff"]
     start@{ shape: sm-circ }
     a1("Initiate warehouse receiving for collected UCO")
