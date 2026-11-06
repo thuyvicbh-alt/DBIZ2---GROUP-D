@@ -1,7 +1,5 @@
 # Activity Diagram: AD-UC-01 Register / Login as a UCO supplier
 
-> **Worked example for teaching (ReFeed).** ReFeed is the digital business engineering ecosystem for Used Cooking Oil (UCO) collection and Sustainable Aviation Fuel (SAF) supply chains used as the class project in DBIZ2.
-
 | Field | Value |
 |---|---|
 | AD ID | AD-UC-01 |
@@ -141,9 +139,9 @@ Filled in during Lesson 8, from the Screen List.
 
 | Check | Result | By | Date |
 |---|---|---|---|
-| Renders on mermaid.live | Pass | Nguyễn Thúy Vi | 06/11/2026 |
-| Every decision has guards on all outgoing flows | Pass | Nguyễn Thúy Vi | 06/11/2026 |
-| Every system action cites an FR | Pass (FR-01-01) | Nguyễn Thúy Vi | 06/11/2026 |
-| Every FR of UC-01 appears in the diagram | Pass (1 of 1) | Nguyễn Thúy Vi | 06/11/2026 |
-| Lane names match the Context Diagram | Pass | Nguyễn Thúy Vi | 06/11/2026 |
-| AI critic prompt run, findings resolved or logged | Pass, 2 findings → open questions 1 and 2 | Nguyễn Thúy Vi | 06/11/2026 |
+| Renders on mermaid.live | Pass | 06/11/2026 |
+| Every decision has guards on all outgoing flows | Pass | 06/11/2026 |
+| Every system action cites an FR | Pass (FR-01-01) | 06/11/2026 |
+| Every FR of UC-01 appears in the diagram | Pass (1 of 1) | 06/11/2026 |
+| Lane names match the Context Diagram | Pass | 06/11/2026 |
+| AI critic prompt run, findings resolved or logged | Pass, 2 findings → open questions 1 and 2 | 06/11/2026 |
