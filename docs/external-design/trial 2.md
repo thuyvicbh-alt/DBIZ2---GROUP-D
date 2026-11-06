@@ -1,7 +1,5 @@
 # Screen Transition Diagram: ReFeed System
 
-Tài liệu thể hiện sơ đồ chuyển đổi màn hình (Screen Transition Diagram) cho 4 nhóm Actor chính trong hệ thống **ReFeed System**, được xây dựng dựa trên danh sách màn hình từ `screen-list.md`.
-
 ---
 
 ## 1. Supplier
