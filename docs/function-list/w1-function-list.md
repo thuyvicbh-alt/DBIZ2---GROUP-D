@@ -10,85 +10,78 @@ Sources swept, one diagram per pass: Use Case, Sequence, Context, CVCA, Architec
 
 | Feature | L2 ID | L2 function name | Actor | EARS acceptance criterion | Source trace | Initial priority | FP type |
 |---|---|---|---|---|---|---|---|
-| F-00 | FR-00-01 | Sign in with the university account | Student, Lab Technician | WHEN a user opens LabDesk without a session, the system SHALL send them to the university sign-in page and start a session for the account that returns. | Context: University SSO; ADR-002 | Must | EQ |
-| F-00 | FR-00-02 | Enforce user roles | System | IF a signed-in user who is not a Lab Technician opens a technician screen, THEN the system SHALL refuse access and show the student home page. | Use Case Diagram (two actors); ADR-002 | Must | NC |
-| F-00 | FR-00-03 | Deploy automatically | System | WHEN a change is merged into the main branch, the system SHALL build it, run the tests and deploy it to the staging server. | Architecture; ADR-001 | Must | NC |
-| F-00 | FR-00-04 | Record errors and alert the team | System | IF a request fails with a server error, THEN the system SHALL record the error and alert the integrator within 5 minutes. | Architecture | Must | NC |
-| F-01 | FR-01-01 | Show time slots with free seats | Student | WHEN a student opens the booking page, the system SHALL display the labs and time slots of the next 7 days with the number of free seats in each. | UC:UC-01; Context: Student | Must | EQ |
-| F-01 | FR-01-02 | Show the seat map | Student | WHEN a student selects a slot, the system SHALL display the seat map of that lab with each seat shown as free, booked or blocked. | UC:UC-01; SD-UC-01 | Must | EQ |
-| F-01 | FR-01-03 | Save a booking | Student | WHEN a student confirms a free seat, the system SHALL save a booking for that student, slot and seat with status Confirmed. | UC:UC-01; SD-UC-01 | Must | EI |
-| F-01 | FR-01-04 | Refuse a seat taken after the map loaded | System | IF the seat a student confirms was booked by someone else after the seat map was loaded, THEN the system SHALL reject the booking and reload the seat map with a message. | SD-UC-01 (alt: seat taken) | Must | NC |
-| F-01 | FR-01-05 | Refuse a second booking in the same slot | System | IF a student who already holds a booking in a slot confirms another seat in the same slot, THEN the system SHALL reject the booking and show the existing one. | BR-01; UC:UC-01 | Must | NC |
-| F-01 | FR-01-06 | Send the booking confirmation | Student | WHEN a booking is confirmed, the system SHALL send the student a confirmation email that contains a check-in QR code. | Context: Email service; ADR-003 | Must | EO |
-| F-01 | FR-01-07 | Cancel a booking | Student | WHEN a student cancels a Confirmed booking before its slot starts, the system SHALL set the booking to Cancelled and free the seat. | UC:UC-02 | Must | EI |
-| F-01 | FR-01-08 | View my bookings | Student | WHEN a student opens My bookings, the system SHALL list the student's bookings of today and the next 7 days with their status. | UC:UC-03 | Must | EQ |
-| F-01 | FR-01-09 | Remind the student before the slot | Student | WHEN 30 minutes remain before a slot starts, the system SHALL email a reminder to every student with a Confirmed booking in that slot. | UC:UC-01 (team proposal) | Should | EO |
-| F-01 | FR-01-10 | Add the booking to a calendar | Student | WHEN a student selects Add to calendar on a Confirmed booking, the system SHALL provide a calendar file with the lab, the seat and the slot time. | UC:UC-03 (team proposal) | Could | EO |
-| F-01 | FR-01-11 | Show seat equipment on the seat map | Student | WHEN a student selects a seat on the seat map, the system SHALL show the equipment of that seat (screens, software installed). | UC:UC-01 (student survey in the user meeting) | Could | EQ |
-| F-02 | FR-02-01 | Check in at the lab | Student | WHEN a student opens the check-in link of a lab between the start of a slot and 15 minutes after it, while holding a Confirmed booking for that lab and slot, the system SHALL set the booking to Checked-in. | UC:UC-04; SD-UC-04 | Must | EI |
-| F-02 | FR-02-02 | Explain a failed check-in | Student | IF a student opens the check-in link without a Confirmed booking for that lab and slot, THEN the system SHALL show why check-in failed and list the student's bookings for today. | UC:UC-04 (alternative flow) | Must | EQ |
-| F-02 | FR-02-03 | Refuse a late check-in | System | IF a student opens the check-in link more than 15 minutes after the slot started, THEN the system SHALL refuse the check-in and say that the seat was released. | BR-02; UC:UC-04 | Must | NC |
-| F-02 | FR-02-04 | Release no-show seats | System | WHEN 15 minutes have passed since a slot started, the system SHALL set every booking of that slot that is still Confirmed to No-show and free its seat. | UC:UC-05 (added after Lesson 7); ADR-004 | Must | NC |
-| F-02 | FR-02-05 | Send the no-show notice | Student | WHEN a booking becomes No-show, the system SHALL send the student a no-show notice. | UC:UC-05; Context: Email service | Must | EO |
-| F-02 | FR-02-06 | Suspend booking rights after repeated no-shows | System | IF a student reaches 3 no-shows within 30 days, THEN the system SHALL suspend the student's booking rights for 7 days. | BR-04; UC:UC-05 | Should | NC |
-| F-03 | FR-03-01 | Block a seat for maintenance | Lab Technician | WHEN a Lab Technician blocks a seat with a reason and a period, the system SHALL mark the seat Blocked for that period and refuse new bookings on it. | UC:UC-06; BR-03 | Should | EI |
-| F-03 | FR-03-02 | Unblock a seat | Lab Technician | WHEN a Lab Technician unblocks a seat, the system SHALL make the seat bookable from that moment. | UC:UC-06 | Should | EI |
-| F-03 | FR-03-03 | Warn students whose seat is blocked | Student | IF a seat is blocked while it holds Confirmed bookings, THEN the system SHALL cancel those bookings and email each student. | UC:UC-06; Context: Email service | Should | EO |
-| F-03 | FR-03-04 | View lab occupancy | Lab Technician | WHEN a Lab Technician opens the occupancy page, the system SHALL show for each slot of today the number of booked, checked-in and free seats per lab. | UC:UC-07 | Should | EQ |
-| F-03 | FR-03-05 | Export the monthly occupancy report | Lab Technician | WHEN a Lab Technician requests the report of a month, the system SHALL provide a spreadsheet with bookings, check-ins and no-shows per lab and slot. | UC:UC-07 (faculty request) | Could | EO |
-| F-03 | FR-03-06 | Show the occupancy trend | Lab Technician | WHEN a Lab Technician opens the trend view, the system SHALL show the weekly occupancy rate of each lab over the last 8 weeks. | UC:UC-07 (team proposal) | Could | EO |
+| F-01 | FR-01-01 | Register/Login as a UCO supplier | Supplier | WHEN a supplier submits the required registration information (including Point-of-Origin and compliance data) or valid login credentials, THEN the system SHALL create a supplier account with a unique Supplier_ID for a new registration, or authenticate the supplier for a returning login. | UC:UC-01; CTX:supplier-registration; CVCA:supplier-flow | Must | EI |
+| F-01 | FR-01-02 | Manage Point-of-Origin and compliance profile | Supplier | WHEN a supplier submits or updates Point-of-Origin or compliance information, THEN the system SHALL validate and store the profile against the Supplier_ID. | UC:UC-02; CTX:supplier-profile; CVCA:compliance-flow | Must | EI |
+| F-01 | FR-01-03 | Request and schedule a UCO pickup | Supplier | WHEN a supplier submits a pickup request with a preferred time window, THEN the system SHALL check that the supplier profile is complete, create the pickup request with status “Requested”, and return the request ID. IF the profile is incomplete (missing GPS or compliance data), THEN the system SHALL reject the request and prompt the supplier to update the profile. | UC:UC-03; CTX:supplier-profile; CVCA:compliance-flow | Must | EI |
+| F-01 | FR-01-04 | Manage an existing pickup request | Supplier | WHEN a supplier changes or cancels an eligible pickup request, THEN the system SHALL update the request status and retain the applicable appointment information. | UC:UC-04; SEQ:S-01; CTX:pickup-status | Must | EI |
+| F-01 | FR-01-05 | Track pickup status | Supplier | WHEN a supplier requests a pickup status, THEN the system SHALL display the current status, scheduled collection date/time, assigned driver and vehicle when available, and the last status-update timestamp. | UC:UC-04; SEQ:S-01; CTX:pickup-status | Must | EQ |
+| F-02 | FR-02-01 | Plan and dispatch a UCO collection route | Operations Staff | WHEN operations staff plans a collection route for an area, THEN the system SHALL group pending pickup requests within vehicle capacity, obtain an optimized visiting order from map/route data, and, after the staff reviews and confirms the route, assign the driver and vehicle, dispatch the route and notify the driver. | UC:UC-05; SEQ:S-01; CTX:dispatch-route; CVCA:logistics-flow | Must | EO |
+| F-02 | FR-02-02 | View assigned route and complete a UCO collection | Driver / Collector | WHEN a driver opens an assigned route, THEN the system SHALL display the route and its pickups; WHEN the driver confirms arrival at a supplier point, THEN the system SHALL update the pickup status to “Arrived”; WHEN the driver completes the collection, THEN the system SHALL validate and record the actual UCO quantity, GPS, timestamp and optional evidence (photo, notes) against the pickup; and WHEN the driver/collector reports at a pickup in status Arrived that UCO is not ready for collection, THEN the system SHALL cancel that pickup, update its status to Cancelled, and SHALL NOT create a collection record for it. | UC:UC-06; SEQ:S-01; CTX:collection-confirmation; CVCA:collection-flow | Must | EI |
+| F-02 | FR-03-01 | Record UCO handover information | Driver / Collector | WHEN a driver submits handover information, THEN the system SHALL validate and store the actual quantity, handover time and collection evidence against the assigned pickup, calculate the transaction amount from the base price and the supplier’s current loyalty bonus rate, and generate a draft handover agreement. | UC:UC-07; SEQ:S-01; CTX:collection-confirmation; CVCA:collection-flow | Must | EI |
+| F-03 | FR-03-01 | Confirm and sign a UCO transaction | Supplier | WHEN a supplier reviews the recorded UCO handover and signs the transaction, THEN the system SHALL lock the agreement (document hash) together with the calculated amount, store the electronic signature against the transaction record, and mark the pickup as Completed. | UC:UC-08; SEQ:S-02; CTX:transaction-flow | Must | EI |
+| F-03 | FR-03-02 | View or download transaction receipt | Supplier | WHEN a supplier requests the receipt of a signed transaction, THEN the system SHALL provide the electronic receipt (PDF) if the transaction belongs to that supplier, and SHALL show the warehouse verification status for information only. | UC:UC-09; SEQ:S-02; CTX:transaction-flow | Must | EQ |
+| F-04 | FR-04-01 | Receive and verify collected UCO at warehouse | Warehouse Staff | WHEN warehouse staff receives collected UCO, THEN the system SHALL record the received quantity against the collection, compare it with the quantity recorded at collection, and log a discrepancy alert for internal reconciliation when the difference exceeds the tolerance limit, without changing the signed transaction amount. | UC:UC-10; SEQ:S-01; CTX:warehouse-flow | Must | EI |
+| F-04 | FR-04-02 | Manage UCO batch and mass-balance records | Warehouse Staff | WHEN warehouse staff creates or updates a UCO batch, THEN the system SHALL maintain the linked collection inputs and the batch mass-balance information. | UC:UC-11; SEQ:S-01; CTX:warehouse-batch-flow | Must | EI |
+| F-04 | FR-04-03 | Trace UCO through the supply chain | Compliance / Admin Staff | WHEN authorised compliance or admin staff requests a trace, THEN the system SHALL display the traceable relationship from supplier and collection through warehouse batch to downstream handover. | UC:UC-11; SEQ:S-02; CTX:traceability-flow; CVCA:traceability-flow | Must | EQ |
+| F-05 | FR-05-01 | View loyalty status and accumulated payout balance | Supplier | WHEN a UCO transaction is signed, THEN the system SHALL add the locked base payment and loyalty bonus to the supplier’s accumulated payout balance, add the actual quantity to the verified UCO volume, and upgrade the loyalty tier with a tier upgrade bonus when a higher tier threshold is reached. WHEN a supplier opens loyalty and payout information, THEN the system SHALL display the current loyalty tier, verified UCO volume with progress to the next tier, accumulated payout balance, and transaction history (base payment, loyalty bonus, tier upgrade bonus). | UC:UC-12; CTX:loyalty-payout-flow; CVCA:supplier-value-flow | Must | EQ |
+| F-05 | FR-05-02 | Withdraw accumulated payout balance | Supplier | WHEN a supplier submits an eligible withdrawal request, THEN the system SHALL create the withdrawal transaction and update its payout status. | UC:UC-13; CTX:payment-flow; CVCA:supplier-value-flow | Must | EI |
+| F-05 | FR-05-03 | View Green Profile and UCO contribution history | Supplier | WHEN a supplier opens the Green Profile, THEN the system SHALL display verified UCO contribution and collection history. | UC:UC-14; CTX:ESG-report-flow; CVCA:environmental-value-flow | Should | EQ |
+| F-05 | FR-05-04 | Access ESG / environmental contribution reports | Supplier | WHEN a supplier requests an ESG or environmental contribution report, THEN the system SHALL generate and provide the report using verified collection data. | UC:UC-15; SEQ:S-03; CTX:ESG-report-flow; CVCA:environmental-value-flow | Should | EO |
+| F-06 | FR-06-01 | Monitor operations and compliance status | Admin / Compliance Staff | WHEN authorised staff opens the monitoring view, THEN the system SHALL display relevant suppliers, pickups, collections, transactions and compliance statuses for operational oversight. | UC:UC-16; CTX:admin-monitoring-flow; CVCA:operations-flow | Must | EQ |
+| F-06 | FR-06-02 | Review audit trail and generate compliance reports | Admin / Compliance Staff | WHEN authorised admin or compliance staff requests audit or compliance information, THEN the system SHALL display historical changes and generate the applicable compliance report. | UC:UC-17; SEQ:S-03; CTX:audit-report-flow; CVCA:compliance-flow | Must | EO |
+| F-06 | FR-06-03 | Enforce role-based access control | System | WHEN an authenticated user attempts a protected action, THEN the system SHALL allow it only when the assigned role grants the required permission and SHALL record denied attempts. | ARCH:access-control; ADR:authorisation; C5:hidden-work | Must | NC |
+| F-06 | FR-06-04 | Run automated regression and acceptance tests | System | WHEN code is merged into the release branch, THEN the delivery pipeline SHALL run automated unit, API and acceptance tests and block deployment when a test fails. | ARCH:ci-pipeline; ADR:test-strategy; C5:hidden-work | Must | NC |
+| F-06 | FR-06-05 | Deploy and monitor the service | System | WHEN a release is approved, THEN the pipeline SHALL deploy it to the target environment and expose health, error and latency signals for operational monitoring. | ARCH:deployment; ADR:observability; C5:hidden-work | Must | NC |
+| F-06 | FR-06-06 | Back up and recover operational records | System | WHEN the scheduled backup window occurs, THEN the system SHALL create a recoverable backup of operational and audit data and record the backup result. | ARCH:data-recovery; ADR:backup; C5:hidden-work | Must | NC |
 
 ## L3 work items
 
 | L3 ID | L2 ID | Layer | L3 work item | Size | Base hours | EARS precise? | Hidden work? |
 |---|---|---|---|---|---|---|---|
-| FR-00-01-FE | FR-00-01 | FE | Screen: sign-in page and session handling | S | 4 | Yes | No |
-| FR-00-01-INT | FR-00-01 | INT | Integration: university SSO login and callback | M | 8 | Yes | No |
-| FR-00-02-BE | FR-00-02 | BE | Role check on every technician route | S | 4 | Yes | Yes |
-| FR-00-03-BE1 | FR-00-03 | BE | Pipeline: build, test and deploy to staging | M | 8 | Yes | Yes |
-| FR-00-03-BE2 | FR-00-03 | BE | Daily database backup and a restore test | S | 4 | Yes | Yes |
-| FR-00-04-BE | FR-00-04 | BE | Error logging and alert rule | S | 4 | Yes | Yes |
-| FR-01-01-BE | FR-01-01 | BE | API: slots of the next 7 days with free-seat counts | S | 4 | Yes | No |
-| FR-01-01-FE | FR-01-01 | FE | Screen: slot picker (S-F01-01) | S | 4 | Yes | No |
-| FR-01-02-BE | FR-01-02 | BE | API: seat states for one slot | S | 4 | Yes | No |
-| FR-01-02-FE | FR-01-02 | FE | Screen: seat map grid with seat states (S-F01-02) | M | 8 | Yes | No |
-| FR-01-03-BE | FR-01-03 | BE | API: create booking | S | 4 | Yes | No |
-| FR-01-03-FE | FR-01-03 | FE | Book-seat action and success state | S | 4 | Yes | No |
-| FR-01-04-BE | FR-01-04 | BE | Re-check the seat inside the save transaction | M | 8 | Yes | No |
-| FR-01-05-BE | FR-01-05 | BE | Check one booking per student per slot | S | 4 | Yes | No |
-| FR-01-06-BE | FR-01-06 | BE | Generate the check-in QR token | S | 4 | Yes | No |
-| FR-01-06-INT | FR-01-06 | INT | Integration: email service, confirmation message | M | 8 | Yes | No |
-| FR-01-07-BE | FR-01-07 | BE | API: cancel booking and free the seat | S | 4 | Yes | No |
-| FR-01-07-FE | FR-01-07 | FE | Cancel action with confirmation modal | S | 4 | Yes | No |
-| FR-01-08-BE | FR-01-08 | BE | API: bookings of the signed-in student | S | 4 | Yes | No |
-| FR-01-08-FE | FR-01-08 | FE | Screen: my bookings (S-F01-03) | S | 4 | Yes | No |
-| FR-01-09-BE | FR-01-09 | BE | Job: find bookings 30 minutes before start | S | 4 | Yes | No |
-| FR-01-09-INT | FR-01-09 | INT | Email service: reminder message | S | 4 | Yes | No |
-| FR-01-10-BE | FR-01-10 | BE | API: calendar file for one booking | S | 4 | Yes | No |
-| FR-01-10-FE | FR-01-10 | FE | Add-to-calendar action | S | 4 | Yes | No |
-| FR-01-11-BE | FR-01-11 | BE | API: equipment of one seat | S | 4 | Yes | No |
-| FR-01-11-FE | FR-01-11 | FE | Seat detail panel | S | 4 | Yes | No |
-| FR-02-01-BE | FR-02-01 | BE | API: check in | S | 4 | Yes | No |
-| FR-02-01-FE | FR-02-01 | FE | Screen: check-in result (S-F02-01) | S | 4 | Yes | No |
-| FR-02-02-FE | FR-02-02 | FE | Error state with today's bookings | S | 4 | Yes | No |
-| FR-02-03-BE | FR-02-03 | BE | Time-window check on check-in | S | 4 | Yes | No |
-| FR-02-04-BE1 | FR-02-04 | BE | Job: release no-shows 15 minutes after start | M | 8 | Yes | No |
-| FR-02-04-BE2 | FR-02-04 | BE | Scheduler set-up for timed jobs (ADR-004) | S | 4 | Yes | Yes |
-| FR-02-05-INT | FR-02-05 | INT | Email service: no-show message | S | 4 | Yes | No |
-| FR-02-06-BE | FR-02-06 | BE | Count no-shows and suspend booking rights | M | 8 | Yes | No |
-| FR-03-01-BE | FR-03-01 | BE | API: block a seat for a period | S | 4 | Yes | No |
-| FR-03-01-FE | FR-03-01 | FE | Screen: seat maintenance with block modal (S-F03-02) | M | 8 | Yes | No |
-| FR-03-02-BE | FR-03-02 | BE | API: unblock a seat | S | 4 | Yes | No |
-| FR-03-02-FE | FR-03-02 | FE | Unblock action | S | 4 | Yes | No |
-| FR-03-03-BE | FR-03-03 | BE | Cancel bookings on a newly blocked seat | S | 4 | Yes | No |
-| FR-03-03-INT | FR-03-03 | INT | Email service: seat-blocked message | S | 4 | Yes | No |
-| FR-03-04-BE | FR-03-04 | BE | API: occupancy of today per lab and slot | S | 4 | Yes | No |
-| FR-03-04-FE | FR-03-04 | FE | Screen: lab occupancy (S-F03-01) | M | 8 | Yes | No |
-| FR-03-05-BE | FR-03-05 | BE | Report query and spreadsheet file | M | 8 | Yes | No |
-| FR-03-05-FE | FR-03-05 | FE | Export action and month picker | S | 4 | Yes | No |
-| FR-03-06-BE | FR-03-06 | BE | API: weekly occupancy rates | M | 8 | Yes | No |
-| FR-03-06-FE | FR-03-06 | FE | Trend chart | M | 8 | Yes | No |
+| FR-01-01-FE | FR-01-01 | FE | Screen/form: supplier registration and login | M | 8 | Yes | No |
+| FR-01-01-BE | FR-01-01 | BE | API/service: validate and create supplier account, authenticate login | M | 8 | Yes | No |
+| FR-01-02-FE | FR-01-02 | FE | Screen/form: Point-of-Origin and compliance fields, captured at registration and editable when the system asks for an update | M | 8 | Yes | No |
+| FR-01-02-BE | FR-01-02 | BE | API/service: validate and persist profile and compliance records | M | 8 | Yes | No |
+| FR-01-03-FE | FR-01-03 | FE | Screen/form: request pickup (location, estimated volume, time window, notes) and view the request status | M | 8 | Yes | No |
+| FR-01-03-BE | FR-01-03 | BE | API/service: validate profile, create pickup request (status “Requested”) and record the requested time window | M | 8 | Yes | No |
+| FR-01-04-FE | FR-01-04 | FE | Screen: view, reschedule or cancel pickup | M | 8 | Yes | No |
+| FR-01-04-BE | FR-01-04 | BE | API/service: validate and update pickup request status | M | 8 | Yes | No |
+| FR-01-05-FE | FR-01-05 | FE | Screen: pickup status and appointment details | S | 4 | Yes | No |
+| FR-01-05-BE | FR-01-05 | BE | API/query: retrieve current pickup status | S | 4 | Yes | No |
+| FR-02-01-FE | FR-02-01 | FE | Screen: dispatch queue, draft route review and confirmation (Admin Web) | M | 8 | Yes | No |
+| FR-02-01-BE | FR-02-01 | BE | BE: Service: group pending requests by vehicle capacity, create and save the route, assign driver/vehicle, update pickup status to “Driver Assigned” and notify the driver | L | 16 | Yes | No |
+| FR-02-01-INT | FR-02-01 | INT | Integration: Google Maps API for route/waypoint optimization | M | 8 | Yes | No |
+| FR-02-02-FE | FR-02-02 | FE | Mobile screen: assigned route, arrival confirmation, actual quantity, evidence capture, report "UCO not ready" on an arrived pickup and confirm the cancellation | M | 8 | Yes | No |
+| FR-02-02-BE | FR-02-02 | BE | API/service: provide the assigned route, update arrival status, validate and persist collection quantity and evidence, check the pickup is Arrived and on the driver's assigned route, set status to Cancelled without creating a collection record | M | 8 | Yes | No |
+| FR-02-03-FE | FR-02-03 | FE | Mobile form: capture actual quantity, handover time and evidence, and show the draft agreement | M | 8 | Yes | No |
+| FR-02-03-BE | FR-02-03 | BE | API/service: validate and store the handover record, calculate the transaction amount, generate the draft agreement | M | 8 | Yes | No |
+| FR-03-01-FE | FR-03-01 | FE | Screen: transaction review and electronic signature | M | 8 | Yes | No |
+| FR-03-01-BE | FR-03-01 | BE | API/service: lock the agreement with the payment amount, persist the signature and mark the pickup Completed | M | 8 | Yes | No |
+| FR-03-02-FE | FR-03-02 | FE | Screen: transaction receipt view/download | S | 4 | Yes | No |
+| FR-03-02-BE | FR-03-02 | BE | API/query: validate ownership and signed status, retrieve receipt data and render the PDF | S | 4 | Yes | No |
+| FR-04-01-FE | FR-04-01 | FE | Screen: warehouse receiving (barcode scan, quantity input) and verification result | M | 8 | Yes | No |
+| FR-04-01-BE | FR-04-01 | BE | API/service: persist received quantity, calculate discrepancy, log alert and update collection status | M | 8 | Yes | No |
+| FR-04-02-FE | FR-04-02 | FE | Screen: create/update batch and mass-balance | M | 8 | Yes | No |
+| FR-04-02-BE | FR-04-02 | BE | Service: aggregate collections and maintain batch/mass-balance records | L | 16 | Yes | No |
+| FR-04-03-FE | FR-04-03 | FE | Screen: traceability chain and batch history | M | 8 | Yes | No |
+| FR-04-03-BE | FR-04-03 | BE | Service/query: resolve end-to-end UCO trace links | L | 16 | Yes | No |
+| FR-05-01-FE | FR-05-01 | FE | Screen: loyalty status, tier progress, payout balance and history | M | 8 | Yes | No |
+| FR-05-01-BE | FR-05-01 | BE | API/service: update accumulated balance, verified volume and tier after a signed transaction (including tier upgrade bonus), and retrieve loyalty/payout status and history | M | 8 | Yes | No |
+| FR-05-02-FE | FR-05-02 | FE | Screen/form: request payout withdrawal | M | 8 | Yes | No |
+| FR-05-02-BE | FR-05-02 | BE | Service: validate withdrawal and update payout status | M | 8 | Yes | No |
+| FR-05-03-FE | FR-05-03 | FE | Screen: Green Profile and contribution history | S | 4 | Yes | No |
+| FR-05-03-BE | FR-05-03 | BE | API/query: retrieve verified contribution history | S | 4 | Yes | No |
+| FR-05-04-FE | FR-05-04 | FE | Screen: ESG/environmental report access | M | 8 | Yes | No |
+| FR-05-04-BE | FR-05-04 | BE | Service: generate ESG contribution report | M | 8 | Yes | No |
+| FR-06-01-FE | FR-06-01 | FE | Screen/dashboard: operations and compliance monitoring | M | 8 | Yes | No |
+| FR-06-01-BE | FR-06-01 | BE | API/query: aggregate operational and compliance status | M | 8 | Yes | No |
+| FR-06-02-FE | FR-06-02 | FE | Screen/report: audit trail and compliance reporting | M | 8 | Yes | No |
+| FR-06-02-BE | FR-06-02 | BE | Service: retrieve audit history and generate compliance report | L | 16 | Yes | No |
+| FR-06-03-BE | FR-06-03 | BE | Service: role and permission checks with denial audit logging | M | 8 | Yes | Yes |
+| FR-06-04-BE | FR-06-04 | BE | Test automation: unit, API and EARS acceptance coverage | M | 8 | Yes | Yes |
+| FR-06-05-INT | FR-06-05 | INT | Integration: deployment pipeline, health checks and operational monitoring | M | 8 | Yes | Yes |
+| FR-06-06-BE | FR-06-06 | BE | Service: scheduled backup and recovery verification | S | 4 | Yes | Yes |
 
-27 L2 functions, 46 L3 work items, 232 base hours. No row is above the 16-hour ceiling.
+23 L2 functions, 43 L3 work items, 348 base hours. No row is above the 16-hour ceiling.
 
-NC rows (FR-00-02, FR-00-03, FR-01-04, FR-02-04 ...) score zero function points but carry real work: that gap is why the function-point count is only a cross-check.
+NC rows (FR-06-03, FR-06-04, FR-06-05, FR-06-06) score zero function points but carry real work: that gap is why the function-point count is only a cross-check.
