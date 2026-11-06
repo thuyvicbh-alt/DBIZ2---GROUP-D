@@ -1,8 +1,5 @@
 # Sequence Diagram: SD-UC-12 Manage loyalty status and accumulated payout balance
 
-> Lifelines are proposed from [AD-UC-12](../activity/AD-UC-12.md). Confirm them against the
-> architecture before the review.
-
 Lesson 4, analysis level: how the parts of ReFeed talk to each other when a supplier opens the
 Loyalty & Payout section, views the loyalty tier and history, and requests a withdrawal. The
 lifelines are the elements of the [physical design](../architecture/architecture.md). The supplier's
