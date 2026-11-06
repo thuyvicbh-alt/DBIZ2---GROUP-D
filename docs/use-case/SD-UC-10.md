@@ -39,8 +39,4 @@ sequenceDiagram
   end
 ```
 
-### Explanatory Notes
-
-- **Preservation of Financial Integrity:** In both `alt` paths, the signed transaction amount remains unchanged regardless of volume differences to satisfy `FR-04-01` and financial audit requirements.
-- **Discrepancy Triggering:** The `alt` fragment models internal business rules (`BR-04-01`) evaluated by the `Warehouse service` based on predefined tolerance thresholds.
-- **Traceability:** State transition changes the collection record to `Received` upon completion.
+The alt fragments here are outcomes decided inside the system (tolerance evaluation per BR-04-01), so they belong in a sequence diagram. The actor's initial action of submitting received batch data is shown in the activity diagram instead.
