@@ -1,6 +1,6 @@
-# W4 Priorities: LabDesk
+# W4 Priorities: ReFeed
 
-> Worked example for teaching (LabDesk). Not a student submission and not a real product.
+> ReFeed Group D, K63DB, DBIZ II. 
 
 Lesson 5 (block W4). Cut by lowering priority, never by lowering estimates. Every change names its rule.
 
@@ -13,30 +13,26 @@ Lesson 5 (block W4). Cut by lowering priority, never by lowering estimates. Ever
 
 | Feature | L2 ID | L2 function name | Initial priority | Effective priority | Justification (required if changed) | Person-hours | Cost (VND) |
 |---|---|---|---|---|---|---|---|
-| F-00 | FR-00-01 | Sign in with the university account | Must | Must |  | 11.2 | 3.160.000 |
-| F-00 | FR-00-02 | Enforce user roles | Must | Must |  | 3.4 | 1.020.000 |
-| F-00 | FR-00-03 | Deploy automatically | Must | Must |  | 10.2 | 3.060.000 |
-| F-00 | FR-00-04 | Record errors and alert the team | Must | Should | R2: the team can read server logs by hand during the first weeks; painful, not fatal. | 3.4 | 1.020.000 |
-| F-01 | FR-01-01 | Show time slots with free seats | Must | Must |  | 5.4 | 1.420.000 |
-| F-01 | FR-01-02 | Show the seat map | Must | Must |  | 7.4 | 1.820.000 |
-| F-01 | FR-01-03 | Save a booking | Must | Must |  | 5.4 | 1.420.000 |
-| F-01 | FR-01-04 | Refuse a seat taken after the map loaded | Must | Must |  | 6.8 | 2.040.000 |
-| F-01 | FR-01-05 | Refuse a second booking in the same slot | Must | Must |  | 3.4 | 1.020.000 |
-| F-01 | FR-01-06 | Send the booking confirmation | Must | Must |  | 12.6 | 3.780.000 |
-| F-01 | FR-01-07 | Cancel a booking | Must | Must |  | 5.4 | 1.420.000 |
-| F-01 | FR-01-08 | View my bookings | Must | Must |  | 5.4 | 1.420.000 |
-| F-01 | FR-01-09 | Remind the student before the slot | Should | Could | R3: nobody would notice its absence in the first month; the confirmation email already carries the time. | 8.0 | 2.400.000 |
-| F-01 | FR-01-10 | Add the booking to a calendar | Could | Could |  | 5.4 | 1.420.000 |
-| F-01 | FR-01-11 | Show seat equipment on the seat map | Could | Could |  | 5.4 | 1.420.000 |
-| F-02 | FR-02-01 | Check in at the lab | Must | Must |  | 5.4 | 1.420.000 |
-| F-02 | FR-02-02 | Explain a failed check-in | Must | Must |  | 2.0 | 400.000 |
-| F-02 | FR-02-03 | Refuse a late check-in | Must | Must |  | 3.4 | 1.020.000 |
-| F-02 | FR-02-04 | Release no-show seats | Must | Must |  | 10.2 | 3.060.000 |
-| F-02 | FR-02-05 | Send the no-show notice | Must | Should | R2: My bookings already shows the No-show status; the email is a courtesy with a workaround. | 4.6 | 1.380.000 |
-| F-02 | FR-02-06 | Suspend booking rights after repeated no-shows | Should | Should |  | 6.8 | 2.040.000 |
-| F-03 | FR-03-01 | Block a seat for maintenance | Should | Should |  | 7.4 | 1.820.000 |
-| F-03 | FR-03-02 | Unblock a seat | Should | Should |  | 5.4 | 1.420.000 |
-| F-03 | FR-03-03 | Warn students whose seat is blocked | Should | Should |  | 8.0 | 2.400.000 |
-| F-03 | FR-03-04 | View lab occupancy | Should | Should |  | 7.4 | 1.820.000 |
-| F-03 | FR-03-05 | Export the monthly occupancy report | Could | Could |  | 8.8 | 2.440.000 |
-| F-03 | FR-03-06 | Show the occupancy trend | Could | Could |  | 10.8 | 2.840.000 |
+| F-01 | FR-01-01 | Register/Login as a UCO supplier | Must | Must |  | 10.8 | 2.840.000 |
+| F-01 | FR-01-02 | Manage Point-of-Origin and compliance profile | Must | Must |  | 10.8 | 2.840.000 |
+| F-01 | FR-01-03 | Request and schedule a UCO pickup | Must | Must |  | 10.8 | 2.840.000 |
+| F-01 | FR-01-04 | Manage an existing pickup request | Must | Should | R2: Operations staff can temporarily handle reschedule or cancellation requests while the core pickup flow remains usable. | 10.8 | 2.840.000 |
+| F-01 | FR-01-05 | Track pickup status | Must | Could | R3: Proactive status visibility is useful, but suppliers can confirm status through operations during Release 1. | 5.4 | 1.420.000 |
+| F-02 | FR-02-01 | Plan and dispatch a UCO collection route | Must | Must |  | 26.8 | 7.640.000 |
+| F-02 | FR-02-02 | View assigned route and complete a UCO collection | Must | Must |  | 10.8 | 2.840.000 |
+| F-02 | FR-02-03 | Record UCO handover information | Must | Must |  | 10.8 | 2.840.000 |
+| F-03 | FR-03-01 | Confirm and sign a UCO transaction | Must | Must |  | 10.8 | 2.840.000 |
+| F-03 | FR-03-02 | View or download transaction receipt | Must | Must |  | 5.4 | 1.420.000 |
+| F-04 | FR-04-01 | Receive and verify collected UCO at warehouse | Must | Must |  | 10.8 | 2.840.000 |
+| F-04 | FR-04-02 | Manage UCO batch and mass-balance records | Must | Should | R2: Traceability is important for compliance, but Release 1 can use batch and transaction records as a manual audit path. | 17.6 | 4.880.000 |
+| F-04 | FR-04-03 | Trace UCO through the supply chain | Must | Won't | R4: Deferred to Release 2; Release 1 prioritises collection, transaction, warehouse and compliance capabilities. | 17.6 | 4.880.000 |
+| F-05 | FR-05-01 | View loyalty status and accumulated payout balance | Must | Must |  | 10.8 | 2.840.000 |
+| F-05 | FR-05-02 | Withdraw accumulated payout balance | Must | Should | R2: Deferred to Release 2. The payment process will be handled outside of the application | 10.8 | 2.840.000 |
+| F-05 | FR-05-03 | View Green Profile and UCO contribution history | Should | Could | R3: Contribution history supports supplier value but is not required to operate the collection chain. | 5.4 | 1.420.000 |
+| F-05 | FR-05-04 | Access ESG / environmental contribution reports | Should | Should |  | 10.8 | 2.840.000 |
+| F-06 | FR-06-01 | Monitor operations and compliance status | Must | Should | R2: Operations and compliance staff need a minimum monitoring view to run and supervise the release. | 10.8 | 2.840.000 |
+| F-06 | FR-06-02 | Review audit trail and generate compliance reports | Must | Must |  | 17.6 | 4.880.000 |
+| F-06 | FR-06-03 | Enforce role-based access control | Must | Must |  | 6.8 | 2.040.000 |
+| F-06 | FR-06-04 | Run automated regression and acceptance tests | Must | Must |  | 6.8 | 2.040.000 |
+| F-06 | FR-06-05 | Deploy and monitor the service | Must | Must |  | 9.2 | 2.760.000 |
+| F-06 | FR-06-06 | Back up and recover operational records | Must | Must |  | 3.4 | 1.020.000 |
