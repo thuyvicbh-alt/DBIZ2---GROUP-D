@@ -10,7 +10,6 @@ flowchart LR
   notif(["Notification / Email Link"])
 
   S00_01["S-F00-01<br>Sign in"]
-  S01_01["S-F01-01<br>Supplier registration"]
   S01_02["S-F01-02<br>Point-of-Origin & compliance profile"]
   S01_03["S-F01-03<br>Pickup request form"]
   S01_04["S-F01-04<br>My pickup requests"]
@@ -24,9 +23,7 @@ flowchart LR
 
   %% Entry & Auth
   entry --> S00_01
-  S00_01 -->|"Register"| S01_01
-  S01_01 -->|"[Account created] Sign in"| S00_01
-  S00_01 -->|"Signed in (Supplier Home)"| S05_01
+  S00_01 -->|"signed in as supplier"| S05_01
   S00_01 -->|"[Profile incomplete prompt]"| S01_02
 
   %% Profile
