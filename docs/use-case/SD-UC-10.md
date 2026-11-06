@@ -1,6 +1,6 @@
 # Sequence Diagram: SD-UC-10 Receive and verify collected UCO at warehouse
 
-Lesson 4, analysis level: how the parts of ReFeed interact when warehouse staff record and verify received UCO against collection records. The lifelines represent elements of the physical design.
+Lesson 4, analysis level: how the parts of ReFeed talk to each other when warehouse staff record and verify received UCO quantity against collection records. The lifelines are the elements of the physical design. The warehouse staff's choice (to initiate receiving and enter quantities) is shown in the activity diagram AD-UC-10, not here.
 
 | Field | Value |
 |---|---|
