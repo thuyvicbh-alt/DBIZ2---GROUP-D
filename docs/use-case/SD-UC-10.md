@@ -1,8 +1,5 @@
 # Sequence Diagram: SD-UC-10 Receive and verify collected UCO at warehouse
 
-> Lifelines are proposed from [AD-UC-10](../activity/AD-UC-10.md). Confirm them against the
-> architecture before the review.
-
 Lesson 4, analysis level: how the parts of ReFeed interact when warehouse staff record and verify received UCO against collection records. The lifelines represent elements of the physical design.
 
 | Field | Value |
