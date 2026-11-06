@@ -1,7 +1,5 @@
 # Sequence Diagram: SD-UC-01 Register / Login as a UCO supplier
 
-> Lifelines are proposed from [AD-UC-01](../activity/AD-UC-01.md). Confirm them against the
-> architecture before the review.
 
 Lesson 4, analysis level: how the parts of ReFeed talk to each other when a supplier submits
 registration data or credentials. The lifelines are the elements of the
