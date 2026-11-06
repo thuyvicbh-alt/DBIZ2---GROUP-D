@@ -166,6 +166,3 @@ Filled in during Lesson 8, from the Screen List.
 | Every FR of UC-12 appears in the diagram | Pass (2 of 2) |  | 06/11/2026 |
 | Lane names match the Context Diagram | Pass |  | 06/11/2026 |
 | AI critic prompt run, findings resolved or logged | Pass, 2 findings → open questions 1 and 2 |  | 06/11/2026 |
-  f1 --> s5 --> o1 --> j1
-  f1 --> s6 --> j1
-  j1 --> s7 --> a5 --> stop3
