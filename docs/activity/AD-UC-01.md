@@ -15,7 +15,7 @@
 | FRs covered | FR-01-01 |
 | Business rules applied | BR-01 (Unique Supplier Identifier & Tax ID validation) |
 | Version / status | v1.0 · Reviewed |
-| Author | ReFeed Group Project (Group D - K63DB) |
+| Author | Nguyen Thuy Vi - 2411560050 |
 
 ## 1. Diagram
 
