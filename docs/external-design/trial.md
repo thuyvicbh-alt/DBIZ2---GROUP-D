@@ -20,7 +20,6 @@ flowchart LR
   S05_03["S-F05-03<br>Green Profile"]
   S05_04["S-F05-04<br>ESG contribution reports"]
   entry --> S00_01
-  expired --> S00_01
   notif --> S03_01
   S00_01 -->|"Register"| S01_01
   S00_01 -->|"signed in as supplier"| menu
