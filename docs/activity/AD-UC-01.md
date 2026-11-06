@@ -80,7 +80,11 @@ displayAuthSuccess --> finalSuccess
 %% Invisible link for layout only, not a process transition
 finalLogin ~~~ displayAuthSuccess
 ```
+Reading notes:
 
+- The process starts when the **Supplier** submits authentication credentials or new account registration data to the ReFeed system.
+- Decision `d1` validates the input credentials and compliance data. If invalid, the system displays the error message via `s2` and terminates at `stop2`.
+- Decision `d2` branches between two scenarios: New account registration (generating a unique `Supplier_ID` and transitioning the account object `o1` to state `Active`) and Returning login for an existing registered supplier (`s5`).
 
 ## 2. Node trace
 
@@ -139,9 +143,9 @@ Filled in during Lesson 8, from the Screen List.
 
 | Check | Result | By | Date |
 |---|---|---|---|
-| Renders on mermaid.live | Pass | 06/11/2026 |
-| Every decision has guards on all outgoing flows | Pass | 06/11/2026 |
-| Every system action cites an FR | Pass (FR-01-01) | 06/11/2026 |
-| Every FR of UC-01 appears in the diagram | Pass (1 of 1) | 06/11/2026 |
-| Lane names match the Context Diagram | Pass | 06/11/2026 |
-| AI critic prompt run, findings resolved or logged | Pass, 2 findings → open questions 1 and 2 | 06/11/2026 |
+| Renders on mermaid.live | Pass | | 06/11/2026 |
+| Every decision has guards on all outgoing flows | Pass | | 06/11/2026 |
+| Every system action cites an FR | Pass (FR-01-01)| | 06/11/2026 |
+| Every FR of UC-01 appears in the diagram | Pass (1 of 1) || 06/11/2026 |
+| Lane names match the Context Diagram | Pass || 06/11/2026 |
+| AI critic prompt run, findings resolved or logged | Pass, 2 findings → open questions 1 and 2| | 06/11/2026 |
