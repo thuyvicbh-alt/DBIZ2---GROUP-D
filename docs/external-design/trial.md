@@ -60,14 +60,12 @@ Main task "request a pickup": Supplier main menu → S-F01-03 → success state 
 ```mermaid
 flowchart LR
   entry(["Opens ReFeed"])
-  expired(["Session expired"])
   notif(["Dispatch notification"])
   S00_01["S-F00-01<br>Sign in"]
   S02_03["S-F02-03<br>Assigned route"]
   S02_04["S-F02-04<br>Pickup point collection"]
   S02_05["S-F02-05<br>Handover record and draft agreement"]
   entry --> S00_01
-  expired --> S00_01
   notif --> S02_03
   S00_01 -->|"signed in as driver"| S02_03
   S02_03 -->|"selects a pickup point"| S02_04
@@ -85,13 +83,11 @@ Main task "collect UCO at a pickup point": S-F02-03 → S-F02-04 → S-F02-05. T
 ```mermaid
 flowchart LR
   entry(["Opens ReFeed"])
-  expired(["Session expired"])
   menu(["Warehouse main menu"])
   S00_01["S-F00-01<br>Sign in"]
   S04_01["S-F04-01<br>Warehouse receiving"]
   S04_02["S-F04-02<br>Batch and mass-balance management"]
   entry --> S00_01
-  expired --> S00_01
   S00_01 -->|"signed in as warehouse staff"| menu
   menu -->|"Receive UCO"| S04_01
   menu -->|"Batches"| S04_02
@@ -108,7 +104,6 @@ Main task "receive a collection": Warehouse main menu → S-F04-01 → result st
 ```mermaid
 flowchart LR
   entry(["Opens ReFeed"])
-  expired(["Session expired"])
   menu(["Staff main menu"])
   S00_01["S-F00-01<br>Sign in"]
   S06_01["S-F06-01<br>Operations and compliance monitoring"]
@@ -116,7 +111,6 @@ flowchart LR
   S02_01["S-F02-01<br>Dispatch queue"]
   S02_02["S-F02-02<br>Route review and dispatch"]
   entry --> S00_01
-  expired --> S00_01
   S00_01 -->|"signed in as ReFeed staff"| S06_01
   S06_01 -->|"Main menu"| menu
   S06_01 -->|"pending-pickup drill-down"| S02_01
