@@ -15,12 +15,12 @@
 | FRs covered | `FR-05-02` |
 | Business rules applied | `BR-PAY-01`, `BR-PAY-02` |
 | Version / status | v0.1 · Draft / Reviewed |
-| Author | Vũ Quỳnh Thơ / Group D - K63DB |
+| Author | Vu Quynh Tho - 2411560045/ Group D - K63DB |
 
 ## 1. Diagram
 
 ```mermaid
-swimlane-beta TB
+swimlane-beta LR
   subgraph ACT["Supplier"]
     start@{ shape: sm-circ }
     a1("Submit withdrawal request")
