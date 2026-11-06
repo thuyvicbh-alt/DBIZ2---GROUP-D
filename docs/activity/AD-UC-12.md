@@ -31,34 +31,59 @@ config:
     nodeSpacing: 60
     rankSpacing: 45
 ---
+
+
 swimlane-beta LR
-  subgraph SUP["Supplier"]
-    start@{ shape: sm-circ }
-    a1("Submit Credentials or Registration Data")
-    a2("See Dashboard & Authentication Result")
-    a3("See Error Message & Prompt Retry")
-    a4("See Login Redirection & Sign-in")
-    stop1@{ shape: fr-circ }
-    stop2@{ shape: fr-circ }
-    stop3@{ shape: fr-circ }
-  end
+%% UC01: Register/Login as a UCO supplier (F-01)
+%% ReFeed group project
+subgraph supplier ["Supplier"]
+initial@{ shape: f-circ, label: " " }
+submitAuth("Submit Credentials or Registration Data")
+choiceAuth{" "}
+finalFail@{ shape: fr-circ, label: " " }
+end
 
-  subgraph SYS["ReFeed system"]
-    s1("Validate Credentials and Compliance Data (FR-01-01)")
-    d1{"Authentication<br>valid?"}
-    s2("Display Error Message & Prompt Retry (FR-01-01)")
-    d2{"New registration<br>or existing login?"}
-    s3("Create Supplier Account with Unique Supplier_ID (FR-01-01)")
-    o1["Supplier Account [Active]"]
-    s4("Display Dashboard & Authentication Result (FR-01-01)")
-    s5("Display Account Already Exists & Redirect to Login (FR-01-01)")
-  end
 
-  start --> a1 --> s1 --> d1
-  d1 -->|"[no - invalid data]"| s2 --> a3 --> stop2
-  d1 -->|"[yes]"| d2
-  d2 -->|"[new registration]"| s3 --> o1 --> s4 --> a2 --> stop1
-  d2 -->|"[existing login]"| s5 --> a4 --> stop3
+subgraph system ["ReFeed System"]
+validateAuth("Validate Credentials and Compliance Data (FR-01-01)")
+createAccount("Create Supplier Account with Unique Supplier_ID (FR-01-01)")
+authenticateUser("Display Account Already Exists & Redirect to Login (FR-01-01)")
+finalLogin@{ shape: fr-circ, label: " " }
+
+
+displayAuthSuccess("Display Dashboard & Authentication Result (FR-01-01)")
+finalSuccess@{ shape: fr-circ, label: " " }
+
+
+displayAuthError("Display Error Message & Prompt Retry (FR-01-01)")
+end
+
+
+initial --> submitAuth
+submitAuth --> validateAuth
+validateAuth -->|Authentication Valid?| choiceAuth
+
+
+choiceAuth -->|No - Invalid Data/Credentials| displayAuthError
+displayAuthError --> finalFail
+
+
+choiceAuth -->|Yes - New Registration| createAccount
+createAccount --> displayAuthSuccess
+
+
+choiceAuth -->|Yes - Existing Supplier Login| authenticateUser
+authenticateUser --> finalLogin
+
+
+displayAuthSuccess --> finalSuccess
+
+
+%% Invisible link for layout only, not a process transition
+finalLogin ~~~ displayAuthSuccess
+```
+
+
 ## 2. Node trace
 
 Every action in the system lane cites a requirement. Every decision cites the rule or requirement
