@@ -1,6 +1,6 @@
 # Sequence Diagram: SD-UC-13 Withdraw accumulated payout balance
 
-Lesson 4, analysis level: how the parts of ReFeed interact when a supplier requests to withdraw their accumulated payout balance. The lifelines represent elements of the physical design.
+Lesson 4, analysis level: how the parts of ReFeed talk to each other when a supplier submits a withdrawal request for their accumulated payout balance. The lifelines are the elements of the physical design. The supplier's choice (to request a withdrawal) is shown in the activity diagram AD-UC-13, not here.
 
 | Field | Value |
 |---|---|
@@ -42,8 +42,4 @@ sequenceDiagram
   end
 ```
 
-### Explanatory Notes
-
-* **Eligibility Validation:** The `alt` fragment handles conditions defined in `BR-PAY-01` and `BR-PAY-02` (e.g., checking if the payout balance meets the minimum withdrawal threshold and if bank details/profile are verified).
-* **External Integration:** Actual money movement is queued to the external bank/payment gateway, while internal state management updates the withdrawal transaction from `Draft` to `Created` and payout balance status to `Requested/Processing`.
-* **Traceability:** Fully covers `FR-05-02` across system lifelines.
+The alt fragments here are outcomes decided inside the system (eligibility evaluation per BR-PAY-01 and BR-PAY-02), so they belong in a sequence diagram. The supplier's choice to submit a withdrawal request is shown in the activity diagram instead.
