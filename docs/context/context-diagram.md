@@ -1,15 +1,13 @@
 # Context Diagram: ReFeed
 
-> Context Diagram specification for Lesson 3 (DBIZ2). ReFeed is represented as a single black box in the middle; external entities and actors exchange direct data flows with the central system.
+> Context Diagram specification for ReFeed System (Lesson 3). ReFeed is modeled as a single black-box system surrounded by 4 external actors/entities interacting with it.
 
 | Field | Value |
 |---|---|
-| **Version** | v2.0 (Updated from Lesson 3 & Lesson 7) |
-| **Built from** | [CVCA](cvca.md): Every stakeholder exchanging information directly with ReFeed |
-| **System Boundary** | `ReFeed System` (Centralized ReFeed System) |
-| **External Entities** | UCO Suppliers · UCO Collectors · Warehouse Staff · ReFeed Admin · Eco Oil System |
-
----
+| Version | v2.1 (4 External Actors) |
+| Built from | [CVCA](cvca.md) & Context Diagram Revision |
+| System Boundary | `ReFeed System` |
+| External Entities | UCO Suppliers · UCO Collectors · Warehouse Staff · ReFeed Admin |
 
 ## 1. Diagram
 
@@ -19,55 +17,39 @@ flowchart LR
     COL["UCO Collectors"]
     WHS["Warehouse Staff"]
     ADM["ReFeed Admin"]
-    ECO["Eco Oil System"]
     RF(("ReFeed System"))
 
     %% UCO Suppliers
-    SUP -->|"pickup request, profile data, e-signature, withdrawal request"| RF
-    RF -->|"pickup status, payment confirmation, e-receipt, ESG report"| SUP
+    SUP -->|"collection request, profile data, e-signature"| RF
+    RF -->|"pickup status, payment confirmation, ESG report"| SUP
 
     %% UCO Collectors
-    RF -->|"automated dispatch, optimized route, pickup details"| COL
-    COL -->|"arrival confirmation, actual volume, GPS & collection evidence"| RF
+    RF -->|"automated dispatch, route data"| COL
+    COL -->|"pickup volume, completion status"| RF
 
     %% Warehouse Staff
-    WHS -->|"received quantity, inbound QA data, discrepancy logs, batch records"| RF
-    RF -->|"inbound schedule alert, collection lookup data"| WHS
+    WHS -->|"inventory data, inbound UCO QA & batch data"| RF
+    RF -->|"inbound schedule alert"| WHS
 
     %% ReFeed Admin
-    ADM -->|"system config, pricing setup, payment & payout approval"| RF
-    RF -->|"operation dashboard data, audit logs, compliance alerts"| ADM
-
-    %% Eco Oil System
-    RF -->|"UCO batch traceability data, mass-balance records"| ECO
-    ECO -->|"receiving confirmation, lab QA test results"| RF
+    ADM -->|"payment approval, system config"| RF
+    RF -->|"operation & UCO data, audit logs"| ADM
 ```
-
-> **Notes on System Boundary:**
-> * **Time Event:** Time is not an external entity. Timed behavior (such as automated data synchronization or reminder notifications) is represented as time-triggered use cases in the Use Case Diagram.
-> * **Indirect Stakeholders (EU Regulators, Certification Bodies, EU SAF Producers):** These entities exchange information via **Eco Oil** and do not directly communicate with the ReFeed System; hence, they are excluded from the ReFeed Context Diagram.
-> * **Black-box Principle:** The entire ReFeed system is unified into a single central node `ReFeed System` (without splitting into Web App, Mobile App, Backend, or Database components at the context level).
-
----
 
 ## 2. Data crossing the boundary
 
-These data groups correspond to the internal logical files (ILF) and external interface files (EIF) defined in the system scope inventory (W0 Table 4).
-
-| Data group | Kept by | Reaches ReFeed System from | Reaches Actor / External System |
+| Data group | Kept by | Reaches ReFeed from | Reaches Actor from ReFeed |
 |---|---|---|---|
-| **Supplier Profile & Pickup Requests** | ReFeed System | UCO Suppliers | UCO Collectors, Warehouse Staff |
-| **Dispatch & Route Optimization Data** | ReFeed System | ReFeed Admin | UCO Collectors |
-| **Field Collection Results & Evidence** | ReFeed System | UCO Collectors | UCO Suppliers, Warehouse Staff, ReFeed Admin |
-| **Warehouse Inbound & Quality Data** | ReFeed System | Warehouse Staff | ReFeed Admin, Eco Oil System |
-| **Batch Traceability & Mass-Balance Records** | ReFeed System | Warehouse Staff / ReFeed System | Eco Oil System |
-| **ESG Reports & Payment Confirmations** | ReFeed System | ReFeed Admin / Eco Oil System | UCO Suppliers |
-
----
+| Pickup & Supplier Profile | ReFeed System | UCO Suppliers | UCO Collectors, Warehouse Staff |
+| Dispatch & Route Planning | ReFeed System | ReFeed Admin | UCO Collectors |
+| Collection & Handover Record | ReFeed System | UCO Collectors | UCO Suppliers, Warehouse Staff, ReFeed Admin |
+| Warehouse Inbound & QA Data | ReFeed System | Warehouse Staff | ReFeed Admin |
+| Operation & Financial Approvals | ReFeed System | ReFeed Admin | UCO Suppliers |
 
 ## 3. Change log
 
 | Version | When | Change | Why |
 |---|---|---|---|
-| **v1.0** | Lesson 3 | Initial context diagram (4 actors: Suppliers, Collectors, Warehouse Staff, ReFeed Admin). | First draft derived directly from initial Use Case Diagram. |
-| **v2.0** | Lesson 7 | Added **Eco Oil System** as an independent External System exchanging batch traceability data (`Traceability & Batch Data`). Standardized central node to a Black-box `ReFeed System`. | Inputs check cross-verification from end-to-end Sustainable Aviation Fuel (SAF) supply chain compliance requirements. |
+| v1.0 | Lesson 3 | Initial 4-actor Context Diagram (Suppliers, Collectors, Warehouse Staff, Admin) | Based on initial scope and Use Case Diagram |
+| v2.0 | Lesson 7 | Draft with 5 entities (added Eco Oil System) | External refinery integration attempt |
+| v2.1 | Lesson 7 | Reverted to 4 External Actors (Suppliers, Collectors, Warehouse Staff, Admin) | Aligned with updated 4-actor Context Diagram requirement |
