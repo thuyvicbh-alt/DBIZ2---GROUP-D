@@ -1,53 +1,73 @@
-# Context Diagram: LabDesk
+# Context Diagram: ReFeed
 
-> Worked example for teaching (LabDesk). Not a student submission and not a real product.
-
-Lesson 3. LabDesk is one black box in the middle; around it are the external entities it
-exchanges data with. The Context Diagram answers "what does the system interact with?"; the
-[Use Case Diagram](../use-case/use-case-diagram.md) answers "who wants the system to do what?".
+> Context Diagram specification for Lesson 3 (DBIZ2). ReFeed is represented as a single black box in the middle; external entities and actors exchange direct data flows with the central system.
 
 | Field | Value |
 |---|---|
-| Version | v2 |
-| Built from | [CVCA](cvca.md): every stakeholder that exchanges information with LabDesk |
+| **Version** | v2.0 (Updated from Lesson 3 & Lesson 7) |
+| **Built from** | [CVCA](cvca.md): Every stakeholder exchanging information directly with ReFeed |
+| **System Boundary** | `ReFeed System` (Centralized ReFeed System) |
+| **External Entities** | UCO Suppliers · UCO Collectors · Warehouse Staff · ReFeed Admin · Eco Oil System |
 
-## Diagram
+---
+
+## 1. Diagram
 
 ```mermaid
 flowchart LR
-  STU["Student"]
-  TEC["Lab Technician"]
-  UNI["University sign-in service"]
-  MAIL["Email service"]
-  LD(("LabDesk"))
+    SUP["UCO Suppliers"]
+    COL["UCO Collectors"]
+    WHS["Warehouse Staff"]
+    ADM["ReFeed Admin"]
+    ECO["Eco Oil System"]
+    RF(("ReFeed System"))
 
-  STU -->|"booking request, cancellation, check-in"| LD
-  LD -->|"slots, seat map, my bookings, check-in result"| STU
-  TEC -->|"seat block and unblock"| LD
-  LD -->|"lab occupancy, monthly report"| TEC
-  UNI -->|"user identity and role"| LD
-  LD -->|"sign-in request"| UNI
-  LD -->|"confirmation, reminder, no-show notice"| MAIL
-  MAIL -->|"delivery status"| LD
+    %% UCO Suppliers
+    SUP -->|"pickup request, profile data, e-signature, withdrawal request"| RF
+    RF -->|"pickup status, payment confirmation, e-receipt, ESG report"| SUP
+
+    %% UCO Collectors
+    RF -->|"automated dispatch, optimized route, pickup details"| COL
+    COL -->|"arrival confirmation, actual volume, GPS & collection evidence"| RF
+
+    %% Warehouse Staff
+    WHS -->|"received quantity, inbound QA data, discrepancy logs, batch records"| RF
+    RF -->|"inbound schedule alert, collection lookup data"| WHS
+
+    %% ReFeed Admin
+    ADM -->|"system config, pricing setup, payment & payout approval"| RF
+    RF -->|"operation dashboard data, audit logs, compliance alerts"| ADM
+
+    %% Eco Oil System
+    RF -->|"UCO batch traceability data, mass-balance records"| ECO
+    ECO -->|"receiving confirmation, lab QA test results"| RF
 ```
 
-Time is not an external entity: timed behaviour (releasing no-show seats) is shown as a use case
-started by time in the Use Case Diagram.
+> **Notes on System Boundary:**
+> * **Time Event:** Time is not an external entity. Timed behavior (such as automated data synchronization or reminder notifications) is represented as time-triggered use cases in the Use Case Diagram.
+> * **Indirect Stakeholders (EU Regulators, Certification Bodies, EU SAF Producers):** These entities exchange information via **Eco Oil** and do not directly communicate with the ReFeed System; hence, they are excluded from the ReFeed Context Diagram.
+> * **Black-box Principle:** The entire ReFeed system is unified into a single central node `ReFeed System` (without splitting into Web App, Mobile App, Backend, or Database components at the context level).
 
-## Data crossing the boundary
+---
 
-These are the data groups of W0 Table 4 in [the function list](../function-list/w0-scope.md).
+## 2. Data crossing the boundary
 
-| Data group | Kept by | Reaches LabDesk from |
-|---|---|---|
-| Labs, seats and time slots | LabDesk | Lab Technician |
-| Bookings | LabDesk | Student |
-| Booking rights | LabDesk | LabDesk itself (no-show rule) |
-| University accounts | University sign-in service (read only) | University sign-in service |
+These data groups correspond to the internal logical files (ILF) and external interface files (EIF) defined in the system scope inventory (W0 Table 4).
 
-## Change log
+| Data group | Kept by | Reaches ReFeed System from | Reaches Actor / External System |
+|---|---|---|---|
+| **Supplier Profile & Pickup Requests** | ReFeed System | UCO Suppliers | UCO Collectors, Warehouse Staff |
+| **Dispatch & Route Optimization Data** | ReFeed System | ReFeed Admin | UCO Collectors |
+| **Field Collection Results & Evidence** | ReFeed System | UCO Collectors | UCO Suppliers, Warehouse Staff, ReFeed Admin |
+| **Warehouse Inbound & Quality Data** | ReFeed System | Warehouse Staff | ReFeed Admin, Eco Oil System |
+| **Batch Traceability & Mass-Balance Records** | ReFeed System | Warehouse Staff / ReFeed System | Eco Oil System |
+| **ESG Reports & Payment Confirmations** | ReFeed System | ReFeed Admin / Eco Oil System | UCO Suppliers |
+
+---
+
+## 3. Change log
 
 | Version | When | Change | Why |
 |---|---|---|---|
-| v1 | Lesson 3 | First version: Student, Lab Technician, University sign-in service | |
-| v2 | Lesson 7 | Added Email service | The sequence for UC-01 sent confirmation emails, but the entity was missing here (Inputs check, row 2, in [activity-index](../activity/activity-index.md)) |
+| **v1.0** | Lesson 3 | Initial context diagram (4 actors: Suppliers, Collectors, Warehouse Staff, ReFeed Admin). | First draft derived directly from initial Use Case Diagram. |
+| **v2.0** | Lesson 7 | Added **Eco Oil System** as an independent External System exchanging batch traceability data (`Traceability & Batch Data`). Standardized central node to a Black-box `ReFeed System`. | Inputs check cross-verification from end-to-end Sustainable Aviation Fuel (SAF) supply chain compliance requirements. |
