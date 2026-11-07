@@ -5,7 +5,7 @@
 | Field | Value |
 |---|---|
 | Product | ReFeed System |
-| Version | v1.0 |
+| Version | v1.1 |
 | Sources | W0 Table 1 (use case inventory); Use Case Diagram v2.1; `docs/activity/activity-index.md` |
 
 ## Before you draw: is Lesson 4 still true?
@@ -28,13 +28,13 @@ flowchart LR
 
 | Step | Use case | Activity diagram | Screens |
 |---|---|---|---|
-| 1 | UC-01 Register/Login as a UCO supplier | not needed | SCR-SUP-01 |
+| 1 | UC-01 Register/Login as a UCO supplier | AD-UC-01.md | SCR-SUP-01 |
 | 2 | UC-02 Manage Point-of-Origin and compliance profile | not needed | SCR-SUP-02 |
-| 3 | UC-03 Request and schedule a UCO pickup | not needed | SCR-SUP-03 |
-| 4 | UC-04 Manage and track an existing pickup status | `AD-UC-04.md` | SCR-SUP-04, SCR-SUP-05, SCR-SUP-06 |
+| 3 | UC-03 Request and schedule a UCO pickup | AD-UC-03.md | SCR-SUP-03 |
+| 4 | UC-04 Manage and track an existing pickup status | AD-UC-04.md | SCR-SUP-04, SCR-SUP-05, SCR-SUP-06 |
 | 5 | UC-08 Confirm and sign a UCO transaction | not needed | SCR-SUP-07 |
-| 6 | UC-12 Manage loyalty status and accumulated payout balance | not needed | SCR-SUP-08 |
-| (alt) | UC-13 Withdraw accumulated payout balance | not needed | SCR-SUP-09 |
+| 6 | UC-12 Manage loyalty status and accumulated payout balance | AD-UC-12.md | SCR-SUP-08 |
+| (alt) | UC-13 Withdraw accumulated payout balance | AD-UC-13.md | SCR-SUP-09 |
 | (alt) | UC-09 View or download transaction receipt | not needed | SCR-SUP-10 |
 
 ## UCO Collector: Execute collection route & handover
@@ -48,8 +48,8 @@ flowchart LR
 
 | Step | Use case | Activity diagram | Screens |
 |---|---|---|---|
-| 1 | UC-06 Check scheduled collection route | not needed | SCR-DRV-01 |
-| 2 | UC-07 Input handover information | not needed | SCR-DRV-02 |
+| 1 | UC-06 Check scheduled collection route | AD-UC-06.md | SCR-DRV-01 |
+| 2 | UC-07 Input handover information | AD-UC-07.md | SCR-DRV-02 |
 
 ## Warehouse Staff: Verify inbound UCO & manage batch traceability
 
@@ -62,8 +62,8 @@ flowchart LR
 
 | Step | Use case | Activity diagram | Screens |
 |---|---|---|---|
-| 1 | UC-10 Receive and verify collected UCO at warehouse | `AD-UC-10.md` | SCR-WHS-01 |
-| 2 | UC-11 Manage UCO batch and mass-balance records | `AD-UC-11.md` | SCR-WHS-02, SCR-WHS-03 |
+| 1 | UC-10 Receive and verify collected UCO at warehouse | AD-UC-10.md | SCR-WHS-01 |
+| 2 | UC-11 Manage UCO batch and mass-balance records | AD-UC-11.md | SCR-WHS-02, SCR-WHS-03 |
 
 ## ReFeed Admin: Route planning & fleet dispatch
 
@@ -75,7 +75,7 @@ flowchart LR
 
 | Step | Use case | Activity diagram | Screens |
 |---|---|---|---|
-| 1 | UC-05 Plan and dispatch a UCO collection route | not needed | SCR-ADM-01 |
+| 1 | UC-05 Plan and dispatch a UCO collection route | AD-UC-05.md | SCR-ADM-01 |
 
 ## Use cases without a flow
 
