@@ -1,34 +1,34 @@
-# Sequence Diagram: SD-UC-04 Check in at the lab
+# Sequence Diagram: SD-UC-04 Manage and track an existing pickup status
 
-> Worked example for teaching (LabDesk). Not a student submission and not a real product.
-
-Lesson 4, analysis level. The student scans the QR code on the lab door with the phone camera; the
-link opens LabDesk in the phone browser.
+> Analysis level sequence diagram for ReFeed System. The UCO Supplier views real-time pickup status, scheduled collection details, or submits a request modification/cancellation.
 
 | Field | Value |
 |---|---|
-| Use case | UC-04 Check in at the lab |
+| Use case | UC-04 Manage and track an existing pickup status |
 | Version | v1 |
-| FRs | FR-02-01, FR-02-02, FR-02-03 |
+| FRs | FR-01-04, FR-01-05 |
 
 ```mermaid
 sequenceDiagram
-  actor S as Student
+  actor S as UCO Supplier
   participant W as Web app
-  participant C as Check-in service
-  participant D as LabDesk database
-  S->>W: open check-in link (lab, slot)
-  W->>C: check in(student, lab, now)
-  C->>D: read Confirmed booking of student for lab and current slot
-  D-->>C: booking or none
-  alt more than 15 minutes after the slot started
-    C-->>W: refused: seat released (FR-02-03)
-  else no Confirmed booking
-    C->>D: read the student's bookings of today
-    C-->>W: failed, with today's bookings (FR-02-02)
-  else Confirmed booking found
-    C->>D: set booking [Checked-in]
-    C-->>W: checked in (FR-02-01)
+  participant C as Pickup service
+  participant D as ReFeed database
+  S->>W: select pickup request & action (view / modify / cancel)
+  W->>C: get pickup request details (supplier, request_id)
+  C->>D: read pickup request & assigned driver/vehicle info
+  D-->>C: request details & status
+  alt action == view status
+    C-->>W: pickup status, scheduled time & driver info (FR-01-05)
+  else modify or cancel & status locked (driver dispatched)
+    W->>C: update request (request_id, new_details / cancel)
+    C->>C: check eligibility (BR-01-PICKUP-CANCELLATION)
+    C-->>W: refused: request ineligible for change (FR-01-04)
+  else modify or cancel & status eligible (Requested)
+    W->>C: update request (request_id, new_details / cancel)
+    C->>D: update pickup status and appointment info
+    D-->>C: updated OK
+    C-->>W: request status updated (FR-01-04)
   end
-  W-->>S: check-in result
+  W-->>S: request status or update result
 ```
