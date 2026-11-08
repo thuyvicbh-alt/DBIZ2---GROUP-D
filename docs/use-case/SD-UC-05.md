@@ -6,14 +6,14 @@ Lesson 4, analysis level. This sequence shows how ReFeed's parts plan and dispat
 |---|---|
 | Use case | UC-05 Plan and dispatch a UCO collection route |
 | Version | v1 · Draft for group review |
-| Primary actor | Operations Staff (W0/W1), represented by `ReFeed Admin` in the Context Diagram |
+| Primary actor | ReFeed Staff |
 | FRs | `FR-02-01` |
 | Verification | Rendered on Mermaid Live v12.2.0 (2026-11-07). |
 | Inputs | [CVCA](../context/cvca.md) StR-02 · [Context Diagram](../context/context-diagram.md) · [W1](../function-list/w1-function-list.md) `FR-02-01-FE`, `FR-02-01-BE`, `FR-02-01-INT` · [Screen List](../external-design/screen-list.md) `S-F02-01`, `S-F02-02` |
 
 ```mermaid
 sequenceDiagram
-  actor O as ReFeed Admin
+  actor O as ReFeed Staff
   participant W as Admin Web
   participant C as Collection service
   participant D as ReFeed database
