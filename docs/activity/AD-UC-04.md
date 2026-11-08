@@ -15,7 +15,7 @@
 | FRs covered | `FR-01-04` |
 | Business rules applied | `BR-01-PICKUP-CANCELLATION` |
 | Version / status | v1.0 · Verified |
-| Author | Group 4 |
+| Author | Nguyen Quang Minh |
 
 ## 1\. Diagram
 
