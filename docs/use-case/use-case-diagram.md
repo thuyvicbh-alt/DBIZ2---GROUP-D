@@ -70,7 +70,7 @@ One sequence diagram per use case, at analysis level: the lifelines are the elem
 
 | Use case | Sequence diagram | Status |
 |---|---|---|
-| UC-01 Register/Login as a UCO supplier | [SD-UC-01]([SD-UC-01.md](docs/use-case/SD-UC-01.md)) | Open |
+| UC-01 Register/Login as a UCO supplier | [SD-UC-01]([SD-UC-01.md]([docs/use-case/SD-UC-01.md](https://github.com/thuyvicbh-alt/DBIZ2---GROUP-D/blob/main/docs/use-case/SD-UC-01.md))) | Open |
 | UC-03 Request and schedule a UCO pickup | [SD-UC-03]([SD-UC-03.md](url)) | Open |
 | UC-04 Manage and track an existing pickup status | [SD-UC-04](SD-UC-04.md) | Open |
 | UC-05 Plan and dispatch a UCO collection route | [SD-UC-05](SD-UC-05.md) | Open |
