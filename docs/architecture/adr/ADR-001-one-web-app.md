@@ -1,17 +1,14 @@
-# ADR-001: One web app for every user
+# ADR-001: Multi-portal Architecture
 
-> Worked example for teaching (LabDesk). Not a student submission and not a real product.
+> Worked example for teaching (ReFeed). Not a student submission and not a real product.
 
 | Field | Value |
 |---|---|
 | Status | Accepted |
 | Date | Lesson 4 |
 
-**Context.** Students book from their phones and from lab computers; technicians work on lab
-computers. Check-in starts from a QR code scanned with the phone camera.
+**Context.** Suppliers need a simple way to request pickups from home or business locations. Drivers are on the road, needing reliable GPS, camera access for evidence, and sign-on-glass capabilities. Admins and warehouse staff work on desktop computers to monitor operations and manage large batches.
 
-**Decision.** Build one responsive web app that serves both students and technicians. No native
-mobile app in this release.
+**Decision.** Build separate interfaces tailored to user environments: a responsive Web App for Suppliers, a Native or PWA (Progressive Web App) Field App for Drivers, and a Web Portal for Admins/Warehouse Staff.
 
-**Consequences.** The QR check-in link opens in the phone browser. The native app is recorded as
-Won't-have in W0 Table 3. One code base keeps DBIZ3 within team capacity.
+**Consequences.** Drivers get the necessary hardware access (camera, GPS) and offline resilience. The user experience is optimized for each role. However, this requires maintaining three separate frontend codebases, demanding more development effort.
