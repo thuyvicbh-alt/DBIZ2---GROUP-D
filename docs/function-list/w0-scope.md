@@ -11,7 +11,7 @@
 | UC-04 | Manage and track an existing pickup status | Supplier | F-01 | Needed |  |
 | UC-05 | Plan and dispatch a UCO collection route | Refeed Staff | F-02 | Needed | |
 | UC-06 | Check scheduled collection route and Confirm Delivery to supplier points | Driver / Collector | F-02 | Needed |  |
-| UC-07 | Input Handover Information | Driver/Collector | F-02 | Not Needed | |
+| UC-07 | Input Handover Information | Driver/Collector | F-02 | Needed | |
 | UC-08 | Confirm and sign a UCO transaction | Supplier | F-03 | Not Needed | |
 | UC-09 | View or download transaction receipt | Supplier | F-03 | Not needed | |
 | UC-10 | Receive and verify collected UCO at warehouse | Warehouse Staff | F-04 | Needed |  |
