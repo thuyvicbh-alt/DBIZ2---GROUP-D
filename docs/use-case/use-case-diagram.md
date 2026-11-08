@@ -1,8 +1,5 @@
 # Use Case Diagram: ReFeed App
 
-> Worked example based on the ReFeed App system scope ([ReFeed] Group D_K63DB_DBIZ II.xlsx). 
-
-Use case diagram for the ReFeed App, mapping primary actors to their respective system functionalities. Mermaid has no use case diagram type, so the diagram below is drawn as a flowchart: people on the outside, use cases (rounded) inside the system boundary.
 
 | Field | Value |
 |---|---|
@@ -70,16 +67,20 @@ One sequence diagram per use case, at analysis level: the lifelines are the elem
 
 | Use case | Sequence diagram | Status |
 |---|---|---|
-| UC-01 Register/Login as a UCO supplier | [SD-UC-01](SD-UC-01.md) | Open |
-| UC-03 Request and schedule a UCO pickup | [SD-UC-03](SD-UC-03.md) | Open |
-| UC-04 Manage and track an existing pickup status | [SD-UC-04](SD-UC-04.md) | Open |
-| UC-05 Plan and dispatch a UCO collection route | [SD-UC-05](SD-UC-05.md) | Open |
-| UC-06 Check scheduled route and Confirm Delivery | [SD-UC-06](SD-UC-06.md) | Open |
-| UC-07 Input Handover Information | [SD-UC-07](SD-UC-07.md) | Open |
-| UC-10 Receive and verify collected UCO at warehouse | [SD-UC-10](SD-UC-10.md) | Open |
-| UC-11 Manage UCO batch and mass-balance records | [SD-UC-11](SD-UC-11.md) | Open |
-| UC-12 Manage loyalty status & payout balance | [SD-UC-12](SD-UC-12.md) | Open |
-| UC-13 Withdraw accumulated payout balance | [SD-UC-13](SD-UC-13.md) | Open |
+| UC-01 Register or log in as a UCO supplier | [SD-UC-01](SD-UC-01.md) | Done |
+| UC-02 Manage point-of-origin and compliance profile | SD-UC-02 | Not drawn |
+| UC-03 Request and schedule a UCO pickup | [SD-UC-03](SD-UC-03.md) | Done |
+| UC-04 Track and manage a pickup status | [SD-UC-04](SD-UC-04.md) | Done |
+| UC-05 Plan and dispatch a collection route | [SD-UC-05](SD-UC-05.md) | Done |
+| UC-06 Check route and confirm delivery | [SD-UC-06](SD-UC-06.md) | Done |
+| UC-07 Input handover information | [SD-UC-07](SD-UC-07.md) | Done |
+| UC-08 Confirm and sign a UCO transaction | SD-UC-08 | Not drawn |
+| UC-09 View or download a transaction receipt | SD-UC-09 | Not drawn |
+| UC-10 Receive and verify collected UCO at warehouse | [SD-UC-10](SD-UC-10.md) | Done |
+| UC-11 Manage UCO batch and mass-balance records | [SD-UC-11](SD-UC-11.md) | Done |
+| UC-12 Manage loyalty status and payout balance | [SD-UC-12](SD-UC-12.md) | Done |
+| UC-13 Withdraw accumulated payout balance | [SD-UC-13](SD-UC-13.md) | Done |
+| UC-14 to UC-17 | SD-UC-14 to SD-UC-17 | Not drawn |
 
 ## Change log
 
