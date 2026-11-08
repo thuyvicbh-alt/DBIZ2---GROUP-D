@@ -16,17 +16,6 @@ sequenceDiagram
   participant B as Backend
   participant D as Database
 
-  B->>App: Send Push Notification (New Route Assigned)
-  Dr->>App: Open App & Select "Assigned Route"
-  App->>B: getAssignedRoute(Driver_ID)
-  B->>D: fetchRouteDetails(Driver_ID)
-  D-->>B: Return Route Data
-  B-->>App: Display Assigned Route
-  Dr->>App: Select specific Pickup Request upon arrival
-  App->>B: confirmArrival(Pickup_ID, Driver_ID)
-  B->>D: updatePickupStatus("Arrived")
-  D-->>B: Status Updated
-  B-->>App: Return Arrival Confirmed
   Dr->>App: Input Actual_Quantity
   opt Capture evidence for UCO condition
     Dr->>App: Capture Photo_Evidence & Notes
@@ -55,6 +44,7 @@ sequenceDiagram
   D-->>B: Return Saved OK
   Note over B, D: The locked Base_Payment and Loyalty_Bonus are passed to Diagram 4 (BE) to update accumulated balance, verified volume and tier. Nothing is recalculated there.
   B-->>App: Return Digital Receipt & Success Status
+  App-->>Dr: Display Collection Success Message
   ```
 
 The `alt` fragments here are outcomes decided inside the system, so they belong in a sequence
