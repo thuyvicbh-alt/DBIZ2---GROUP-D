@@ -12,11 +12,11 @@ Lessons 1 and 2. Group D, K63DB, DBIZ2 Digital Business Project II at VJCBI Coll
 
 ## Problem
 
-Suppliers arrange pickups through calls or Zalo. ReFeed staff schedule routes by hand, making it harder to group small pickups and give suppliers a clear collection time. Quantity and payment details are agreed at the handover and recorded manually. Warehouse staff can learn about quantity discrepancies late, and auditors cannot reliably trace a batch back to its collections and Points of Origin.
+Suppliers arrange pickups through calls or Zalo. ReFeed Staff schedule routes by hand, making it harder to group small pickups and give suppliers a clear collection time. Quantity and payment details are agreed at the handover and recorded manually. Warehouse staff can learn about quantity discrepancies late, and auditors cannot reliably trace a batch back to its collections and Points of Origin.
 
 ## Goal of the project
 
-Give suppliers, collectors, warehouse staff and ReFeed Admin a shared record from the initial pickup request through route dispatch, collection, signed handover and warehouse verification. The [CVCA](../context/cvca.md) defines the stakeholder outcomes. The release uses W4 priorities and the W5 scope figures.
+Give suppliers, collectors, warehouse staff and ReFeed Staff a shared record from the initial pickup request through route dispatch, collection, signed handover and warehouse verification. The [CVCA](../context/cvca.md) defines the stakeholder outcomes. The release uses W4 priorities and the W5 scope figures.
 
 | Outcome | What the team can measure in a pilot |
 |---|---|
