@@ -70,14 +70,12 @@ One sequence diagram per use case, at analysis level: the lifelines are the elem
 
 | Use case | Sequence diagram | Status |
 |---|---|---|
-| UC-01 Register/Login as a UCO supplier | [SD-UC-01]([SD-UC-01.md]) | Open |
-| UC-03 Request and schedule a UCO pickup | [SD-UC-03]([SD-UC-03.md]) | Open |
+| UC-01 Register/Login as a UCO supplier | [SD-UC-01](SD-UC-01.md) | Open |
+| UC-03 Request and schedule a UCO pickup | [SD-UC-03](SD-UC-03.md) | Open |
 | UC-04 Manage and track an existing pickup status | [SD-UC-04](SD-UC-04.md) | Open |
 | UC-05 Plan and dispatch a UCO collection route | [SD-UC-05](SD-UC-05.md) | Open |
 | UC-06 Check scheduled route and Confirm Delivery | [SD-UC-06](SD-UC-06.md) | Open |
 | UC-07 Input Handover Information | [SD-UC-07](SD-UC-07.md) | Open |
-| UC-08 Confirm and sign a UCO transaction | [SD-UC-08](SD-UC-08.md) | Open |
-| UC-09 View or download transaction receipt | [SD-UC-09](SD-UC-09.md) | Open |
 | UC-10 Receive and verify collected UCO at warehouse | [SD-UC-10](SD-UC-10.md) | Open |
 | UC-11 Manage UCO batch and mass-balance records | [SD-UC-11](SD-UC-11.md) | Open |
 | UC-12 Manage loyalty status & payout balance | [SD-UC-12](SD-UC-12.md) | Open |
