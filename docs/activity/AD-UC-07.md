@@ -1,4 +1,4 @@
-# Activity Diagram: AD-UC-07 Input Handover Information
+# AD-UC-07 Input Handover Information
 
 | Field                  | Value                                                                                               |
 | ---------------------- | --------------------------------------------------------------------------------------------------- |
