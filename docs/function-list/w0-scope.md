@@ -49,3 +49,14 @@ Feature count: 6. PASS.
 ## Table 4. Data functions
 
 | Data group | ILF / EIF | Why | Function points |
+| Data group | ILF / EIF | Why | Function points |
+|---|---|---|---|
+| Supplier Profile & Compliance | ILF | Created and maintained internally by Suppliers within the ReFeed system (UC-01, UC-02) | 10 |
+| UCO Pickup Request | ILF | Created by Suppliers (UC-03) and updated by Operations Staff inside the system (UC-04, UC-05). | 10 |
+| Collection Route & Dispatch | ILF | Scheduled and managed internally by Operations Staff (UC-05) | 10 |
+| UCO Transaction & Handover Record | ILF | Recorded at the collection points (UC-07) and verified by the Supplier (UC-08) | 10 |
+| Warehouse UCO Batch Data | ILF | Created and updated by Warehouse Staff upon receiving UCO (UC-10, UC-11) | 10 |
+| Loyalty Tier & Payout Balance | ILF | Automatically calculated and maintained by the system based on transaction history (UC-12, UC-13). | 10 |
+| Map & Optimized Route Data (Google Maps API) | EIF | Read from the external map provider's API for distance calculation and routing. Never written or modified by the system. | 10 |
+| External Compliance/Audit Standards | EIF | Read from governmental/environmental agency documents for Standard Compliance (UC-17). The system does not alter this original data. | 7 |
+| **Total data-function points** | | | **77** |
