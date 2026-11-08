@@ -1,6 +1,5 @@
 # W0 Scope: ReFeed
 
-> Worked example for teaching based on ReFeed project. 
 
 ## Table 1. Use case inventory
 
