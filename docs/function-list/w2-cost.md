@@ -1,4 +1,4 @@
-# W2 Costing and roll-up: LabDesk
+# W2 Costing and roll-up
 
 
 Lesson 5 (block W2). Fully derived from [W1](w1-function-list.md), the effective priorities in [W4](w4-priorities.md) and the class Parameters:
