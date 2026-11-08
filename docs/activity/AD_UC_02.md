@@ -20,7 +20,7 @@
 ## 1. Diagram
 
 Notation follows the DBIZ2 activity profile (`mermaid-activity-patterns.md`). Rendered with `swimlane-beta`.
-
+``` mermaid
 swimlane-beta LR
   subgraph SYS["System"]
     m1{" "}
@@ -40,7 +40,7 @@ swimlane-beta LR
   m1 --> a2 --> d1
   d1 -->|"[Valid]"| a3 --> stop1
   d1 -->|"[Invalid]"| a5 --> a4 --> m1
-
+```
 ## 2. Node trace
 
 Every action in the system lane cites a requirement. Every decision cites the rule or requirement that decides it.
