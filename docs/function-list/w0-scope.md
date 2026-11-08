@@ -1,60 +1,51 @@
-# W0 Scope: LabDesk
+# W0 Scope: ReFeed
 
-> Worked example for teaching (LabDesk). Not a student submission and not a real product.
-
-Lesson 5 (Function List workshop, block W0). Inputs: [CVCA](../context/cvca.md), [Context Diagram](../context/context-diagram.md), [Use Case Diagram](../use-case/use-case-diagram.md), all at v2.
+> Worked example for teaching based on ReFeed project. 
 
 ## Table 1. Use case inventory
 
-| Use case ID | Use case name | Primary actor | Assigned feature | Login required |
-|---|---|---|---|---|
-| UC-01 | Reserve a seat | Student | F-01 | Yes |
-| UC-02 | Cancel a booking | Student | F-01 | Yes |
-| UC-03 | View my bookings | Student | F-01 | Yes |
-| UC-04 | Check in at the lab | Student | F-02 | Yes |
-| UC-05 | Release no-show seats | Time (system-initiated) | F-02 | No |
-| UC-06 | Block a seat for maintenance | Lab Technician | F-03 | Yes (technician) |
-| UC-07 | View lab occupancy | Lab Technician | F-03 | Yes (technician) |
+| Use case ID | Use case name | Primary actor | Assigned feature | Needed/not needed | Reasons |
+|---|---|---|---|---|---|
+| UC-01 | Register/Login as a UCO supplier | Supplier | F-01 | Not needed | |
+| UC-02 | Manage Point-of-Origin and compliance profile | Supplier | F-01 | Needed | X |
+| UC-03 | Request and schedule a UCO pickup | Supplier | F-01 | Needed | |
+| UC-04 | Manage and track an existing pickup status | Supplier | F-01 | Needed | X |
+| UC-05 | Plan and dispatch a UCO collection route | Operations Staff | F-02 | Needed | |
+| UC-06 | Check scheduled collection route and Confirm Delivery to supplier points | Driver / Collector | F-02 | Needed | X |
+| UC-07 | Input Handover Information | Driver/Collector | F-02 | Needed | |
+| UC-08 | Confirm and sign a UCO transaction | Supplier | F-03 | Needed | |
+| UC-09 | View or download transaction receipt | Supplier | F-03 | Not needed | |
+| UC-10 | Receive and verify collected UCO at warehouse | Warehouse Staff | F-04 | Needed | X |
+| UC-11 | Manage UCO batch and mass-balance records | Warehouse Staff | F-04 | Needed | |
+| UC-12 | Manage loyalty status and accumulated payout balance | Supplier | F-05 | Needed | X |
+| UC-13 | Withdraw accumulated payout balance | Supplier | F-05 | Needed | |
+| UC-14 | View Green Profile and UCO contribution history | Supplier | F-05 | Not needed | Read-only/Query export |
+| UC-15 | Access ESG / environmental contribution reports | Supplier | F-05 | Not needed | |
+| UC-16 | Monitor operations, compliance status, trace UCO through supply chain | Admin / Operations / Compliance Staff | F-06 | Not needed | |
+| UC-17 | Review audit trail and generate compliance reports | Admin / Compliance Staff | F-06 | Not needed | |
 
-UC-05 was added after the Lesson 7 Inputs check (see [activity-index](../activity/activity-index.md), row 1).
+Use cases listed: 17. All assigned.
 
-## Table 2. Feature list (flows into W1)
+## Table 2. Feature list
 
 | Feature ID | Feature name (business noun) | Scope in one sentence | Primary actors served | Owner | Use cases covered |
 |---|---|---|---|---|---|
-| F-00 | Platform and Access | Every user signs in with the university account, sees only what their role allows, and the service is deployed and watched. | Student, Lab Technician | Owner A (integrator) | none: precondition of every use case |
-| F-01 | Seat Booking | Students find a free seat in a lab time slot, book it, see their bookings and cancel them. | Student | Owner B | UC-01, UC-02, UC-03 |
-| F-02 | Check-in and No-show | Students confirm they came; seats nobody uses are given back and repeated no-shows are limited. | Student | Owner C | UC-04, UC-05 |
-| F-03 | Lab Operations | Lab Technicians block faulty seats and watch how labs are used. | Lab Technician | Owner D | UC-06, UC-07 |
+| F-01 | Supplier Onboarding & Pickup Management | Manage supplier accounts, compliance | Supplier | An | UC-01, UC-02, UC-03, UC-04 |
+| F-02 | Collection Operations & Handover | Plan collection routes and support drivers in completing and handover | Operations Staff; Driver / Collector | Linh | UC-05, UC-06, UC-07 |
+| F-03 | UCO Transaction | Manage UCO transactions | Supplier | Vi | UC-08, UC-09 |
+| F-04 | Warehouse & Traceability | Manage warehouse | Warehouse Staff | Thơ | UC-10, UC-11 |
+| F-05 | Supplier Value & ESG / Green Profile | Manage loyalty and payout information and provide Green Profile and ESG reporting capabilities. | Supplier | Quang Minh | UC-12, UC-13, UC-14, UC-15 |
+| F-06 | Operations, Audit & Compliance | Monitor operations, provide audit and compliance capabilities, and own cross-cutting platform controls. | Admin / Operations / Compliance Staff | Đức Minh | UC-16, UC-17; ARCH/ADR controls |
 
-Feature count: 4 (allowed 3 to 6): PASS. Coverage against the CVCA: both primary actors (Student, Lab Technician) are served.
+Feature count: 6. PASS. 
 
-## Table 3. Won't-have (recorded, never dropped silently)
+## Table 3. Won't-have
 
 | Excluded from scope | How it surfaced | Reason for exclusion |
 |---|---|---|
-| Waiting list when a slot is full | Student survey in the user meeting | The faculty wants simple first-come booking for this release; revisit after one semester of data |
-| Booking a whole lab for a class | Lecturer request in the user meeting | Class bookings already live in the faculty timetable; LabDesk only shows those slots as closed |
-| Payment or deposits for seats | AI suggestion during W0 | Labs are free for students; a deposit would need the university finance office |
-| Native mobile app | Team idea | The web app works on phones; the check-in QR opens in the phone browser |
+| In-app direct payment/transfer | Initially suggested by business team | Out of scope for Release 1. The system only manages "accumulated payout balance" (UC-12, UC-13); actual financial transfers are executed externally via manual bank transfers. |
+| Real-time chat between Driver and Supplier | Surfaced from actual collection flow needs (UC-07) | High technical complexity and unnecessary server cost for Release 1. Direct phone contact is sufficient for the current operational scale. |
 
 ## Table 4. Data functions
 
 | Data group | ILF / EIF | Why | Function points |
-|---|---|---|---|
-| Labs, seats and time slots | ILF | LabDesk keeps the seat layout of each lab, the opening slots and the Blocked periods | 10 |
-| Bookings | ILF | Created, cancelled, checked in and released by LabDesk | 10 |
-| Booking rights | ILF | No-show count and suspension period per student (BR-04) | 10 |
-| University accounts | EIF | Name, student or staff ID and role, read from the university sign-in service; never edited by LabDesk | 7 |
-| **Total data-function points** | | | **37** |
-
-The data group names are the names Screen Specs use as data sources (Lesson 8).
-
-## Business rules
-
-| BR | Rule |
-|---|---|
-| BR-01 | A student holds at most one booking per time slot. |
-| BR-02 | Booking for a slot closes when the slot starts; check-in is open until 15 minutes after the start. |
-| BR-03 | A blocked seat cannot be booked. |
-| BR-04 | Three no-shows within 30 days suspend booking rights for 7 days. |
