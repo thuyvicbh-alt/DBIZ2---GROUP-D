@@ -5,18 +5,18 @@
 
 | Use case ID | Use case name | Primary actor | Assigned feature | Needed/not needed | Reasons |
 |---|---|---|---|---|---|
-| UC-01 | Register/Login as a UCO supplier | Supplier | F-01 | Not needed | |
-| UC-02 | Manage Point-of-Origin and compliance profile | Supplier | F-01 | Needed | X |
+| UC-01 | Register/Login as a UCO supplier | Supplier | F-01 | Needed | |
+| UC-02 | Manage Point-of-Origin and compliance profile | Supplier | F-01 | Not Needed |  |
 | UC-03 | Request and schedule a UCO pickup | Supplier | F-01 | Needed | |
-| UC-04 | Manage and track an existing pickup status | Supplier | F-01 | Needed | X |
+| UC-04 | Manage and track an existing pickup status | Supplier | F-01 | Needed |  |
 | UC-05 | Plan and dispatch a UCO collection route | Refeed Staff | F-02 | Needed | |
-| UC-06 | Check scheduled collection route and Confirm Delivery to supplier points | Driver / Collector | F-02 | Needed | X |
-| UC-07 | Input Handover Information | Driver/Collector | F-02 | Needed | |
-| UC-08 | Confirm and sign a UCO transaction | Supplier | F-03 | Needed | |
+| UC-06 | Check scheduled collection route and Confirm Delivery to supplier points | Driver / Collector | F-02 | Needed |  |
+| UC-07 | Input Handover Information | Driver/Collector | F-02 | Not Needed | |
+| UC-08 | Confirm and sign a UCO transaction | Supplier | F-03 | Not Needed | |
 | UC-09 | View or download transaction receipt | Supplier | F-03 | Not needed | |
-| UC-10 | Receive and verify collected UCO at warehouse | Warehouse Staff | F-04 | Needed | X |
+| UC-10 | Receive and verify collected UCO at warehouse | Warehouse Staff | F-04 | Needed |  |
 | UC-11 | Manage UCO batch and mass-balance records | Warehouse Staff | F-04 | Needed | |
-| UC-12 | Manage loyalty status and accumulated payout balance | Supplier | F-05 | Needed | X |
+| UC-12 | Manage loyalty status and accumulated payout balance | Supplier | F-05 | Needed |  |
 | UC-13 | Withdraw accumulated payout balance | Supplier | F-05 | Needed | |
 | UC-14 | View Green Profile and UCO contribution history | Supplier | F-05 | Not needed | Read-only/Query export |
 | UC-15 | Access ESG / environmental contribution reports | Supplier | F-05 | Not needed | |
