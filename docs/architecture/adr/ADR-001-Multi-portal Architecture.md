@@ -7,8 +7,10 @@
 | Status | Accepted |
 | Date | Lesson 4 |
 
-**Context.** Suppliers need a simple way to request pickups from home or business locations. Drivers are on the road, needing reliable GPS, camera access for evidence, and sign-on-glass capabilities. Admins and warehouse staff work on desktop computers to monitor operations and manage large batches.
+**Context.** Suppliers need a simple way to request pickups. Drivers and warehouse staff handle the end-to-end physical flow of UCO (collecting and receiving) and need continuous handover data. Admin staff require a desktop environment to monitor overall operations and compliance.
 
-**Decision.** Build separate interfaces tailored to user environments: a responsive Web App for Suppliers, a Native or PWA (Progressive Web App) Field App for Drivers, and a Web Portal for Admins/Warehouse Staff.
+**Decision.** Build three separate interfaces: a responsive Web App for Suppliers, a unified Operations App for field drivers and warehouse staff, and a Web Portal for Admins.
+
+**Consequences.** Grouping drivers and warehouse staff into one Operations App streamlines the handover flow and reduces the number of apps to maintain. The user experience remains optimized for each specific role's environment.
 
 **Consequences.** Drivers get the necessary hardware access (camera, GPS) and offline resilience. The user experience is optimized for each role. However, this requires maintaining three separate frontend codebases, demanding more development effort.
