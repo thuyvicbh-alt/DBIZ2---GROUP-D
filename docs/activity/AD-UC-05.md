@@ -5,10 +5,10 @@
 | AD ID | `AD-UC-05` |
 | Use case | UC-05 Plan and dispatch a UCO collection route |
 | Feature | F-02 Collection Operations & Handover |
-| Primary actor | Operations Staff (W0/W1), represented by `ReFeed Admin` in the Context Diagram |
-| Lanes | ReFeed Admin · ReFeed System |
+| Primary actor | ReFeed Staff |
+| Lanes | ReFeed Staff · ReFeed System |
 | Inputs (L3-L5) | [CVCA](../context/cvca.md) StR-02 · [Context Diagram v2.1](../context/context-diagram.md) · Cost Workshop W0 Table 1 and W1 rows 20–22 · [SD-UC-05](../use-case/SD-UC-05.md) |
-| Trigger | Operations Staff requests route planning for a selected area. |
+| Trigger | ReFeed Staff requests route planning for a selected area. |
 | Preconditions | Staff is authorised to plan and dispatch routes. Pending requests and the vehicle-capacity information needed for planning are available. |
 | Success end state | ReFeed saves and dispatches the route with an assigned driver and vehicle, sets the included pickups to `Driver Assigned` and sends the assigned driver a notification. |
 | Alternative end state | Without staff confirmation, this attempt ends before assignment, dispatch, pickup-status changes and driver notification. The draft lifecycle is open in section 6. |
@@ -28,7 +28,7 @@ config:
     lineHops: false
 ---
 swimlane-beta LR
-  subgraph ACT["ReFeed Admin"]
+  subgraph ACT["ReFeed Staff"]
     start@{ shape: sm-circ }
     a1("Choose area and request collection-route plan")
     a2("Review proposed route")
@@ -76,8 +76,8 @@ The values below are test fixtures. Use the same unit for estimated pickup deman
 
 | Branch | Given | When | Then |
 |---|---|---|---|
-| `d1` `[yes]` | Area A-01 has pending pickups P-01, P-02 and P-03 of 80, 70 and 50 units. The proposed group totals 200 units against 250 units of capacity, and an optimized visiting order is available. D-01 and V-01 are available for assignment. | Operations Staff confirms the proposed route. | ReFeed saves and dispatches a route for D-01 and V-01 in the proposed visiting order, sets P-01 through P-03 to `Driver Assigned`, and sends the route notification to D-01. |
-| `d1` `[no]` | The same proposal is available for review. The pickups are still pending. | Operations Staff ends the attempt without confirming. | No assignment, route dispatch, pickup-status update or driver notification results from this attempt. Draft retention or revision remains open. |
+| `d1` `[yes]` | Area A-01 has pending pickups P-01, P-02 and P-03 of 80, 70 and 50 units. The proposed group totals 200 units against 250 units of capacity, and an optimized visiting order is available. D-01 and V-01 are available for assignment. | ReFeed Staff confirms the proposed route. | ReFeed saves and dispatches a route for D-01 and V-01 in the proposed visiting order, sets P-01 through P-03 to `Driver Assigned`, and sends the route notification to D-01. |
+| `d1` `[no]` | The same proposal is available for review. The pickups are still pending. | ReFeed Staff ends the attempt without confirming. | No assignment, route dispatch, pickup-status update or driver notification results from this attempt. Draft retention or revision remains open. |
 
 | Constraint check | Given | Expected result |
 |---|---|---|
@@ -108,7 +108,7 @@ Screen IDs follow the [Screen List](../external-design/screen-list.md) and [Scre
 | 1 | What happens to a proposal when staff declines confirmation or leaves the review? | Yes for the draft lifecycle | The current attempt stops at `stop2` before any confirmation-dependent work. |
 | 2 | Which pickup statuses qualify as pending, and who chooses eligible driver and vehicle candidates? | Yes for detailed selection rules | Read pending requests and capacity inputs. Treat candidate selection and availability as inputs for the successful scenario. |
 | 3 | How should ReFeed handle no feasible group, an optimisation error, stale capacity or availability, and a notification failure? | Yes for failure and recovery tests | The diagrams specify the confirmation gate and successful path. Failure handling is open. |
-| 4 | Should the Context Diagram include Google Maps API, and should `Operations Staff`, `ReFeed Staff` and `ReFeed Admin` use one shared label? | Yes for integrated review | Use the Context Diagram label in the activity and sequence. Preserve workbook and screen labels in their source references. |
+| 4 | Should the Context Diagram include Google Maps API, and when should the upstream actor labels be aligned with `ReFeed Staff`? | Yes for integrated review | Use `ReFeed Staff` in both diagrams to match the Screen List. Keep Google Maps API explicit in the sequence. |
 
 ## 7. Verification log
 
