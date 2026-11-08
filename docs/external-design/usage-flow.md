@@ -28,14 +28,14 @@ flowchart LR
 
 | Step | Use case | Activity diagram | Screens |
 |---|---|---|---|
-| 1 | UC-01 Register/Login as a UCO supplier | AD-UC-01.md | SCR-SUP-01 |
-| 2 | UC-02 Manage Point-of-Origin and compliance profile | not needed | SCR-SUP-02 |
-| 3 | UC-03 Request and schedule a UCO pickup | AD-UC-03.md | SCR-SUP-03 |
-| 4 | UC-04 Manage and track an existing pickup status | AD-UC-04.md | SCR-SUP-04, SCR-SUP-05, SCR-SUP-06 |
-| 5 | UC-08 Confirm and sign a UCO transaction | not needed | SCR-SUP-07 |
-| 6 | UC-12 Manage loyalty status and accumulated payout balance | AD-UC-12.md | SCR-SUP-08 |
-| (alt) | UC-13 Withdraw accumulated payout balance | AD-UC-13.md | SCR-SUP-09 |
-| (alt) | UC-09 View or download transaction receipt | not needed | SCR-SUP-10 |
+| 1 | UC-01 Register/Login as a UCO supplier | AD-UC-01.md | S-F00-01, S-F01-01 |
+| 2 | UC-02 Manage Point-of-Origin and compliance profile | not needed | S-F01-02 |
+| 3 | UC-03 Request and schedule a UCO pickup | AD-UC-03.md | S-F01-03 |
+| 4 | UC-04 Manage and track an existing pickup status | AD-UC-04.md | S-F01-03, S-F01-04, S-F01-05 |
+| 5 | UC-08 Confirm and sign a UCO transaction | not needed | S-F03-01 |
+| 6 | UC-12 Manage loyalty status and accumulated payout balance | AD-UC-12.md | S-F05-01 |
+| (alt) | UC-13 Withdraw accumulated payout balance | AD-UC-13.md | S-F05-02 |
+| (alt) | UC-09 View or download transaction receipt | not needed | S-F03-02 |
 
 ## UCO Collector: Execute collection route & handover
 
@@ -48,8 +48,8 @@ flowchart LR
 
 | Step | Use case | Activity diagram | Screens |
 |---|---|---|---|
-| 1 | UC-06 Check scheduled collection route | AD-UC-06.md | SCR-DRV-01 |
-| 2 | UC-07 Input handover information | AD-UC-07.md | SCR-DRV-02 |
+| 1 | UC-06 Check scheduled collection route | AD-UC-06.md | S-F02-03, S-F02-04 |
+| 2 | UC-07 Input handover information | AD-UC-07.md | S-F02-05 |
 
 ## Warehouse Staff: Verify inbound UCO & manage batch traceability
 
@@ -62,10 +62,10 @@ flowchart LR
 
 | Step | Use case | Activity diagram | Screens |
 |---|---|---|---|
-| 1 | UC-10 Receive and verify collected UCO at warehouse | AD-UC-10.md | SCR-WHS-01 |
-| 2 | UC-11 Manage UCO batch and mass-balance records | AD-UC-11.md | SCR-WHS-02, SCR-WHS-03 |
+| 1 | UC-10 Receive and verify collected UCO at warehouse | AD-UC-10.md | S-F04-01 |
+| 2 | UC-11 Manage UCO batch and mass-balance records | AD-UC-11.md | S-F04-02 |
 
-## ReFeed Admin: Route planning & fleet dispatch
+## ReFeed Staff: Route planning & fleet dispatch
 
 ```mermaid
 flowchart LR
@@ -75,16 +75,16 @@ flowchart LR
 
 | Step | Use case | Activity diagram | Screens |
 |---|---|---|---|
-| 1 | UC-05 Plan and dispatch a UCO collection route | AD-UC-05.md | SCR-ADM-01 |
+| 1 | UC-05 Plan and dispatch a UCO collection route | AD-UC-05.md | S-F02-01, S-F02-02 |
 
 ## Use cases without a flow
 
 | Use case | Started by | Described in |
 |---|---|---|
-| UC-14 View Green Profile & UCO contribution history | Supplier Query / Read-only | Query export screen |
-| UC-15 Access ESG / environmental contribution reports | Supplier Query / Read-only | PDF Report generator |
-| UC-16 Monitor operations & trace UCO | Admin / Compliance Query | Admin Dashboard |
-| UC-17 Review audit trail & compliance reports | Admin / Audit Query | Compliance Log View |
+| UC-14 View Green Profile & UCO contribution history | Supplier Query / Read-only | S-F05-03 |
+| UC-15 Access ESG / environmental contribution reports | Supplier Query / Read-only | S-F05-04 |
+| UC-16 Monitor operations & trace UCO | ReFeed Staff Query | S-F06-01 |
+| UC-17 Review audit trail & compliance reports | ReFeed Staff Query | S-F06-02 |
 
 ## Checks before you save
 
