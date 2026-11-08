@@ -1,6 +1,5 @@
 # W1 Function List: LabDesk
 
-> Worked example for teaching (LabDesk). Not a student submission and not a real product.
 
 Lesson 5 (block W1). L2 = a business behaviour the client signs off, with its EARS criterion and function-point type. L3 = one work item in one layer (FE, BE, INT), sized S = 4 h, M = 8 h, L = 16 h. Initial priority is set here; the effective priority comes from [W4](w4-priorities.md).
 
