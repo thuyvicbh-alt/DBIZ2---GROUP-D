@@ -25,24 +25,23 @@ Notation follows the DBIZ2 activity profile (`mermaid-activity-patterns.md`). Re
 swimlane-beta LR
   subgraph SYS["System"]
     m1{" "}
-    a2("Validate actual quantity, handover time, and evidence (FR-02-03)")
+    a2("Validate profile and compliance records (FR-01-02)")
     d1{"Is information valid?"}
-    a3("Store handover record against assigned pickup (FR-02-03)")
-    a4("Calculate transaction amount (FR-02-03)")
-    a5("Generate draft agreement (FR-02-03-BE)")
-    a7("Reject and prompt for correction (FR-02-03)")
+    a3("Store profile against Supplier_ID (FR-01-02)")
+    a5("Reject and prompt for correction (FR-01-02)")
     stop1@{ shape: fr-circ }
   end
-  subgraph DVR["Driver / Collector"]
+  
+  subgraph SUP["Supplier"]
     start1@{ shape: sm-circ }
-    a1("Capture & submit actual quantity, handover time, and evidence")
-    a6("Correct invalid information")
+    a1("Submit or update compliance information")
+    a4("Correct invalid information")
   end
 
   start1 --> a1 --> m1
   m1 --> a2 --> d1
-  d1 -->|"[Valid]"| a3 --> a4 --> a5 --> stop1
-  d1 -->|"[Invalid]"| a7 --> a6 --> m1
+  d1 -->|"[Valid]"| a3 --> stop1
+  d1 -->|"[Invalid]"| a5 --> a4 --> m1
 ```
 
 ## 2. Node trace
