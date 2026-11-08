@@ -48,8 +48,8 @@ Each function allocated to an element of the system.
 flowchart TB
   subgraph P["1 Presentation layer"]
     SUP["Supplier Web App"]
-    FLD["Field Staff App (Driver)"]
-    ADM["Admin/Warehouse Portal"]
+    OPS["Operations App (Driver & Warehouse)"]
+    ADM["Admin Portal"]
   end
   subgraph B["2 Business layer"]
     direction LR
