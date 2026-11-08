@@ -4,17 +4,16 @@
 | Field | Value |
 |---|---|
 | Version | v2 |
-| Actors | Supplier, Operations Staff, Driver / Collector, Warehouse Staff, Admin / Compliance Staff (primary) |
+| Actors | Supplier, Driver / Collector, Warehouse Staff, Refeed Staff |
 
 ## Diagram
 
 ```mermaid
 flowchart LR
   SUP["Supplier"]
-  OPS["Operations Staff"]
   DRV["Driver / Collector"]
   WAR["Warehouse Staff"]
-  ADM["Admin / Compliance Staff"]
+  RS["Refeed Staff"]
 
   subgraph APP["ReFeed App"]
     UC01(["UC-01 Register/Login as a UCO supplier"])
@@ -47,16 +46,15 @@ flowchart LR
   SUP --- UC14
   SUP --- UC15
 
-  OPS --- UC05
-
   DRV --- UC06
   DRV --- UC07
 
   WAR --- UC10
   WAR --- UC11
 
-  ADM --- UC16
-  ADM --- UC17
+  RS --- UC05
+  RS --- UC16
+  RS --- UC17
 ```
 
 The full use case inventory, with features and login rules, is documented in W0 Table 1 of the system scope file (`W0_Scope`).
