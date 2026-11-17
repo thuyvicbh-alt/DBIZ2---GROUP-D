@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | Screen ID | S-F02-04 |
-| Screen name | Pickup point collection (Thu gom tại điểm) |
+| Screen name | Pickup point collection |
 | Actor | Driver / Collector |
 | Priority | Must |
 | Feature | F-02 Collection Operations & Handover |
@@ -33,8 +33,8 @@
 | 6 | Address | Text | `supplier.address` (full) | Yes | |
 | 7 | GPS line | Text | "GPS " + `pickup.arrival_gps` (lat, lng, 5 decimals) + " · ±" + GPS accuracy in m | Yes | captured by the device, not typed |
 | 8 | Google Maps | Link button | opens Google Maps at `supplier.gps` | Yes | none |
-| 9 | UCO readiness question | Text | static: "UCO đã sẵn sàng?" | Yes | |
-| 10 | Readiness options | Toggle pair | "Có, thu gom ngay" / "Chưa sẵn sàng" (AD-UC-06 `d0`) | Yes | exactly one selected; "Có, thu gom ngay" selected by default |
+| 9 | UCO status label | Text | static: "Tình trạng UCO tại điểm" | Yes | |
+| 10 | Readiness options | Toggle pair | "Thu gom ngay" / "Chưa có hàng" (AD-UC-06 `d0`) | Yes | exactly one selected; "Thu gom ngay" selected by default |
 | 11 | Actual quantity | Number input with unit "kg" | `collection.actual_quantity` (FR-02-02) | Yes | greater than 0 kg; 1 decimal with decimal comma (ui-conventions §2, §4) |
 | 12 | Evidence photos | Thumbnail list | `collection.photos` (e.g. "IMG-014") (FR-02-02, optional evidence) | No | none; ID format `IMG-` + 3 digits |
 | 13 | Add photo | Tile button | static "+" | No | none |
@@ -46,7 +46,7 @@
 
 | State | What the user sees | Trigger |
 |---|---|---|
-| Default | Header "Điểm 2 · Cơm Tấm Bà Triệu" with back button; GPS card with badge "Đã đến", "Đã xác nhận đến lúc 10:40", map, "41 Bà Triệu, Hoàn Kiếm, Hà Nội", "GPS 21.02080, 105.85070 · ±8 m" and "Google Maps"; "UCO đã sẵn sàng?" with "Có, thu gom ngay" selected; actual quantity "41,0 kg", photo IMG-014, empty notes; footer "Lưu thông tin thu gom". The mockup shows this state. | Pickup PK-00126 opened with status Arrived |
+| Default | Header "Điểm 2 · Cơm Tấm Bà Triệu" with back button; GPS card with badge "Đã đến", "Đã xác nhận đến lúc 10:40", map, "41 Bà Triệu, Hoàn Kiếm, Hà Nội", "GPS 21.02080, 105.85070 · ±8 m" and "Google Maps"; "Tình trạng UCO tại điểm" with "Thu gom ngay" selected; actual quantity "41,0 kg", photo IMG-014, empty notes; footer "Lưu thông tin thu gom". The mockup shows this state. | Pickup PK-00126 opened with status Arrived |
 | Empty (no data) | Info card (Trạng thái "Đã phân tài xế", Khung giờ 09:00–11:00, Ước tính 30 - 50 kg); card "Vị trí điểm thu gom" with map, address, coordinates and "Chỉ đường"; message "Bạn chưa xác nhận đến điểm này" — "Khi tới nơi, hãy xác nhận để hệ thống ghi lại vị trí GPS và thời gian đến."; no readiness or quantity fields; footer "Xác nhận đã đến" | Pickup opened while its status is still Driver Assigned (arrival not yet confirmed) |
 | Loading | GPS card and quantity "41,0 kg" read-only; progress bar "Đang tải ảnh IMG-014 lên… 60%"; text "Đang lưu thông tin thu gom… Đừng đóng ứng dụng."; footer button "Đang lưu…" disabled | Collection details are being saved and the photo uploaded |
 | Error | Red banner "Chưa lưu được thông tin thu gom — Có 2 thông tin cần sửa bên dưới."; quantity "0" with red border and "Khối lượng thực tế phải lớn hơn 0 kg."; card "Vị trí GPS" with "Chưa lấy được vị trí GPS. Bật định vị rồi lưu lại."; photo and notes kept; footer "Lưu thông tin thu gom". Network failure: "Không lưu được thay đổi. Kiểm tra kết nối mạng và thử lại.", entered values kept | Save rejected by validation (AD-UC-06 `d1` [No] → `s4`), or the request failed |
@@ -58,10 +58,10 @@
 |---|---|---|---|---|
 | 1 | Xác nhận đã đến | tap (empty state) | Records arrival time and GPS and updates the pickup status to Arrived (FR-02-02) | stays (default state) |
 | 2 | Google Maps / Chỉ đường | tap | Opens Google Maps outside the app at the supplier point (Chỉ đường: with directions) | stays |
-| 3 | "Có, thu gom ngay" | tap | Selects the option; quantity, photo and notes fields are available | stays |
-| 4 | "Chưa sẵn sàng" | tap | Opens the modal "UCO chưa sẵn sàng: hủy lần thu gom này?" — "Lần thu gom PK-00126 sẽ chuyển sang Đã hủy và không ghi nhận khối lượng." | stays (modal) |
+| 3 | "Thu gom ngay" | tap | Selects the option; quantity, photo and notes fields are available | stays |
+| 4 | "Chưa có hàng" | tap | Opens the modal "UCO chưa sẵn sàng: hủy lần thu gom này?" — "Lần thu gom PK-00126 sẽ chuyển sang Đã hủy và không ghi nhận khối lượng." | stays (modal) |
 | 5 | Hủy lần thu gom (modal) | tap | Cancels the pickup and updates its status to Cancelled; no collection details are saved (AD-UC-06 `s6`) | S-F02-03 |
-| 6 | Quay lại (modal) | tap | Closes the modal; "Có, thu gom ngay" stays selected | stays |
+| 6 | Quay lại (modal) | tap | Closes the modal; "Thu gom ngay" stays selected | stays |
 | 7 | Actual quantity | type | Numeric keypad with decimal comma; the field error clears once the value is valid | stays |
 | 8 | Add photo | tap | Opens the camera or photo library and adds the photo as a thumbnail | stays |
 | 9 | Lưu thông tin thu gom | tap | Validates and saves actual quantity, GPS, timestamp and any photo and notes (FR-02-02) or shows the error state | stays (loading, then success or error state) |
@@ -77,7 +77,7 @@
 | SR-002 | Actual quantity, GPS and timestamp are required; photo and notes are optional. | FR-02-02 |
 | SR-003 | Actual quantity must be greater than 0 kg and is shown with 1 decimal. | ui-conventions §2, §4; AD-UC-06 open question 3 (default) |
 | SR-004 | GPS and timestamp are taken from the device when the driver saves; the driver cannot type them. | FR-02-02; AD-UC-06 open question 3 (default) |
-| SR-005 | "Chưa sẵn sàng" cancels the pickup only after confirmation in the modal; a cancelled pickup records no quantity. | AD-UC-06 `d0` [No] → `s6`; ui-conventions §3 (Modal, Destructive button) |
+| SR-005 | "Chưa có hàng" cancels the pickup only after confirmation in the modal; a cancelled pickup records no quantity. | AD-UC-06 `d0` [No] → `s6`; ui-conventions §3 (Modal, Destructive button) |
 | SR-006 | Invalid data are not saved; the entered values stay on the screen so the driver can correct and resubmit. | AD-UC-06 `d1` [No] → `s4` → `m1` |
 | SR-007 | After saving, the pickup stays Arrived; it becomes Completed only after the supplier signs. | AD-UC-06 §4; FR-03-01 |
 | SR-008 | Only the driver assigned to the route can open and save this pickup. | FR-06-03 |
