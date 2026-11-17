@@ -3,8 +3,8 @@
 | Field | Value |
 |---|---|
 | Screen ID | S-F03-02 |
-| Screen name | Transaction receipt (Biên nhận giao dịch) |
-| Actor | Supplier (Nhà cung cấp UCO) |
+| Screen name | Transaction receipt |
+| Actor | Supplier |
 | Priority | Must |
 | Feature | F-03 Transaction & Balance Management |
 | Activity diagrams | AD-UC-03 (actions "View transaction receipt", "Download receipt PDF") |
