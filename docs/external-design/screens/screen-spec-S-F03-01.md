@@ -8,7 +8,9 @@
 | Priority | Must |
 | Feature | F-03 UCO Transaction |
 | Activity diagrams | None: the usage flow marks UC-08 "not needed"; W1 traces FR-03-01 to sequence S-02 |
-| Mockup image | `img/S-F03-01.png` |
+| Mockup images | `img/S-F03-01-default.png` (default), `img/S-F03-01-default-numbered.png`, four state images and four numbered state images (section 2) |
+| Frame width | 390px phone frame (exported at 3x, 1470 × 2832 pixels including the device frame) |
+| Figma frame | Frames "S-F03-01 / 1" to "S-F03-01 / 5", page "4 màn × 5 trạng thái" in the ReFeed Figma file |
 | Status | Draft |
 
 ## 1. Purpose
@@ -19,7 +21,29 @@
 
 ## 2. Mockup
 
-![S-F03-01](img/S-F03-01.png)
+![S-F03-01](img/S-F03-01-default.png)
+
+**Numbered:** each number is the # of the element inventory in section 3. Element 19 (Message
+area) appears only in the error state and element 20 (Empty message) only in the empty state, so
+each is numbered on that state's image. In the error state the agreement card (4–8) and the document
+note (18) are not shown and the signature pad (14) is empty. The empty and loading images number the
+header (1–3), the loading image also the disabled button (17); the success image numbers the header
+and the locked signature pad (14), and its summary card is described in section 4.
+
+| Default, numbered | Empty, numbered | Loading, numbered | Error, numbered | Success, numbered |
+|---|---|---|---|---|
+| ![S-F03-01 default numbered](img/S-F03-01-default-numbered.png) | ![S-F03-01 empty numbered](img/S-F03-01-empty-numbered.png) | ![S-F03-01 loading numbered](img/S-F03-01-loading-numbered.png) | ![S-F03-01 error numbered](img/S-F03-01-error-numbered.png) | ![S-F03-01 success numbered](img/S-F03-01-success-numbered.png) |
+
+| State | Image |
+|---|---|
+| Default | `img/S-F03-01-default.png` |
+| Empty | `img/S-F03-01-empty.png` |
+| Loading | `img/S-F03-01-loading.png` |
+| Error | `img/S-F03-01-error.png` (signing failed because the connection was lost) |
+| Success | `img/S-F03-01-success.png` |
+
+All colours, fonts and corners come from the design tokens in
+[ui-conventions.md](../ui-conventions.md#6-design-tokens).
 
 ## 3. Element inventory
 
@@ -31,29 +55,30 @@
 | 4 | Agreement title | Text | static: "Biên bản giao nhận & mua bán UCO" | Yes | |
 | 5 | Record IDs | Text | `pickup.id` · `collection.id` | Yes | `PK-` / `COL-` + 5 digits |
 | 6 | Point of origin | Text | "Điểm phát sinh" · `supplier.address` (Point-of-Origin) | Yes | |
-| 7 | Collection time | Text | "Thời gian thu gom" · `handover.time` (FR-02-03) | Yes | `HH:mm · dd/MM/yyyy` |
+| 7 | Collection time | Text | "Thời gian thu gom" · `collection.collected_at` (FR-02-02) | Yes | `HH:mm · dd/MM/yyyy` |
 | 8 | Collector | Text | "Người thu gom" · "Tài xế " + `driver.id` · `vehicle.plate` | Yes | |
 | 9 | Actual quantity | Text | `collection.actual_quantity` (FR-02-03) | Yes | 1 decimal + " kg" |
 | 10 | Base price | Text | `transaction.base_price` | Yes | integer + " đ/kg" |
 | 11 | Loyalty bonus | Text | "Thưởng tích lũy (Hạng " + `transaction.loyalty_tier` + ")" · `transaction.loyalty_bonus_rate` | Yes | "+" + integer + " đ/kg" |
 | 12 | Applied price | Text | base price + loyalty bonus | Yes | integer + " đ/kg" |
 | 13 | Total amount | Total row | "Tổng tiền" · `transaction.amount` (FR-02-03) | Yes | integer + " đ" |
-| 14 | Signature pad | Drawing input | "Ký nhận điện tử"; caption "Chữ ký nhà cung cấp"; `transaction.signature` (FR-03-01) | Yes | must not be empty |
+| 14 | Signature pad | Drawing input | "Ký nhận điện tử"; caption "Chữ ký nhà cung cấp"; `transaction.signature` (FR-03-01); after signing: "Đã ký · đã khóa" | Yes | must not be empty |
 | 15 | Xóa / Ký lại | Button | static | No | none; hidden after signing |
 | 16 | Confirmation checkbox | Checkbox | static: "Tôi xác nhận khối lượng và số tiền trên. Sau khi ký, biên bản bị khóa và không thể sửa." | Yes | must be ticked |
 | 17 | Xác nhận thông tin | Primary button | static label | Yes | disabled until the signature is drawn and the checkbox is ticked |
 | 18 | Document note | Text | static: "Đây là chứng từ giao dịch, không phải hóa đơn thuế." | Yes | |
 | 19 | Message area | Banner | error messages (signing failed, network) | No | |
+| 20 | Empty message | Card with secondary button | static: "Không có giao dịch nào chờ ký" — "Khi tài xế ghi nhận bàn giao, biên bản sẽ hiện ở đây để bạn xem và ký."; button "Xem lịch sử giao dịch" | No | shown only when no transaction is awaiting signature |
 
 ## 4. States
 
 | State | What the user sees | Trigger |
 |---|---|---|
-| Default | Agreement "Biên bản giao nhận & mua bán UCO" for PK-00125 · COL-00891 (12 Hàng Bài, Hoàn Kiếm; 10:24 · 25/09/2026; Tài xế D018 · 29C-123.45); 32,5 kg, Giá gốc 10.000 đ/kg, Thưởng tích lũy (Hạng 1) +300 đ/kg, Giá áp dụng 10.300 đ/kg, Tổng tiền 334.750 đ; signature pad with the supplier's signature and "Xóa / Ký lại"; checkbox ticked; "Xác nhận thông tin" enabled; document note below. The mockup shows this state. | Screen opened with one transaction awaiting signature |
-| Empty (no data) | Message "Không có giao dịch nào chờ ký" — "Khi tài xế ghi nhận bàn giao, biên bản sẽ hiện ở đây để bạn xem và ký." with button "Xem lịch sử giao dịch"; no agreement, no signature pad | No transaction of this supplier is awaiting signature (e.g. already signed) |
+| Default | Header "Biên bản giao nhận", "Quán Phở Hàng Bài · SUP-00125"; agreement "Biên bản giao nhận & mua bán UCO" PK-00125 · COL-00891 (Điểm phát sinh 12 Hàng Bài, Hoàn Kiếm; Thời gian thu gom 10:24 · 25/09/2026; Người thu gom Tài xế D018 · 29C-123.45); 32,5 kg, Giá gốc 10.000 đ/kg, Thưởng tích lũy (Hạng 1) +300 đ/kg, Giá áp dụng 10.300 đ/kg, Tổng tiền 334.750 đ; signature pad with the supplier's signature and "Xóa / Ký lại"; checkbox ticked; "Xác nhận thông tin" enabled; document note below. The mockup shows this state. | Screen opened with one transaction awaiting signature |
+| Empty (no data) | Card with receipt icon "Không có giao dịch nào chờ ký" — "Khi tài xế ghi nhận bàn giao, biên bản sẽ hiện ở đây để bạn xem và ký." with button "Xem lịch sử giao dịch"; no agreement, no signature pad, no footer button | No transaction of this supplier is awaiting signature (e.g. already signed) |
 | Loading | Two cards of grey placeholders and the text "Đang tải biên bản…"; "Xác nhận thông tin" disabled | The agreement is being fetched |
 | Error | Red banner "Chưa ký được giao dịch — Mất kết nối khi gửi chữ ký. Biên bản chưa bị khóa và chưa cộng tiền vào số dư."; amount card kept; signature pad empty with "Xóa / Ký lại"; checkbox kept; "Xác nhận thông tin" disabled until the supplier signs again | The signing request failed |
-| Success / confirmation | Check mark, "Đã ký giao dịch" — "COL-00891 · 32,5 kg · 334.750 đ. Số tiền đã được cộng vào số dư tích lũy của bạn."; card (Thời điểm ký 10:33 · 25/09/2026, Biên bản "Hoàn tất", Cộng vào số dư +334.750 đ); signature shown "Đã ký · đã khóa"; buttons "Xem biên nhận" and "Về trang chủ" | Agreement locked, signature stored and pickup Completed (FR-03-01); amount added to the balance (FR-05-01) |
+| Success / confirmation | Time 10:33; check mark, "Đã ký giao dịch" — "COL-00891 · 32,5 kg · 334.750 đ. Số tiền đã được cộng vào số dư tích lũy của bạn."; card (Thời điểm ký 10:33 · 25/09/2026, Biên bản "Hoàn tất", Cộng vào số dư +334.750 đ); signature shown "Đã ký · đã khóa"; buttons "Xem biên nhận" and "Về trang chủ" | Agreement locked, signature stored and pickup Completed (FR-03-01); amount added to the balance (FR-05-01) |
 
 ## 5. Interactions and navigation
 
@@ -96,8 +121,8 @@
 
 - Smallest supported width: 360px; label–value rows keep the value right-aligned and long values wrap; the total "334.750 đ" never wraps.
 - Designed at 390 × 844; the content scrolls and the footer button stays fixed; the signature pad keeps at least 300 × 100px.
-- Touch targets at least 44 × 44: back button 44 × 44, checkbox row 44px high, footer buttons 52px high; "Xóa / Ký lại" is 36px high and needs 44px (known gap).
-- The signature pad has a visible caption; the locked state is shown by the text "Đã ký · đã khóa", not by colour alone; status badges use text plus icon.
+- Touch targets at least 44 × 44: back button 44 × 44, checkbox row 44px high, footer buttons 52px high, "Xóa / Ký lại" 44px high.
+- The signature pad has a visible caption; the locked state is shown by the text "Đã ký · đã khóa" and a grey pad, not by colour alone; status badges use text plus icon.
 - Body text contrast at least 4.5:1.
 
 ## 9. Open questions
@@ -113,8 +138,10 @@
 
 ## Completion checklist
 
-- [ ] The mockup is a separate cropped image file, named with the Screen ID.
+- [x] The mockup is a separate cropped image file, named with the Screen ID, at the frame width.
+- [x] The numbered image exists, and its numbers match the # column of the element inventory.
 - [x] Every visible element in the mockup appears in the element inventory.
+- [ ] Every colour in the mockup is a design token from ui-conventions.md.
 - [x] Every input element has a validation rule or an explicit "none".
 - [x] All five states are filled in.
 - [ ] Every navigation target is a Screen ID that exists in the Screen List.
