@@ -27,7 +27,7 @@
 
 | Default, numbered | Empty, numbered | Loading, numbered | Error, numbered | Success, numbered |
 |---|---|---|---|---|
-| ![S-F04-02 default numbered](img/S-F04-02-default-numbered.png) | ![S-F04-02 empty numbered](img/S-F04-02-empty-numbered.png) | ![S-F04-02 loading numbered](img/S-F04-02-loading-numbered.png) | ![S-F04-02 error numbered](img/S-F04-02-error-numbered.png) | ![S-F04-02 success numbered](img/S-F04-02-success-numbered.png) |
+| ![S-F04-02 default numbered](img/S-F04-02-default-numbered.png) | ![S-F04-02 empty-numbered](img/S-F04-02-empty-numbered.png) | ![S-F04-02 loading numbered](img/S-F04-02-loading-numbered.png) | ![S-F04-02 error numbered](img/S-F04-02-error-numbered.png) | ![S-F04-02 success numbered](img/S-F04-02-success-numbered.png) |
 
 | State | Image |
 |---|---|
