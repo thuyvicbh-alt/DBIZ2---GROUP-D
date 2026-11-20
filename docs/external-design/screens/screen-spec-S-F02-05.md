@@ -36,11 +36,11 @@ agreement status (14) in its summary card.
 
 | State | Image |
 |---|---|
-| Default | `img/S-F02-05-default.png` |
-| Empty | `img/S-F02-05-empty.png` |
-| Loading | `img/S-F02-05-loading.png` |
-| Error | `img/S-F02-05-error.png` (amount not calculated; the network error on send is described in section 4 only) |
-| Success | `img/S-F02-05-success.png` |
+| Default | [`img/S-F02-05-default.png`](img/S-F02-05-default.png) |
+| Empty | [`img/S-F02-05-empty.png`](img/S-F02-05-empty.png) |
+| Loading | [`img/S-F02-05-loading.png`](img/S-F02-05-loading.png) |
+| Error | [`img/S-F02-05-error.png`](img/S-F02-05-error.png) (amount not calculated; the network error on send is described in section 4 only) |
+| Success | [`img/S-F02-05-success.png`](img/S-F02-05-success.png) |
 
 All colours, fonts and corners come from the design tokens in
 [ui-conventions.md](../ui-conventions.md#6-design-tokens).
