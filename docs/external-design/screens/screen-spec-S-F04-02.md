@@ -60,7 +60,7 @@ All colours, fonts and corners come from the design tokens in
 | 14 | Tạo mới | Secondary button | static label (footer button in Default; card CTA button in Empty) | No | shown in Default and Empty states |
 | 15 | Empty message | Card | batch icon, title "Chưa có lô hàng", body "Lô được tạo từ các lượt thu gom đã nhận tại kho.", button `#14` ("Tạo mới") | No | shown only when no active batch exists |
 | 16 | Loading placeholder | Skeleton cards & text | skeleton metric & list cards with caption "Đang tải dữ liệu lô hàng..." | No | shown only while fetching batch data |
-| 17 | Message area | Banner | static: "Không lưu được lô hàng — Mất kết nối mạng, dữ liệu lô hàng chưa được lưu." | No | shown only when saving batch fails |
+| 17 | Message area | Banner | static: "Không lưu được lô hàng - Mất kết nối mạng, dữ liệu lô hàng chưa được lưu." | No | shown only when saving batch fails |
 | 18 | Hủy thay đổi | Secondary button | static label | No | shown only in Error state |
 | 19 | Success card | Summary card | green check mark, title "Đã cập nhật lô " + `batch.code`, subtitle `collection.id` + " - +" + `receiving.actual_weight` + " kg đã được thêm vào lô." | No | shown only after batch save succeeds |
 | 20 | Updated batch total | Text | "Tổng lô " + `batch.code` · `batch.current_weight_kg` | No | 1 decimal + " kg"; shown in Success state |
@@ -73,10 +73,10 @@ All colours, fonts and corners come from the design tokens in
 | State | What the user sees | Trigger |
 |---|---|---|
 | Default | Header "Quản lý lô hàng", "Kho Gia Lâm · WH-01"; green card "LÔ HIỆN TẠI · B001" (`232,3 kg`, "Sức chứa 500 kg") beside "LẦN THU GOM" (`3`, "trong lô"); "Đối soát số lượng" card (Tổng nhập kho `232,3 kg`, Đã xuất / xử lý `0,0 kg`, Khối lượng tồn `232,3 kg`, badge "✓ Khớp số liệu"); "Danh sách lượt thu gom" card (`COL-00891 · 25/09` `32,3 kg`, `COL-00890 · 24/09` `48,0 kg`, `COL-00889 · 23/09` `152,0 kg`); enabled "Cập nhật" and "Tạo mới" buttons. The mockup shows this state. | Active batch exists and mass balance is reconciled (`FR-04-03`) |
-| Empty (no data) | Header (`#1`–`#3`); empty card with batch icon "Chưa có lô hàng" — "Lô được tạo từ các lượt thu gom đã nhận tại kho." and primary button "Tạo mới"; disabled "Cập nhật" button in footer | No active batch exists yet for this warehouse |
-| Loading | Header (`#1`–`#3`); two top skeleton metric cards, two lower skeleton list cards, caption "Đang tải dữ liệu lô hàng...", and disabled "Cập nhật" button in footer | Batch and mass-balance records are being fetched |
-| Error | Red banner "Không lưu được lô hàng — Mất kết nối mạng, dữ liệu lô hàng chưa được lưu."; active batch card (`B001`, `232,3 kg`), collection count (`3`, "trong lô này"), mass-balance card, and collection list preserved; primary button relabeled "Thử lại" and secondary button "Hủy thay đổi" | Saving or updating the batch failed due to network disconnection |
-| Success / confirmation | Time 10:31; check mark, "Đã cập nhật lô B001" — "COL-00891 - +32,3 kg đã được thêm vào lô."; summary card (Tổng lô B001 `232,3 kg`, Đối soát khối lượng "✓ Khớp số liệu", Cập nhật lúc `11:07 · 25/09/2026`); buttons "Về trang chủ" and "Tiếp tục nhập kho" | Batch changes saved and mass balance verified (`FR-04-03`) |
+| Empty (no data) | Header (`#1`–`#3`); empty card with batch icon "Chưa có lô hàng" - "Lô được tạo từ các lượt thu gom đã nhận tại kho." and primary button "Tạo mới"; disabled "Cập nhật" button in footer | No active batch exists yet for this warehouse |
+| Loading | Header (`#1`-`#3`); two top skeleton metric cards, two lower skeleton list cards, caption "Đang tải dữ liệu lô hàng...", and disabled "Cập nhật" button in footer | Batch and mass-balance records are being fetched |
+| Error | Red banner "Không lưu được lô hàng - Mất kết nối mạng, dữ liệu lô hàng chưa được lưu."; active batch card (`B001`, `232,3 kg`), collection count (`3`, "trong lô này"), mass-balance card, and collection list preserved; primary button relabeled "Thử lại" and secondary button "Hủy thay đổi" | Saving or updating the batch failed due to network disconnection |
+| Success / confirmation | Time 10:31; check mark, "Đã cập nhật lô B001" - "COL-00891 - +32,3 kg đã được thêm vào lô."; summary card (Tổng lô B001 `232,3 kg`, Đối soát khối lượng "✓ Khớp số liệu", Cập nhật lúc `11:07 · 25/09/2026`); buttons "Về trang chủ" and "Tiếp tục nhập kho" | Batch changes saved and mass balance verified (`FR-04-03`) |
 
 ## 5. Interactions and navigation
 
