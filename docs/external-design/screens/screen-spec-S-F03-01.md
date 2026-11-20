@@ -36,11 +36,11 @@ and the locked signature pad (14), and its summary card is described in section 
 
 | State | Image |
 |---|---|
-| Default | `img/S-F03-01-default.png` |
-| Empty | `img/S-F03-01-empty.png` |
-| Loading | `img/S-F03-01-loading.png` |
-| Error | `img/S-F03-01-error.png` (signing failed because the connection was lost) |
-| Success | `img/S-F03-01-success.png` |
+| Default | [`img/S-F03-01-default.png`](img/S-F03-01-default.png) |
+| Empty | [`img/S-F03-01-empty.png`](img/S-F03-01-empty.png) |
+| Loading | [`img/S-F03-01-loading.png`](img/S-F03-01-loading.png) |
+| Error | [`img/S-F03-01-error.png`](img/S-F03-01-error.png) (signing failed because the connection was lost) |
+| Success | [`img/S-F03-01-success.png`](img/S-F03-01-success.png) |
 
 All colours, fonts and corners come from the design tokens in
 [ui-conventions.md](../ui-conventions.md#6-design-tokens).
