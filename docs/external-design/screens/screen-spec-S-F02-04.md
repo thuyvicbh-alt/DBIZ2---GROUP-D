@@ -35,11 +35,11 @@ location card (5–8); its summary card and buttons are described in section 4.
 
 | State | Image |
 |---|---|
-| Default | `img/S-F02-04-default.png` |
-| Empty | `img/S-F02-04-empty.png` |
-| Loading | `img/S-F02-04-loading.png` |
-| Error | `img/S-F02-04-error.png` (invalid quantity and missing GPS, AD-UC-06 `d1` [No]; the network error is described in section 4 only) |
-| Success | `img/S-F02-04-success.png` |
+| Default | [`img/S-F02-04-default.png`](img/S-F02-04-default.png) |
+| Empty | [`img/S-F02-04-empty.png`](img/S-F02-04-empty.png) |
+| Loading | [`img/S-F02-04-loading.png`](img/S-F02-04-loading.png) |
+| Error | [`img/S-F02-04-error.png`](img/S-F02-04-error.png) (invalid quantity and missing GPS, AD-UC-06 `d1` [No]; the network error is described in section 4 only) |
+| Success | [`img/S-F02-04-success.png`](img/S-F02-04-success.png) |
 
 All colours, fonts and corners come from the design tokens in
 [ui-conventions.md](../ui-conventions.md#6-design-tokens).
