@@ -8,7 +8,9 @@
 | Priority | Must |
 | Feature | F-02 Collection Operations & Handover |
 | Activity diagrams | AD-UC-06 (actions "Select supplier point and confirm arrival" — the confirm part, decision `d0` "UCO ready?", "Enter or correct actual UCO quantity and optional evidence", "Submit collection details", and the outcomes of `d1` "Required collection data valid?") |
-| Mockup image | `img/S-F02-04.png` |
+| Mockup images | `img/S-F02-04-default.png` (default), `img/S-F02-04-default-numbered.png`, four state images and four numbered state images (section 2) |
+| Frame width | 390px phone frame (exported at 3x, 1470 × 2832 pixels including the device frame) |
+| Figma frame | Frames "S-F02-04 / 1" to "S-F02-04 / 5", page "4 màn × 5 trạng thái" in the ReFeed Figma file |
 | Status | Draft |
 
 ## 1. Purpose
@@ -19,7 +21,28 @@
 
 ## 2. Mockup
 
-![S-F02-04](img/S-F02-04.png)
+![S-F02-04](img/S-F02-04-default.png)
+
+**Numbered:** each number is the # of the element inventory in section 3. Element 16 (Message
+area) appears only in the error state and element 17 (Xác nhận đã đến) only in the empty state, so
+each is numbered on that state's image. In the error state the location card is replaced by the GPS
+error card, numbered 7 (GPS line). The success image numbers the header (1–3) and the recorded
+location card (5–8); its summary card and buttons are described in section 4.
+
+| Default, numbered | Empty, numbered | Loading, numbered | Error, numbered | Success, numbered |
+|---|---|---|---|---|
+| ![S-F02-04 default numbered](img/S-F02-04-default-numbered.png) | ![S-F02-04 empty numbered](img/S-F02-04-empty-numbered.png) | ![S-F02-04 loading numbered](img/S-F02-04-loading-numbered.png) | ![S-F02-04 error numbered](img/S-F02-04-error-numbered.png) | ![S-F02-04 success numbered](img/S-F02-04-success-numbered.png) |
+
+| State | Image |
+|---|---|
+| Default | `img/S-F02-04-default.png` |
+| Empty | `img/S-F02-04-empty.png` |
+| Loading | `img/S-F02-04-loading.png` |
+| Error | `img/S-F02-04-error.png` (invalid quantity and missing GPS, AD-UC-06 `d1` [No]; the network error is described in section 4 only) |
+| Success | `img/S-F02-04-success.png` |
+
+All colours, fonts and corners come from the design tokens in
+[ui-conventions.md](../ui-conventions.md#6-design-tokens).
 
 ## 3. Element inventory
 
@@ -28,38 +51,39 @@
 | 1 | Back | Button | static | Yes | none |
 | 2 | Title | Header | "Điểm " + `stop.sequence` + " · " + `supplier.business_name` | Yes | |
 | 3 | Context line | Text | `pickup.id` · `supplier.address` (short) · `pickup.time_window` | Yes | formats from ui-conventions §2 |
-| 4 | Arrival status | Status badge + text | `pickup.status` ("Đã đến") + "Đã xác nhận đến lúc " + `pickup.arrived_at` (FR-02-02) | Yes | badge text + icon (ui-conventions §3) |
+| 4 | Pickup status | Status badge + text | `pickup.status` ("Đã đến") + "Đã xác nhận đến lúc " + `pickup.arrived_at` (FR-02-02); before arrival: row "Trạng thái" with "Đã phân tài xế" | Yes | badge text + icon (ui-conventions §3) |
 | 5 | Location map | Map preview | supplier point location `supplier.gps` (Point-of-Origin profile) | Yes | illustrative map, pin on the supplier point |
 | 6 | Address | Text | `supplier.address` (full) | Yes | |
-| 7 | GPS line | Text | "GPS " + `pickup.arrival_gps` (lat, lng, 5 decimals) + " · ±" + GPS accuracy in m | Yes | captured by the device, not typed |
-| 8 | Google Maps | Link button | opens Google Maps at `supplier.gps` | Yes | none |
+| 7 | GPS line | Text | "GPS " + `pickup.arrival_gps` (lat, lng, 5 decimals) + " · ±" + accuracy in m; when GPS is missing: "Chưa lấy được vị trí GPS. Bật định vị rồi lưu lại." | Yes | captured by the device, not typed |
+| 8 | Chỉ đường | Link button | opens Google Maps directions to `supplier.gps` | Yes | none |
 | 9 | UCO status label | Text | static: "Tình trạng UCO tại điểm" | Yes | |
-| 10 | Readiness options | Toggle pair | "Thu gom ngay" / "Chưa có hàng" (AD-UC-06 `d0`) | Yes | exactly one selected; "Thu gom ngay" selected by default |
+| 10 | UCO status options | Toggle pair | "Thu gom ngay" / "Chưa có hàng" (AD-UC-06 `d0`) | Yes | exactly one selected; "Thu gom ngay" selected by default |
 | 11 | Actual quantity | Number input with unit "kg" | `collection.actual_quantity` (FR-02-02) | Yes | greater than 0 kg; 1 decimal with decimal comma (ui-conventions §2, §4) |
-| 12 | Evidence photos | Thumbnail list | `collection.photos` (e.g. "IMG-014") (FR-02-02, optional evidence) | No | none; ID format `IMG-` + 3 digits |
+| 12 | Evidence photos | Thumbnail list | `collection.photos` (e.g. "IMG-001") (FR-02-02, optional evidence); upload progress while saving | No | none; ID format `IMG-` + 3 digits |
 | 13 | Add photo | Tile button | static "+" | No | none |
 | 14 | Notes | Text input | `collection.notes`; placeholder "Ghi chú cho nhà cung cấp hoặc kho" (FR-02-02, optional evidence) | No | none |
-| 15 | Lưu thông tin thu gom | Primary button | static label | Yes | disabled while saving |
-| 16 | Message area | Banner | error messages (validation, GPS, network) (AD-UC-06 `s4`) | No | |
+| 15 | Lưu thông tin thu gom | Primary button | static label; "Đang lưu…" while saving | Yes | disabled while saving |
+| 16 | Message area | Banner | error messages (validation, network) (AD-UC-06 `s4`) | No | |
+| 17 | Xác nhận đã đến | Primary button | static label (empty state only) | Yes | shown only while `pickup.status` is Driver Assigned |
 
 ## 4. States
 
 | State | What the user sees | Trigger |
 |---|---|---|
-| Default | Header "Điểm 2 · Cơm Tấm Bà Triệu" with back button; GPS card with badge "Đã đến", "Đã xác nhận đến lúc 10:40", map, "41 Bà Triệu, Hoàn Kiếm, Hà Nội", "GPS 21.02080, 105.85070 · ±8 m" and "Google Maps"; "Tình trạng UCO tại điểm" with "Thu gom ngay" selected; actual quantity "41,0 kg", photo IMG-014, empty notes; footer "Lưu thông tin thu gom". The mockup shows this state. | Pickup PK-00126 opened with status Arrived |
-| Empty (no data) | Info card (Trạng thái "Đã phân tài xế", Khung giờ 09:00–11:00, Ước tính 30 - 50 kg); card "Vị trí điểm thu gom" with map, address, coordinates and "Chỉ đường"; message "Bạn chưa xác nhận đến điểm này" — "Khi tới nơi, hãy xác nhận để hệ thống ghi lại vị trí GPS và thời gian đến."; no readiness or quantity fields; footer "Xác nhận đã đến" | Pickup opened while its status is still Driver Assigned (arrival not yet confirmed) |
-| Loading | GPS card and quantity "41,0 kg" read-only; progress bar "Đang tải ảnh IMG-014 lên… 60%"; text "Đang lưu thông tin thu gom… Đừng đóng ứng dụng."; footer button "Đang lưu…" disabled | Collection details are being saved and the photo uploaded |
-| Error | Red banner "Chưa lưu được thông tin thu gom — Có 2 thông tin cần sửa bên dưới."; quantity "0" with red border and "Khối lượng thực tế phải lớn hơn 0 kg."; card "Vị trí GPS" with "Chưa lấy được vị trí GPS. Bật định vị rồi lưu lại."; photo and notes kept; footer "Lưu thông tin thu gom". Network failure: "Không lưu được thay đổi. Kiểm tra kết nối mạng và thử lại.", entered values kept | Save rejected by validation (AD-UC-06 `d1` [No] → `s4`), or the request failed |
-| Success / confirmation | Check mark, "Đã lưu thông tin thu gom" — "PK-00126 · Cơm Tấm Bà Triệu. Bước tiếp theo: ghi nhận bàn giao để tạo biên bản cho nhà cung cấp ký."; summary card (Khối lượng thực tế 41,0 kg, Thời gian 10:44 · 25/09/2026, Ảnh bằng chứng IMG-014); card "Vị trí GPS đã ghi nhận" with map, "GPS 21.02080, 105.85070 · 10:44" and "Google Maps"; buttons "Ghi nhận bàn giao" and "Về tuyến được giao" | Collection details saved (AD-UC-06 `d1` [Yes] → `s5`, FR-02-02) |
+| Default | Header "Điểm 2 · Quán Phở Hàng Bài", "PK-00125 · 12 Hàng Bài, Hoàn Kiếm · 08:00 - 10:00" with back button; location card with badge "Đã đến", "Đã xác nhận đến lúc 10:24", map, "12 Hàng Bài, Hoàn Kiếm, Hà Nội", "GPS 21.02080, 105.85070 · ±8 m" and "Chỉ đường"; "Tình trạng UCO tại điểm" with "Thu gom ngay" selected; actual quantity "32,5 kg", photo IMG-001, empty notes; footer "Lưu thông tin thu gom". The mockup shows this state. | Pickup PK-00125 opened with status Arrived |
+| Empty (no data) | Info card (Trạng thái "Đã phân tài xế", Khung giờ 08:00 - 10:00, Ước tính 30 - 50 kg); card "Vị trí điểm thu gom" with map, address, "GPS 21.02080, 105.85070" and "Chỉ đường"; message with map icon "Bạn chưa xác nhận đến điểm này" — "Khi tới nơi, hãy xác nhận để hệ thống ghi lại vị trí GPS và thời gian đến."; no UCO status or quantity fields; footer "Xác nhận đã đến" | Pickup opened while its status is still Driver Assigned (arrival not yet confirmed) |
+| Loading | Location card; quantity "32,5 kg" read-only; progress bar "Đang tải ảnh … lên… 60%"; text "Đang lưu thông tin thu gom… Đừng đóng ứng dụng."; footer button "Đang lưu…" disabled | Collection details are being saved and the photo uploaded |
+| Error | Red banner "Chưa lưu được thông tin thu gom — Có 2 thông tin cần sửa bên dưới."; UCO status kept; quantity "0" with red border and "Khối lượng thực tế phải lớn hơn 0 kg."; photo IMG-001 and notes kept; card "Vị trí GPS" with "Chưa lấy được vị trí GPS. Bật định vị rồi lưu lại."; footer "Lưu thông tin thu gom". Network failure: "Không lưu được thay đổi. Kiểm tra kết nối mạng và thử lại.", entered values kept | Save rejected by validation (AD-UC-06 `d1` [No] → `s4`), or the request failed |
+| Success / confirmation | Time 10:44; check mark, "Đã lưu thông tin thu gom" — "PK-00125 · Quán Phở Hàng Bài. Bước tiếp theo: ghi nhận bàn giao để tạo biên bản cho nhà cung cấp ký."; summary card (Khối lượng thực tế 32,5 kg, Thời gian 10:24 · 25/09/2026, Ảnh bằng chứng IMG-001); card "Vị trí GPS đã ghi nhận" with map, address, "GPS 21.02080, 105.85070 · 10:44" and "Chỉ đường"; buttons "Ghi nhận bàn giao" and "Về tuyến được giao" | Collection details saved (AD-UC-06 `d1` [Yes] → `s5`, FR-02-02) |
 
 ## 5. Interactions and navigation
 
 | # | Element | User action | System response | Goes to screen |
 |---|---|---|---|---|
 | 1 | Xác nhận đã đến | tap (empty state) | Records arrival time and GPS and updates the pickup status to Arrived (FR-02-02) | stays (default state) |
-| 2 | Google Maps / Chỉ đường | tap | Opens Google Maps outside the app at the supplier point (Chỉ đường: with directions) | stays |
+| 2 | Chỉ đường | tap | Opens Google Maps outside the app with directions to the supplier point | stays |
 | 3 | "Thu gom ngay" | tap | Selects the option; quantity, photo and notes fields are available | stays |
-| 4 | "Chưa có hàng" | tap | Opens the modal "UCO chưa sẵn sàng: hủy lần thu gom này?" — "Lần thu gom PK-00126 sẽ chuyển sang Đã hủy và không ghi nhận khối lượng." | stays (modal) |
+| 4 | "Chưa có hàng" | tap | Opens the modal "UCO chưa sẵn sàng: hủy lần thu gom này?" — "Lần thu gom PK-00125 sẽ chuyển sang Đã hủy và không ghi nhận khối lượng." | stays (modal) |
 | 5 | Hủy lần thu gom (modal) | tap | Cancels the pickup and updates its status to Cancelled; no collection details are saved (AD-UC-06 `s6`) | S-F02-03 |
 | 6 | Quay lại (modal) | tap | Closes the modal; "Thu gom ngay" stays selected | stays |
 | 7 | Actual quantity | type | Numeric keypad with decimal comma; the field error clears once the value is valid | stays |
@@ -76,10 +100,10 @@
 | SR-001 | Collection details can only be entered after arrival is confirmed and the pickup status is Arrived. | FR-02-02; AD-UC-06 `s2` → `o1` |
 | SR-002 | Actual quantity, GPS and timestamp are required; photo and notes are optional. | FR-02-02 |
 | SR-003 | Actual quantity must be greater than 0 kg and is shown with 1 decimal. | ui-conventions §2, §4; AD-UC-06 open question 3 (default) |
-| SR-004 | GPS and timestamp are taken from the device when the driver saves; the driver cannot type them. | FR-02-02; AD-UC-06 open question 3 (default) |
+| SR-004 | GPS and timestamp are taken from the device when the driver confirms arrival and saves; the driver cannot type them. | FR-02-02; AD-UC-06 open question 3 (default) |
 | SR-005 | "Chưa có hàng" cancels the pickup only after confirmation in the modal; a cancelled pickup records no quantity. | AD-UC-06 `d0` [No] → `s6`; ui-conventions §3 (Modal, Destructive button) |
 | SR-006 | Invalid data are not saved; the entered values stay on the screen so the driver can correct and resubmit. | AD-UC-06 `d1` [No] → `s4` → `m1` |
-| SR-007 | After saving, the pickup stays Arrived; it becomes Completed only after the supplier signs. | AD-UC-06 §4; FR-03-01 |
+| SR-007 | After saving, the pickup is not Completed; it becomes Completed only after the supplier signs. | AD-UC-06 §4; FR-03-01 |
 | SR-008 | Only the driver assigned to the route can open and save this pickup. | FR-06-03 |
 | SR-009 | Statuses and errors are shown with text and icon, never by colour alone. | ui-conventions §5 |
 
@@ -92,11 +116,11 @@
 
 ## 8. Responsive and accessibility notes
 
-- Smallest supported width: 360px; the map keeps its height and scales in width; the address wraps to two lines and the Google Maps button keeps its 44px height.
+- Smallest supported width: 360px; the map keeps its height and scales in width; the address wraps to two lines and the "Chỉ đường" button keeps its 44px height.
 - Designed at 390 × 844; the content scrolls and the footer button stays fixed above the keyboard.
-- Touch targets at least 44 × 44: back button 44 × 44, readiness options and inputs 48px high, photo tiles 56 × 56, footer buttons 52px high.
+- Touch targets at least 44 × 44: back button 44 × 44, UCO status options and inputs 48px high, photo tiles 56 × 56, footer buttons 52px high.
 - The quantity field opens a numeric keypad with decimal comma.
-- Field errors use a red border plus an error text below the field; the arrival status uses badge text plus icon.
+- Field errors use a red border plus an error text below the field; the pickup status uses badge text plus icon.
 - Body text contrast at least 4.5:1.
 
 ## 9. Open questions
@@ -111,11 +135,13 @@
 
 ## Completion checklist
 
-- [ ] The mockup is a separate cropped image file, named with the Screen ID.
+- [x] The mockup is a separate cropped image file, named with the Screen ID, at the frame width.
+- [x] The numbered image exists, and its numbers match the # column of the element inventory.
 - [x] Every visible element in the mockup appears in the element inventory.
+- [ ] Every colour in the mockup is a design token from ui-conventions.md.
 - [x] Every input element has a validation rule or an explicit "none".
 - [x] All five states are filled in.
 - [x] Every navigation target is a Screen ID that exists in the Screen List.
 - [x] Every element that displays data names the field it displays.
-- [x] Every linked FR exists in the Function List, and every action of this screen in AD-UC-06 is
+- [ ] Every linked FR exists in the Function List, and every action of this screen in AD-UC-06 is
       covered by an interaction row.
