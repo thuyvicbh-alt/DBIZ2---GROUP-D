@@ -9,7 +9,7 @@
 | Feature | F-02 Collection Operations & Handover |
 | Activity diagrams | AD-UC-07 (listed in the usage flow for UC-07 "Input handover information"; not drawn yet, see open question 1) |
 | Mockup images | `img/S-F02-05-default.png` (default), `img/S-F02-05-default-numbered.png`, four state images and four numbered state images (section 2) |
-| Frame width | width	370px screen inside a 390 × 844 device frame (exported at 3x with a 50px shadow margin, 1470 × 2832 pixels) |
+| Frame width | 370px screen inside a 390 × 844 device frame (exported at 3x with a 50px shadow margin, 1470 × 2832 pixels) |
 | Figma frame | Frames "S-F02-05 / 1" to "S-F02-05 / 5", page "4 màn × 5 trạng thái" in the ReFeed Figma file |
 | Status | Draft |
 
@@ -91,7 +91,7 @@ All colours, fonts and corners come from the design tokens in
 
 | Rule ID | Rule | Source |
 |---|---|---|
-| SR-001 | Actual quantity and evidence come from S-F02-04 and are not typed again here; only a missing photo can be added. | Screen List open question 2 (default) |
+| SR-001 | Actual quantity and evidence come from S-F02-04 and are not typed again here; only a missing photo can be added. | FR-02-02, FR-02-03; open question 4 (default) |
 | SR-002 | Applied price = base price + the supplier's current loyalty bonus rate; amount = actual quantity × applied price, shown as whole đồng. | FR-02-03; ui-conventions §2 |
 | SR-003 | The loyalty bonus uses the supplier's tier at the time of handover. | FR-02-03; FR-05-01 |
 | SR-004 | "Gửi yêu cầu xác nhận" is disabled until the amount is calculated and the draft agreement is generated. | FR-02-03 |
@@ -111,7 +111,7 @@ All colours, fonts and corners come from the design tokens in
 ## 8. Responsive and accessibility notes
 
 - Smallest supported width: 360px; label–value rows keep the value right-aligned and long labels wrap to two lines; the amount "334.750 đ" never wraps.
-- Designed at 390 × 844; the content scrolls and the footer button stays fixed.
+- Designed on a 370 × 824 screen inside a 390 × 844 device frame; the content scrolls and the footer button stays fixed.
 - Touch targets at least 44 × 44: back button 44 × 44, "Thêm ảnh bằng chứng" and footer buttons 52px high; the whole warning banner is the tap target for "Thử lại" (ui-conventions §5).
 - The "Chờ ký" badge uses text plus a pen icon; a disabled button is shown faded and does not react.
 - Body text contrast at least 4.5:1.
@@ -123,7 +123,7 @@ All colours, fonts and corners come from the design tokens in
 | 1 | [NEEDS CLARIFICATION: the usage flow lists `AD-UC-07.md` for UC-07, but the diagram has not been drawn. Which actions and decisions does it contain?] | No | Open. Default: states and rules follow FR-02-03 and the screen-transition diagram. |
 | 2 | [NEEDS CLARIFICATION: is the handover time set by the system or entered by the driver?] | No | Open. Default: set by the system when the handover record is created; not editable. |
 | 3 | [NEEDS CLARIFICATION: FR-02-03 generates the draft agreement when the driver submits. Is it shown as a preview before sending?] | No | Open. Default: preview shown when the screen opens; stored and sent on "Gửi yêu cầu xác nhận". |
-| 4 | [NEEDS CLARIFICATION: UC-06 (S-F02-04) and UC-07 (S-F02-05) both capture actual quantity and evidence. Keep two screens or merge?] | No | Open. Default: S-F02-04 captures quantity and evidence; S-F02-05 adds handover time, amount and draft agreement (Screen List open question 2). |
+| 4 | [NEEDS CLARIFICATION: UC-06 (S-F02-04) and UC-07 (S-F02-05) both capture actual quantity and evidence. Keep two screens or merge?] | No | Open. Default: S-F02-04 captures quantity and evidence; S-F02-05 adds handover time, amount and draft agreement (W1: FR-02-02 for S-F02-04, FR-02-03 for S-F02-05). |
 
 ---
 
