@@ -8,85 +8,111 @@
 | Priority | Should |
 | Feature | F-05 Supplier Value & ESG / Green Profile |
 | Activity diagrams | AD-UC-13 (actions "Submit withdrawal request", "Validate withdrawal eligibility"); AD-UC-12 (actions "Request balance withdrawal", "See existing balance & withdrawal rejection reason", "See withdrawal result & updated payout status and balance") |
-| Mockup image | `img/S-F05-02.png` |
+| Mockup images | `img/S-F05-02-default.png`, `img/S-F05-02-default-numbered.png`, four other state images and their numbered versions, and the confirm modal `img/S-F05-02-modal.png` / `-modal-numbered.png` (section 2) |
+| Frame width | 370px screen inside a 390 × 844 device frame, exported at 3x with a 50px shadow margin, 1470 × 2832 pixels |
+| Figma frame | [TBC: add the Figma frame link] |
 | Status | Draft |
 
 ## 1. Purpose
 
-**Shown when:** the supplier taps "Rút số dư" on S-F05-01 to withdraw part or all of the accumulated payout balance.
+**Shown when:** the supplier taps "Rút tiền" on S-F05-01 to withdraw part or all of the accumulated payout balance.
 
-**The user leaves this screen when:** the withdrawal request is created (success state, then "Về số dư tích lũy"), or the supplier taps "Quay lại số dư" or Back without creating a request.
+**The user leaves this screen when:** the withdrawal request is created and the supplier taps "Về ví của tôi", or the supplier taps Back or "Về ví của tôi" without creating a request, or taps "Đặt lịch thu gom" in the Empty state.
 
 ## 2. Mockup
 
-![S-F05-02](img/S-F05-02.png)
+[![S-F05-02](img/S-F05-02-default.png)](img/S-F05-02-default.png)
+
+**Numbered:** each number is the # of the element inventory in section 3. A number stays the same in every state. The Empty state shows its own balance card (23), explanation card (24) and button (25). The Loading image numbers the skeleton blocks with the elements they replace (4 to 11), the disabled primary button (12), the disabled "Về ví của tôi" (16) and no loading text. The Error image adds the error banner (14) and "Thử lại" (15) in place of 12 and shows "Về ví của tôi" (16) instead of 13. The Success image shows the success card (17), the summary card (18) and "Về ví của tôi" (16). The confirm modal (19 to 22) opens over the Default state when "Rút 300.000 đ" is tapped; it is a modal of this screen, not a separate screen.
+
+| Default, numbered | Empty, numbered | Loading, numbered | Error, numbered | Success, numbered | Confirm modal, numbered |
+| --- | --- | --- | --- | --- | --- |
+| [![default](img/S-F05-02-default-numbered.png)](img/S-F05-02-default-numbered.png) | [![empty](img/S-F05-02-empty-numbered.png)](img/S-F05-02-empty-numbered.png) | [![loading](img/S-F05-02-loading-numbered.png)](img/S-F05-02-loading-numbered.png) | [![error](img/S-F05-02-error-numbered.png)](img/S-F05-02-error-numbered.png) | [![success](img/S-F05-02-success-numbered.png)](img/S-F05-02-success-numbered.png) | [![modal](img/S-F05-02-modal-numbered.png)](img/S-F05-02-modal-numbered.png) |
+
+| State | Image |
+|---|---|
+| Default | [`img/S-F05-02-default.png`](img/S-F05-02-default.png) (balance 1.284.500 đ, amount 300.000) |
+| Empty | [`img/S-F05-02-empty.png`](img/S-F05-02-empty.png) (balance 120.000 đ, below the minimum) |
+| Loading | [`img/S-F05-02-loading.png`](img/S-F05-02-loading.png) |
+| Error | [`img/S-F05-02-error.png`](img/S-F05-02-error.png) (connection lost while sending) |
+| Success | [`img/S-F05-02-success.png`](img/S-F05-02-success.png) (300.000 đ requested, balance 984.500 đ) |
+| Confirm modal | [`img/S-F05-02-modal.png`](img/S-F05-02-modal.png) |
+
+Colours, fonts and corners follow the design tokens in [ui-conventions.md](../ui-conventions.md#6-design-tokens). A pixel check found shades that are not in the token table (open question 9).
 
 ## 3. Element inventory
 
+Data field names are proposed; align them with the data dictionary.
+
 | # | Element | Type | Content / data source | Required | Validation |
 |---|---|---|---|---|---|
-| 1 | Back | Button | static | Yes | none |
+| 1 | Back | Icon button | static chevron icon | Yes | none |
 | 2 | Title | Header | static: "Rút tiền" | Yes | |
-| 3 | Supplier subtitle | Text | `supplier.business_name` · `supplier.id` (e.g., "Quán Phở Hàng Bài · SUP-001") | Yes | `SUP-` + 3 digits |
-| 4 | Message banner | Banner | Empty state: "Số dư chưa đủ để rút." + "Số dư 120.000 đ thấp hơn mức rút tối thiểu 200.000 đ."; Error state: "Chưa tạo được yêu cầu rút tiền." + "Mất kết nối khi gửi yêu cầu. Số dư chưa bị trừ. Kiểm tra mạng và thử lại." or "Hồ sơ của bạn chưa được xác minh." | No | |
-| 5 | Verification link | Link | static: "Hoàn thiện hồ sơ" (shown only with the "chưa được xác minh" message) | No | 44 px high touch target |
-| 6 | Balance card | Card | "Số dư có thể rút" + `payout_balance.accumulated` (format: integer with thousand separator + `đ`, e.g., "1.284.500 đ"); "Tối thiểu " + `config.min_withdrawal` (e.g., "200.000 đ") | Yes | `>= 0` |
-| 7 | Amount label | Label | static: "Số tiền muốn rút" | Yes | |
-| 8 | Amount input | Number input | `withdrawal.amount` (displayed with thousand separator, suffix "đ", e.g., "300.000") | Yes | integer; `>= config.min_withdrawal`; `<= payout_balance.accumulated`; disabled when the balance is below the minimum |
-| 9 | Amount helper | Text | "Tối thiểu 200.000 đ · Tối đa " + `payout_balance.accumulated` (e.g., "1.284.500 đ") | Yes | |
-| 10 | Bank section header | Subheader | static: "Tài khoản nhận tiền" | Yes | |
-| 11 | Bank dropdown | Dropdown | label "Ngân hàng"; placeholder "Chọn ngân hàng"; `bank_account.bank_name` | Yes | one bank from the list |
-| 12 | Account number input | Text input | label "Số tài khoản"; placeholder "Nhập số tài khoản"; `bank_account.number` | Yes | digits only; length to be confirmed (open question 3) |
-| 13 | Account holder input | Text input | label "Tên chủ tài khoản"; placeholder "Nhập tên không dấu"; `bank_account.holder_name`; helper "Nhập đúng tên như trên thẻ ngân hàng." | Yes | letters and spaces, without diacritics, not empty |
-| 14 | Withdraw button | Primary button | "Rút " + amount (e.g., "Rút 300.000 đ") when valid; "Rút tiền" when disabled; "Thử lại rút 300.000 đ" (Error state) | Yes | disabled until amount and the three bank fields are valid; disabled in Empty and Loading |
-| 15 | Back button | Secondary button | static: "Quay lại số dư" | Yes | |
-| 16 | Loading skeletons | Skeleton | grey placeholders for balance card, amount field and bank fields; text "Đang tải thông tin rút tiền…" (Loading state only) | No | mirror the Default layout |
+| 3 | Supplier subtitle | Text | `supplier.id` · `supplier.business_name` (example: "SUP-00125 · Quán Phở Hàng Bài") | Yes | `SUP-` + 5 digits |
+| 4 | Balance card | Card | label "Số dư tích lũy" + `payout_balance.accumulated` (example: "1.284.500 đ") | Yes | integer `>= 0`; `.` as thousands separator + " đ" |
+| 5 | Amount label | Label | static: "Số tiền muốn rút" | Yes | |
+| 6 | Amount input | Number input | `withdrawal.amount` (thousand separator, suffix "đ", example: "300.000") | Yes | integer; `>= config.min_withdrawal`; `<= payout_balance.accumulated` |
+| 7 | Amount helper | Text | "Tối thiểu " + `config.min_withdrawal` + " đ · Tối đa " + `payout_balance.accumulated` + " đ" | Yes | |
+| 8 | Bank section header | Subheader | static: "Tài khoản nhận tiền" | Yes | |
+| 9 | Bank dropdown | Dropdown | label "Ngân hàng"; placeholder "Chọn ngân hàng"; `bank_account.bank_name` (example: "Vietcombank (VCB)") | Yes | one bank from the list |
+| 10 | Account number input | Text input | label "Số tài khoản"; placeholder "Nhập số tài khoản"; `bank_account.number` | Yes | digits only; length: open question 3 |
+| 11 | Account holder field | Text field (read-only in the mockup) | label "Tên chủ tài khoản"; `bank_account.holder_name` (example: "NGUYEN VAN A") | Yes | not empty; source: open question 7 |
+| 12 | Withdraw button | Primary button | "Rút " + amount (example: "Rút 300.000 đ") | Yes | enabled only when the amount and the bank fields are valid; disabled while loading |
+| 13 | Cancel button | Secondary button | static: "Hủy giao dịch" (Default only) | Yes | none; see open question 2 |
+| 14 | Error banner | Banner | warning icon + "Chưa tạo được yêu cầu rút tiền." + "Mất kết nối khi gửi yêu cầu. Số dư chưa bị trừ. Kiểm tra mạng và thử lại." (Error state only) | No | |
+| 15 | Thử lại | Primary button | static label; replaces 12 in the Error state | Yes (Error) | none |
+| 16 | Về ví của tôi | Secondary button (Success: primary) | static label; shown in Empty, Loading, Error and Success | Yes | disabled while loading |
 | 17 | Success card | Card | check icon + "Đã tạo yêu cầu rút tiền" + "Số dư của bạn đã được trừ " + amount + ". Bạn có thể theo dõi trạng thái trong lịch sử giao dịch." (Success state only) | No | |
-| 18 | Summary card | Card | rows: "Số tiền rút" `withdrawal.amount`; "Tài khoản nhận" `bank_name · account number`; "Chủ tài khoản" `holder_name`; "Thời điểm tạo" `withdrawal.created_at` (format `HH:mm · dd/MM/yyyy`); "Trạng thái" badge `withdrawal.status`; "Số dư còn lại" `payout_balance.accumulated` (Success state only) | No | |
-| 19 | Status badge | Badge | "Đã tạo yêu cầu" (Created) with icon | No | text + icon, never color alone |
-| 20 | Back to balance button | Primary button | static: "Về số dư tích lũy" (Success state only) | No | |
-| 21 | Confirm modal | Modal | title "Xác nhận rút tiền?"; text "Kiểm tra lại thông tin trước khi tạo yêu cầu rút tiền."; summary rows "Số tiền rút", "Ngân hàng", "Số tài khoản", "Chủ tài khoản", "Số dư còn lại"; Primary "Xác nhận rút " + amount; Secondary "Quay lại" | Yes | opens on every valid tap of the Withdraw button |
+| 18 | Summary card | Card | rows: "Số tiền rút" `withdrawal.amount`; "Tài khoản nhận" `bank_name · number`; "Chủ tài khoản" `holder_name`; "Thời điểm tạo" `withdrawal.created_at` (`HH:mm · dd/MM/yyyy`); "Trạng thái" badge "Đã tạo yêu cầu" (icon + text) from `withdrawal.status`; "Số dư còn lại" `payout_balance.accumulated` | No | status shown with text and icon, never colour alone |
+| 19 | Confirm modal | Modal | title "Xác nhận rút tiền?"; text "Kiểm tra lại thông tin trước khi tạo yêu cầu rút tiền." | Yes | opens on every valid tap of 12 |
+| 20 | Modal summary | Summary rows | "Số tiền rút", "Ngân hàng", "Số tài khoản", "Chủ tài khoản", "Số dư còn lại" | Yes | values as entered; remaining balance = balance − amount |
+| 21 | Confirm button | Primary button | static: "Xác nhận rút" | Yes | none |
+| 22 | Cancel in modal | Secondary button | static: "Quay lại" | Yes | none |
+| 23 | Empty balance card | Card | label "Số dư có thể rút" + `payout_balance.accumulated` (example: "120.000 đ") (Empty state only) | No | integer `>= 0` |
+| 24 | Insufficient balance card | Empty state card | wallet icon + "Chưa đủ số dư để rút" + "Mức rút tối thiểu là 200.000 đ. Bạn cần thêm 80.000 đ (khoảng 8,0 kg UCO ở mức 10.000 đ/kg). Số dư sẽ tăng sau mỗi lần thu gom bạn ký xác nhận." (Empty state only) | No | missing amount = `config.min_withdrawal` − balance |
+| 25 | Đặt lịch thu gom | Secondary button | static label (Empty state only) | No | none |
 
 ## 4. States
 
 | State | What the user sees | Trigger |
 |---|---|---|
-| Default (1/5) | Balance card, amount field (focused, e.g., "300.000"), the bank section with "Ngân hàng", "Số tài khoản" and "Tên chủ tài khoản", the Withdraw button and "Quay lại số dư". The Withdraw button becomes enabled only when every field is valid. | Screen opened from S-F05-01 with a balance at or above the minimum |
-| Empty (2/5) | Amber banner "Số dư chưa đủ để rút. Số dư 120.000 đ thấp hơn mức rút tối thiểu 200.000 đ."; amount and bank fields disabled and empty; "Rút tiền" disabled | The balance is below the minimum withdrawal (rejection reason of AD-UC-12) |
-| Loading (3/5) | Grey skeletons of the balance card and the form, text "Đang tải thông tin rút tiền…", disabled "Rút tiền" | Balance and eligibility are being fetched |
-| Error (4/5) | Red banner "Chưa tạo được yêu cầu rút tiền. Mất kết nối khi gửi yêu cầu. Số dư chưa bị trừ. Kiểm tra mạng và thử lại."; the form keeps the entered values; primary button becomes "Thử lại rút 300.000 đ". Second error: "Hồ sơ của bạn chưa được xác minh." with link "Hoàn thiện hồ sơ" (BR-PAY-02) | The request failed, or the supplier is not verified |
-| Success / confirmation (5/5) | Check mark, "Đã tạo yêu cầu rút tiền", summary card (amount, account, holder, created time, badge "Đã tạo yêu cầu", remaining balance) and the button "Về số dư tích lũy" | Withdrawal Transaction created in state Created and the balance deducted (FR-05-02) |
+| Default (1/5) | Header, balance card "1.284.500 đ", amount "300.000" in focus, helper "Tối thiểu 200.000 đ · Tối đa 1.284.500 đ", bank section with an empty bank dropdown and empty account number, read-only holder field, "Rút 300.000 đ" and "Hủy giao dịch". The mockup shows this state. | Screen opened from S-F05-01 with a balance at or above the minimum |
+| Empty (2/5) | Balance card "120.000 đ", card "Chưa đủ số dư để rút" with the minimum, the missing 80.000 đ and the button "Đặt lịch thu gom"; no form; "Về ví của tôi" | The balance is below the minimum withdrawal (rejection reason of AD-UC-12) |
+| Loading (3/5) | Grey skeletons in place of elements 4 to 11, disabled "Rút 300.000 đ" and disabled "Về ví của tôi" | Balance and eligibility are being fetched |
+| Error (4/5) | Red banner "Chưa tạo được yêu cầu rút tiền. Mất kết nối khi gửi yêu cầu. Số dư chưa bị trừ. Kiểm tra mạng và thử lại."; the form keeps the entered values (300.000, Vietcombank (VCB), 1023456789, NGUYEN VAN A); buttons "Thử lại" and "Về ví của tôi" | The request failed (network or server) |
+| Success / confirmation (5/5) | Check mark, "Đã tạo yêu cầu rút tiền", summary card (300.000 đ, Vietcombank · 1023456789, NGUYEN VAN A, 10:35 · 19/11/2026, badge "Đã tạo yêu cầu", remaining 984.500 đ) and "Về ví của tôi" | Withdrawal Transaction created in state Created and the balance deducted (FR-05-02) |
+| Confirm modal | Dimmed Default screen with the modal "Xác nhận rút tiền?", its summary, "Xác nhận rút" and "Quay lại" | The supplier taps a valid "Rút 300.000 đ" |
 
 ## 5. Interactions and navigation
 
 | # | Element | User action | System response | Goes to screen |
 |---|---|---|---|---|
-| 1 | Back / Quay lại số dư | tap | Returns without creating a request | S-F05-01 |
-| 2 | Amount input | type | Formats with thousand separators; shows the message "Số tiền rút tối thiểu là 200.000 đ. Vui lòng nhập số tiền hợp lệ." or "Số tiền rút không được vượt quá số dư." when invalid; updates the button label | stays |
-| 3 | Bank dropdown | tap | Opens the bank list; selecting one fills the field | stays |
-| 4 | Account number, Account holder inputs | type | Validates the value | stays |
-| 5 | Rút 300.000 đ | tap (valid) | Opens the modal "Xác nhận rút tiền?" | stays (modal) |
-| 6 | Rút 300.000 đ | tap (invalid) | Not tappable while disabled; invalid fields show their message | stays |
-| 7 | Xác nhận rút 300.000 đ (modal) | tap | Creates the Withdrawal Transaction in state Created, deducts the balance and updates the payout status (FR-05-02); shows the Success state, or the Error / Empty state when rejected | stays (success or error state) |
-| 8 | Quay lại (modal) | tap | Closes the modal; nothing is created | stays |
-| 9 | Thử lại rút 300.000 đ | tap (Error state) | Sends the request again | stays |
-| 10 | Hoàn thiện hồ sơ | tap (not-verified message) | Opens the supplier profile | S-F01-02 |
-| 11 | Về số dư tích lũy | tap (Success state) | Opens the balance with the toast "Đã tạo yêu cầu rút tiền." | S-F05-01 |
+| 1 | Back (1), "Hủy giao dịch" (13), "Về ví của tôi" (16, not Success) | tap | Returns without creating a request | S-F05-01 |
+| 2 | Amount input (6) | type | Formats with thousand separators; shows "Số tiền rút tối thiểu là 200.000 đ. Vui lòng nhập số tiền hợp lệ." or "Số tiền rút không được vượt quá số dư." when invalid; updates the button label | stays |
+| 3 | Bank dropdown (9) | tap | Opens the bank list; selecting one fills the field | stays |
+| 4 | Account number (10) | type | Validates the value | stays |
+| 5 | Rút 300.000 đ (12), valid | tap | Opens the modal "Xác nhận rút tiền?" | stays (modal) |
+| 6 | Rút 300.000 đ (12), invalid | tap | Not tappable while disabled; invalid fields show their message | stays |
+| 7 | Xác nhận rút (21) | tap | Creates the Withdrawal Transaction in state Created, deducts the balance, updates the payout status (FR-05-02); shows Success, or Error / Empty when rejected | stays (Success or Error state) |
+| 8 | Quay lại (22) | tap | Closes the modal; nothing is created | stays |
+| 9 | Thử lại (15) | tap | Sends the request again | stays |
+| 10 | Đặt lịch thu gom (25) | tap (Empty state) | Opens the pickup request form | S-F01-03 |
+| 11 | Về ví của tôi (16, Success) | tap | Opens the balance, which shows the new withdrawal row | S-F05-01 |
 
 ## 6. Screen-level rules
 
 | Rule ID | Rule | Source |
 |---|---|---|
 | SR-001 | The amount must be at least the minimum withdrawal (200.000 đ) and at most the accumulated balance. | BR-05, BR-PAY-01 |
-| SR-002 | Only a verified supplier can withdraw; otherwise the request is rejected with the reason shown. | BR-PAY-02 |
-| SR-003 | The Withdraw button is enabled only when the amount and all three bank fields are valid. | FR-05-02 |
+| SR-002 | The withdrawal is accepted only for the signed-in supplier's own balance. | FR-06-03 |
+| SR-003 | The Withdraw button is enabled only when the amount and the bank fields are valid. | FR-05-02 |
 | SR-004 | Every request goes through the confirmation modal "Xác nhận rút tiền?" before it is created. | Screen List (modals); ui-conventions §3 |
 | SR-005 | On success the Withdrawal Transaction is created in state Created, the balance is reduced by the amount and the payout status is updated. If creation fails, the balance does not change. | AD-UC-12, AD-UC-13 (FR-05-02) |
 | SR-006 | Rejected attempts are recorded by the system and the supplier sees the reason. | SD-UC-13 |
-| SR-007 | The screen records the withdrawal request only; the actual bank transfer is outside ReFeed Release 1. | ADR-003, W0 |
+| SR-007 | The screen records the withdrawal request only; the actual bank transfer is outside ReFeed Release 1. | ADR-003 |
 | SR-008 | Error messages state what is wrong and the valid rule. | ui-conventions §4 |
 | SR-009 | Status is shown with text and icon, never by colour alone. | ui-conventions §5 |
-| SR-010 | The Primary button label names the action and the amount; no generic "OK" or "Submit". | ui-conventions §1 |
+| SR-010 | The Primary button label names the action; no generic "OK" or "Submit". | ui-conventions §1 |
 
 ## 7. Linked requirements
 
@@ -101,28 +127,34 @@
 - Designed at 390 × 844; smallest supported width 360 px. The content scrolls and the footer buttons stay fixed.
 - Touch targets at least 44 × 44: back button 44 × 44, inputs 48 px high (amount 56 px), dropdown 48 px, footer buttons 52 px and 48 px.
 - Each input has a visible label above it, not only a placeholder.
-- Error and rejection banners use an icon and a distinct border, not colour alone; the disabled fields keep their labels.
+- The error banner uses an icon and a distinct border, not colour alone; the modal dims the screen behind it and keeps focus inside.
 - Body text contrast at least 4.5:1.
 
 ## 9. Open questions
 
 | # | Question | Blocking? | Status |
 |---|---|---|---|
-| 1 | [NEEDS CLARIFICATION: the Default mockup shows empty bank fields with an enabled "Rút 300.000 đ" button. By SR-003 the button must be disabled until all fields are valid.] | No | Open. Default: follow SR-003; update the mockup. |
-| 2 | [NEEDS CLARIFICATION: is the bank account entered every time, or saved and pre-filled for the next withdrawal?] | No | Open. Default: entered every time. |
+| 1 | [NEEDS CLARIFICATION: the Default image shows an empty bank dropdown and account number but an enabled "Rút 300.000 đ" button; by SR-003 it must be disabled until all fields are valid.] | No | Open. Default: follow SR-003; update the mockup. |
+| 2 | [NEEDS CLARIFICATION: the secondary button is "Hủy giao dịch" in Default but "Về ví của tôi" in the other states, and the modal image shows "Về ví của tôi" under the dimmed screen.] | No | Open. Default: "Hủy giao dịch" in Default and the modal, "Về ví của tôi" elsewhere. |
 | 3 | [NEEDS CLARIFICATION: the bank list source and the account number length are not defined.] | No | Open. Default: a fixed list of banks; digits only, 6–19 digits. |
-| 4 | [NEEDS CLARIFICATION: minimum withdrawal. AD-UC-13 uses 200.000 VND; W5 handover question 3 asks about 100.000 VND.] | No | Open. Default: 200.000 đ. |
-| 5 | [NEEDS CLARIFICATION: withdrawal fees (AD-UC-12 and AD-UC-13 open question).] | No | Open. Default: no fee is shown. |
-| 6 | [NEEDS CLARIFICATION: AD-UC-12 "Screens touched" calls S-F05-02 a "Withdrawal Request Modal", and AD-UC-13 still cites SCR-SUPP-05 / SCR-SUPP-06. The Screen List defines S-F05-02 as a screen with the modal "Confirm withdrawal".] | No | Open. Default: follow the Screen List; update both AD files. |
+| 4 | [NEEDS CLARIFICATION: minimum withdrawal. AD-UC-13 uses 200.000 VND; the W5 handover question asks about 100.000 VND. BR-PAY-01 gives no value in the repository.] | No | Open. Default: 200.000 đ. |
+| 5 | [NEEDS CLARIFICATION: withdrawal fees (open question of AD-UC-12 and AD-UC-13).] | No | Open. Default: no fee is shown. |
+| 6 | [NEEDS CLARIFICATION: AD-UC-12 calls S-F05-02 a "Withdrawal Request Modal" and AD-UC-13 still cites SCR-SUPP-05 / SCR-SUPP-06. The Screen List defines S-F05-02 as a screen with the modal "Confirm withdrawal".] | No | Open. Default: follow the Screen List; update both AD files. |
+| 7 | [NEEDS CLARIFICATION: the holder-name field is grey (read-only) with no input in the mockup. Is it filled from the supplier profile or typed?] | No | Open. Default: filled from the supplier profile, read-only. |
+| 8 | [NEEDS CLARIFICATION: the Empty card quotes "10.000 đ/kg" to convert the missing 80.000 đ into 8,0 kg; no such rate is defined in the repository.] | No | Open. Default: keep it only if the base price is confirmed; otherwise remove the kg estimate. |
+| 9 | [NEEDS CLARIFICATION: shades in the state images (for example #0B5E42, #5B6460) are not in the ui-conventions §6 token table.] | No | Open. Default: tokens are the rule. |
+| 10 | [NEEDS CLARIFICATION: the Screen Transition diagram has no arrow S-F05-02 → S-F01-03 for "Đặt lịch thu gom" in the Empty state.] | No | Open. Default: add the arrow. |
 
 ---
 
 ## Completion checklist
 
-- [x] The mockup is a separate cropped image file, named with the Screen ID (`img/S-F05-02.png`).
-- [x] Every visible element across all 5 states appears in the element inventory.
+- [x] The mockup is a separate cropped image file, named with the Screen ID, at the frame width (`img/S-F05-02-<state>.png`).
+- [x] The numbered images exist, and their numbers match the # column of the element inventory.
+- [x] Every visible element across all 5 states and the modal appears in the element inventory.
+- [ ] Every colour in the mockup is a design token from ui-conventions.md. (Open question 9.)
 - [x] Every input/action element has a validation rule or an explicit state behavior.
 - [x] All five states (Default, Empty, Loading, Error, Success) are filled in.
 - [x] Every navigation target is a Screen ID that exists in the Screen List.
-- [x] Every element that displays data names the field it displays.
+- [x] Every element that displays data names the field it displays (proposed names).
 - [x] Every linked FR exists in the Function List, and every action of this screen in AD-UC-12 and AD-UC-13 is covered by an interaction row.
