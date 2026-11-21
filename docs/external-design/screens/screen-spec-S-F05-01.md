@@ -3,14 +3,14 @@
 | Field             | Value                                                                                                                                  |
 | ----------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
 | Screen ID         | S-F05-01                                                                                                                               |
-| Screen name       | Wallet (Ví của tôi)                                                                                                                    |
+| Screen name       | Loyalty and payout balance (Ví của tôi)                                                                                                                    |
 | Actor             | Supplier                                                                                                                               |
-| Priority          | Must [TBC]                                                                                                                             |
-| Feature           | F-05 [TBC: feature name]                                                                                                               |
-| Activity diagrams | [TBC: AD ID and actions]                                                                                                               |
+| Priority          | Must                                                                                                                            |
+| Feature           | F-05 Supplier Value & ESG / Green Profile                                                                                                              |
+| Activity diagrams |                                                                                                               |
 | Mockup images     | `img/S-F05-01-default.png` (default), `img/S-F05-01-default-numbered.png`, four state images and four numbered state images (section 2) |
 | Frame width       | 370px screen inside a 390 × 844 device frame (exported at 3x with a 50px shadow margin, 1470 × 2832 pixels)                            |
-| Figma frame       | [TBC: frame names and page in the ReFeed Figma file]                                                                                   |
+| Figma frame       |                                                                                    |
 | Status            | Draft                                                                                                                                  |
 
 ## 1. Purpose
