@@ -1,166 +1,154 @@
-# Screen Spec: Supplier Main Home
+# Screen Spec: S-F00-02 Supplier home
 
-| Field | Value |
-|---|---|
-| Screen ID | S-F00-02 |
-| Screen name | Supplier Main Home |
-| Actor | Supplier (food business that delivers used cooking oil, UCO) |
-| Priority | Must [TBC] |
-| Feature | F-00  |
-| Activity diagrams | [TBC: AD ID and action names] |
-| Mockup images | `img/S-F00-02.png` (default), `img/S-F00-02-numbered.png`, four state images (section 2) |
-| Frame width | [TBC: 360px, exported at 3x?] |
-| Figma frame | [TBC] |
-| Status | Draft |
+| Field             | Value                                                                                                                                  |
+| ----------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| Screen ID         | S-F00-02                                                                                                                               |
+| Screen name       | Supplier home                                                                                                                          |
+| Actor             | Supplier                                                                                                                               |
+| Priority          | Must [TBC]                                                                                                                             |
+| Feature           | F-00 Navigation & Home                                                                                                                 |
+| Activity diagrams | None [TBC]: main entry screen after login for Supplier; routes to the pickup request, signing, balance and receipt screens             |
+| Mockup images     | `img/S-F00-02-default.png` (default), `img/S-F00-02-default-numbered.png`, four state images and four numbered state images (section 2) |
+| Frame width       | [TBC: same as S-F00-03, 370px screen inside a 390 × 844 device frame, exported at 3x with a 50px shadow margin, 1470 × 2832 pixels]    |
+| Figma frame       | [TBC: frame names and page in the ReFeed Figma file]                                                                                   |
+| Status            | Draft                                                                                                                                  |
 
 ## 1. Purpose
 
-**Shown when:** the supplier opens the app after signing in, or taps the "Trang chủ" tab. It gives a one-screen summary of the supplier's accumulated balance, membership tier, pending actions and recent collection activity.
+**Shown when:** the supplier logs in successfully, taps the "Trang chủ" tab, or returns to home after signing a transaction.
 
-**The user leaves this screen when:** they start a collection booking, sign a pending transaction, open one of the four summary cards, open notifications or profile, or switch to another tab.
+**The user leaves this screen when:** they tap the notifications icon, tap "Ký giao dịch" on the pending transaction banner, tap "Đặt lịch thu gom" to book a collection, tap "Xem biên nhận" on the success banner, tap one of the four summary cards, or tap another tab of the bottom bar.
 
 ## 2. Mockup
 
-![S-F00-02](img/S-F00-02.png)
+[![S-F00-02](img/S-F00-02-default.png)](img/S-F00-02-default.png)
 
-**Numbered:** each number is the # of the element inventory in section 3. Numbers are fixed across states: an element keeps its number in every state where it appears. Elements 7 and 8 appear only in Default, 19 and 20 only in Error, 21 and 22 only in Success, 23 only in Empty, 24 only in Loading.
+**Numbered:** each number is the # of the element inventory in section 3. A number stays the same in every state. Elements 7 and 8 (Pending transaction banner and its link) appear only in the default state when a transaction waits for the supplier's signature; element 19 and 20 (Network error banner and "Thử lại") appear only in the error state; element 21 and 22 (Success banner and "Xem biên nhận") appear only in the success state after signing; element 23 (Empty collection card) appears only in the empty state; element 24 (Loading text) appears only in the loading state. The loading image numbers the header (1 to 4), shows grey skeleton blocks in place of elements 5, 9 and 10 to 13, and numbers the bottom bar (14 to 18).
 
-| Default, numbered | Loading, numbered |
-|---|---|
-| ![numbered](img/S-F00-02-numbered.png) | ![loading numbered](img/S-F00-02-loading-numbered.png) |
+| Default, numbered | Empty, numbered | Loading, numbered | Error, numbered | Success, numbered |
+| --- | --- | --- | --- | --- |
+| [![S-F00-02 default numbered](img/S-F00-02-default-numbered.png)](img/S-F00-02-default-numbered.png) | [![S-F00-02 empty numbered](img/S-F00-02-empty-numbered.png)](img/S-F00-02-empty-numbered.png) | [![S-F00-02 loading numbered](img/S-F00-02-loading-numbered.png)](img/S-F00-02-loading-numbered.png) | [![S-F00-02 error numbered](img/S-F00-02-error-numbered.png)](img/S-F00-02-error-numbered.png) | [![S-F00-02 success numbered](img/S-F00-02-success-numbered.png)](img/S-F00-02-success-numbered.png) |
 
-| Error, numbered | Success, numbered | Empty, numbered |
-|---|---|---|
-| ![error numbered](img/S-F00-02-error-numbered.png) | ![success numbered](img/S-F00-02-success-numbered.png) | ![empty numbered](img/S-F00-02-empty-numbered.png) |
+| State   | Image |
+| ------- | ----- |
+| Default | [`img/S-F00-02-default.png`](img/S-F00-02-default.png) (has a transaction awaiting signature, COL-00891) |
+| Empty   | [`img/S-F00-02-empty.png`](img/S-F00-02-empty.png) (new supplier, no collection yet) |
+| Loading | [`img/S-F00-02-loading.png`](img/S-F00-02-loading.png) |
+| Error   | [`img/S-F00-02-error.png`](img/S-F00-02-error.png) (network lost, showing cached data from 09:12) |
+| Success | [`img/S-F00-02-success.png`](img/S-F00-02-success.png) (just signed COL-00891, balance updated) |
 
-| State | Image |
-|---|---|
-| Default | `img/S-F00-02.png` (pending transaction banner shown, time 9:41) |
-| Empty | `img/S-F00-02-empty.png` |
-| Loading | `img/S-F00-02-loading.png` |
-| Error | `img/S-F00-02-error.png` (network failure, stale data shown) |
-| Success | `img/S-F00-02-success.png` (transaction signed, time 9:45) |
-
-All colours, fonts and corners come from the design tokens in [ui-conventions.md](../ui-conventions.md#6-design-tokens) [TBC: verify every colour].
+All colours, fonts and corners come from the design tokens in [ui-conventions.md](../ui-conventions.md#6-design-tokens) [TBC: verify after ui-conventions is finalised].
 
 ## 3. Element inventory
 
-Field names in the "Content / data source" column are proposed; align them with the data dictionary.
+Data field names are proposed; align them with the data dictionary.
 
-| # | Element | Type | Content / data source | Required | Validation |
-|---|---|---|---|---|---|
-| 1 | Avatar | Image (initials) | initials of `supplier.name` (example: "PH") | Yes | none |
-| 2 | Notification bell | Button with badge | `notification.unread_count`; badge hidden when 0 (example: 1) | Yes | badge shows count only when greater than 0 |
-| 3 | Business name | Header | `supplier.name` (example: "Quán Phở Hàng Bài") | Yes | |
-| 4 | Supplier code and address | Text | `supplier.code` · `supplier.address` (example: "SUP-00125 · 12 Hàng Bài, Hoàn Kiếm") | Yes | |
-| 5 | Balance card | Card | label "SỐ DƯ TÍCH LŨY"; `wallet.balance` (example: "603.200 đ") | Yes | currency format from ui-conventions; "0 đ" when no balance |
-| 6 | Tier chip | Chip | "Hạng " + `member.tier` + " · " + `member.verified_kg` + " kg đã xác thực" (example: "Hạng 2 · 58 kg đã xác thực") | Yes | weight with decimal comma |
-| 7 | Pending transaction banner | Banner (amber, clock icon) | "1 giao dịch chờ bạn ký"; `transaction.code`, `transaction.weight_kg`, `transaction.amount` (example: "COL-00891 · 32,5 kg · 334.750 đ") | No | shown only when at least one transaction awaits the supplier's signature |
-| 8 | Sign transaction link | Link | label "Ký giao dịch" | Yes (inside 7) | none |
-| 9 | Schedule collection | Primary button | label "Đặt lịch thu gom" | Yes | none; not tappable while loading |
-| 10 | Open requests card | Card (tappable) | label "Yêu cầu đang mở"; `request.open_count` + " yêu cầu"; `request.code` (example: "1 yêu cầu", "PK-00131") | No | hidden in Empty state |
-| 11 | Next collection card | Card (tappable) | label "Lần thu gom tới"; `collection.next_date`, `collection.next_time_from`–`next_time_to` (example: "27/09/2026", "08:00–10:00") | No | date dd/MM/yyyy; time 24h range with en dash |
-| 12 | UCO delivered card | Card (tappable) | label "UCO đã giao (" + MM/yyyy + ")"; `uco.delivered_kg_month`; `uco.collection_count_month` (example: "58,0 kg", "3 lần thu gom") | No | weight with one decimal and decimal comma |
-| 13 | Latest receipt card | Card (tappable) | label "Biên nhận gần nhất"; `receipt.amount`; `receipt.code` (example: "206.000 đ", "COL-00836") | No | currency format from ui-conventions |
-| 14 | Tab: Trang chủ | Tab | static; active on this screen | Yes | none |
-| 15 | Tab: Thu gom | Tab | static | Yes | none |
-| 16 | Tab: Ví của tôi | Tab | static | Yes | none |
-| 17 | Tab: Xanh | Tab | static | Yes | none |
-| 18 | Tab: Hồ sơ | Tab | static | Yes | none |
-| 19 | Load error banner | Banner (amber, warning icon) | title "Không tải được số liệu mới nhất"; body "Mất kết nối mạng. Đang hiển thị dữ liệu lúc " + `cache.loaded_at` (example: "09:12") | No | Error state only |
-| 20 | Retry link | Link | label "Thử lại" | Yes (inside 19) | none |
-| 21 | Signed confirmation banner | Banner (green, check icon) | "Đã ký giao dịch " + `transaction.code`; "+" + `transaction.amount` + " đã được cộng vào số dư tích lũy." | No | Success state only |
-| 22 | View receipt link | Link | label "Xem biên nhận" | Yes (inside 21) | none |
-| 23 | Empty state card | Card | icon; title "Bạn chưa có lần thu gom nào"; text "Đặt lịch thu gom đầu tiên để bắt đầu tích lũy. Số dư và hạng thành viên tăng sau mỗi lần thu gom bạn ký xác nhận." | No | Empty state only |
-| 24 | Loading text | Text | static: "Đang tải trang chủ..." | No | Loading state only |
+| #  | Element                       | Type                   | Content / data source                                                                                                                                                                                                  | Required | Validation                                                  |
+| -- | ----------------------------- | ---------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- | ----------------------------------------------------------- |
+| 1  | Supplier avatar               | Badge                  | initials of `supplier.business_name` (example: "PH")                                                                                                                                                                   | Yes      | 2 letters                                                   |
+| 2  | Notifications                 | Icon button            | static bell icon; red count `notification.unread_count` on the top-right corner only when greater than 0 (example: 1)                                                                                                  | Yes      | none                                                        |
+| 3  | Business name                 | Header                 | `supplier.business_name` (example: "Quán Phở Hàng Bài")                                                                                                                                                                | Yes      |                                                             |
+| 4  | Context line                  | Text                   | `supplier.id` · `supplier.address` (example: "SUP-00125 · 12 Hàng Bài, Hoàn Kiếm")                                                                                                                                     | Yes      | `SUP-` + 5 digits                                           |
+| 5  | Balance card                  | Metric card (primary)  | Label: "SỐ DƯ TÍCH LŨY"; Value: `wallet.balance` (example: "603.200 đ")                                                                                                                                                | Yes      | integer >= 0; `.` as thousands separator + " đ"             |
+| 6  | Tier pill                     | Pill                   | "Hạng " + `loyalty.tier` + " · " + `loyalty.verified_weight` + " kg đã xác thực" (example: "Hạng 2 · 58 kg đã xác thực")                                                                                              | Yes      | tier is a whole number; weight shown as in the mockup       |
+| 7  | Pending transaction banner    | Warning banner         | Title: `pending.count` + " giao dịch chờ bạn ký"; Body: `collection.id` + " · " + `collection.actual_quantity` + " kg · " + `collection.amount` + " đ"                                                                 | No       | shown while at least one transaction awaits the signature   |
+| 8  | Ký giao dịch                  | Link (inside banner 7) | static label                                                                                                                                                                                                           | Yes      | none                                                        |
+| 9  | Đặt lịch thu gom              | Primary button         | static label                                                                                                                                                                                                           | Yes      | none; not tappable while loading                           |
+| 10 | Open requests card            | Summary card           | icon + label "Yêu cầu đang mở"; Value: `pickup_request.open_count` + " yêu cầu"; Subtext: `pickup_request.id` (example: "1 yêu cầu", "PK-00131"); chevron                                                             | No       | integer >= 0; hidden in the empty state                     |
+| 11 | Next collection card          | Summary card           | icon + label "Lần thu gom tới"; Value: `next_collection.date`; Subtext: `next_collection.time_from` + "–" + `next_collection.time_to` (example: "27/09/2026", "08:00–10:00"); chevron                                   | No       | `dd/MM/yyyy`; `HH:mm`; hidden in the empty state            |
+| 12 | UCO delivered card            | Summary card           | icon + label "UCO đã giao (" + `MM/yyyy` + ")"; Value: `uco.delivered_weight_month` + " kg"; Subtext: `uco.collection_count_month` + " lần thu gom" (example: "58,0 kg", "3 lần thu gom"); chevron                     | No       | 1 decimal + " kg"; integer count; hidden in the empty state |
+| 13 | Latest receipt card           | Summary card           | icon + label "Biên nhận gần nhất"; Value: `receipt.amount` + " đ"; Subtext: `collection.id` (example: "206.000 đ", "COL-00836"); chevron                                                                                | No       | `COL-` + 5 digits; hidden in the empty state                |
+| 14 | Tab "Trang chủ"               | Tab                    | static; active (bold, green) on this screen                                                                                                                                                                            | Yes      | none                                                        |
+| 15 | Tab "Thu gom"                 | Tab                    | static                                                                                                                                                                                                                 | Yes      | none                                                        |
+| 16 | Tab "Ví của tôi"              | Tab                    | static                                                                                                                                                                                                                 | Yes      | none                                                        |
+| 17 | Tab "Xanh"                    | Tab                    | static                                                                                                                                                                                                                 | Yes      | none                                                        |
+| 18 | Tab "Hồ sơ"                   | Tab                    | static                                                                                                                                                                                                                 | Yes      | none                                                        |
+| 19 | Network error banner          | Warning banner         | Title: "Không tải được số liệu mới nhất"; Body: "Mất kết nối mạng. Đang hiển thị dữ liệu lúc " + `cache.last_synced_at` + "."                                                                                          | No       | shown when the API fetch fails; time as `HH:mm`             |
+| 20 | Thử lại                       | Link (inside banner 19)| static label                                                                                                                                                                                                           | Yes      | none                                                        |
+| 21 | Success banner                | Success banner         | Check icon + Title: "Đã ký giao dịch " + `collection.id`; Body: "+" + `collection.amount` + " đ đã được cộng vào số dư tích lũy."                                                                                      | No       | shown immediately after the supplier signs a transaction    |
+| 22 | Xem biên nhận                 | Link (inside banner 21)| static label                                                                                                                                                                                                           | Yes      | none                                                        |
+| 23 | Empty collection card         | Empty state card       | Truck icon + Title: "Bạn chưa có lần thu gom nào"; Description: "Đặt lịch thu gom đầu tiên để bắt đầu tích lũy. Số dư và hạng thành viên tăng sau mỗi lần thu gom bạn ký xác nhận."                                    | No       | shown only when the supplier has no collection yet          |
+| 24 | Loading text                  | Text                   | static: "Đang tải trang chủ..."                                                                                                                                                                                        | No       | shown only in the loading state                             |
 
 ## 4. States
 
-| State | What the user sees | Trigger |
-|---|---|---|
-| Default | Header (1 to 4), balance card (5, 6), pending transaction banner (7, 8), Schedule collection button (9), four summary cards (10 to 13), tab bar (14 to 18). Bell shows badge "1". | Screen opened, data loaded, at least one transaction awaits signature |
-| Empty (no data) | Header; balance "0 đ" with "Hạng 1 · 0 kg đã xác thực" (5, 6); button 9; empty state card (23) replaces banner and cards 10 to 13; no bell badge | The supplier has no collection yet |
-| Loading | Header and tab bar stay visible. Grey placeholders replace the balance card (5), the button area (9) and the four cards (10 to 13); text "Đang tải trang chủ..." (24). No banners, no bell badge | Screen is opened or retry is tapped and data is being fetched |
-| Error | Amber banner (19) with link "Thử lại" (20) above the balance card. Last loaded data stays visible (balance 603.200 đ, tier, button 9, cards 10 to 13) | Network failure while loading; message shows the time of the data on screen |
-| Success / confirmation | Green banner (21) "Đã ký giao dịch COL-00891" with link "Xem biên nhận" (22) replaces the pending banner. Balance, tier, UCO delivered and latest receipt are updated (937.950 đ, "Hạng 2 · 90,5 kg đã xác thực", 90,5 kg and 4 lần thu gom, 334.750 đ and COL-00891). Bell badge is gone | The supplier signs the pending transaction and returns to Home |
+| State                  | What the user sees                                                                                                                                                                                                                                                                                                                                                                                                                                                                                | Trigger                                                                                       |
+| ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| Default                | Header "PH", "Quán Phở Hàng Bài", "SUP-00125 · 12 Hàng Bài, Hoàn Kiếm", bell with red count "1"; green balance card "SỐ DƯ TÍCH LŨY 603.200 đ" with pill "Hạng 2 · 58 kg đã xác thực"; amber banner "1 giao dịch chờ bạn ký — COL-00891 · 32,5 kg · 334.750 đ" with link "Ký giao dịch"; button "Đặt lịch thu gom"; four cards ("1 yêu cầu · PK-00131", "27/09/2026 · 08:00–10:00", "58,0 kg · 3 lần thu gom", "206.000 đ · COL-00836"); bottom bar with "Trang chủ" active. | Screen opened with data and at least one transaction awaiting the supplier's signature        |
+| Empty (no data)        | Header without bell count; balance card "0 đ" with pill "Hạng 1 · 0 kg đã xác thực"; button "Đặt lịch thu gom"; below it a white card with truck icon "Bạn chưa có lần thu gom nào — Đặt lịch thu gom đầu tiên để bắt đầu tích lũy. Số dư và hạng thành viên tăng sau mỗi lần thu gom bạn ký xác nhận." in place of the banner and the four cards; bottom bar stays.                                                                                                                                | The supplier has no collection yet                                                            |
+| Loading                | Header (avatar, name, context line, bell without count) and bottom bar visible; the balance card, the button area and the four cards are replaced by grey rounded blocks; centered text "Đang tải trang chủ..." below them. No banner.                                                                                                                                                                                                                                                              | Initial screen load, or "Thử lại" tapped, while fetching the home data                        |
+| Error                  | Amber banner at the top: "Không tải được số liệu mới nhất — Mất kết nối mạng. Đang hiển thị dữ liệu lúc 09:12." with link "Thử lại"; balance card, button "Đặt lịch thu gom" and the four cards stay visible and show the last cached snapshot (603.200 đ, Hạng 2 · 58 kg); bell keeps count "1". The pending transaction banner is not shown (see open question 2).                                                                                                                          | Network connection lost or API timeout when fetching the home data                            |
+| Success / confirmation | Green banner at the top with check icon: "Đã ký giao dịch COL-00891 — +334.750 đ đã được cộng vào số dư tích lũy." with link "Xem biên nhận"; the balance becomes "937.950 đ" with pill "Hạng 2 · 90,5 kg đã xác thực"; "UCO đã giao (09/2026)" becomes "90,5 kg · 4 lần thu gom"; "Biên nhận gần nhất" becomes "334.750 đ · COL-00891"; the bell count is gone. Time on the status bar 9:45.                                                                                              | Returned to home immediately after the supplier signed the transaction                        |
 
 ## 5. Interactions and navigation
 
-Target screen IDs are not visible in the mockups. Fill them from the Screen List.
+Target Screen IDs other than S-F00-04 are still to be taken from the Screen List.
 
-| # | Element | User action | System response | Goes to screen |
-|---|---|---|---|---|
-| 1 | Avatar (1) | tap | Opens the profile [TBC] | [TBC] |
-| 2 | Notification bell (2) | tap | Opens the notification list | [TBC: Notifications] |
-| 3 | Ký giao dịch (8) | tap | Opens the signing flow for the pending transaction | [TBC: Sign transaction] |
-| 4 | Đặt lịch thu gom (9) | tap | Starts a collection booking | [TBC: Schedule collection] |
-| 5 | Open requests card (10) | tap | Opens the open request (PK-00131) | [TBC: Request detail] |
-| 6 | Next collection card (11) | tap | Opens the upcoming collection | [TBC: Collection detail] |
-| 7 | UCO delivered card (12) | tap | Opens the delivered UCO summary for the month | [TBC] |
-| 8 | Latest receipt card (13) | tap | Opens the receipt (COL-00836) | [TBC: Receipt detail] |
-| 9 | Tab Trang chủ (14) | tap | Nothing; already active | stays |
-| 10 | Tab Thu gom (15) | tap | Switches tab | [TBC] |
-| 11 | Tab Ví của tôi (16) | tap | Switches tab | [TBC] |
-| 12 | Tab Xanh (17) | tap | Switches tab | [TBC] |
-| 13 | Tab Hồ sơ (18) | tap | Switches tab | [TBC] |
-| 14 | Thử lại (20) | tap | Reloads the data and shows the Loading state; on success shows Default or Empty, on failure returns to Error | stays |
-| 15 | Xem biên nhận (22) | tap | Opens the receipt of the signed transaction (COL-00891) | [TBC: Receipt detail] |
-| 16 | Balance card (5), tier chip (6) | tap | Nothing; display only (no chevron) | stays |
+| #  | Element                           | User action | System response                                                              | Goes to screen                                          |
+| -- | --------------------------------- | ----------- | ---------------------------------------------------------------------------- | ------------------------------------------------------- |
+| 1  | Notifications (bell icon, 2)      | tap         | Opens the notifications list for the supplier                                | S-F00-04 (Notifications)                                |
+| 2  | Ký giao dịch (8)                  | tap         | Opens the signing screen for the pending transaction `COL-00891`             | [TBC: Sign transaction]                                 |
+| 3  | Đặt lịch thu gom (9)              | tap         | Opens the pickup request form                                                | [TBC: Create pickup request]                            |
+| 4  | Open requests card (10)           | tap         | Opens the open pickup request(s)                                             | [TBC: My requests]                                      |
+| 5  | Next collection card (11)         | tap         | Opens the upcoming collection                                                | [TBC: Request / collection detail]                      |
+| 6  | UCO delivered card (12)           | tap         | Opens the UCO delivered summary for the month                                | [TBC]                                                   |
+| 7  | Latest receipt card (13)          | tap         | Opens the receipt `COL-00836`                                                | [TBC: Receipt detail]                                   |
+| 8  | Tab "Trang chủ" (14)              | tap         | Nothing; already active                                                      | stays                                                   |
+| 9  | Tabs "Thu gom", "Ví của tôi", "Xanh", "Hồ sơ" (15 to 18) | tap | Switches to the selected area                                    | [TBC]                                                   |
+| 10 | Thử lại (20)                      | tap         | Re-fetches the home data                                                     | stays (loading, then default/empty or error state)      |
+| 11 | Xem biên nhận (22)                | tap         | Opens the receipt of the signed transaction `COL-00891`                      | [TBC: Receipt detail]                                   |
+| 12 | Avatar (1), balance card (5), tier pill (6) | tap | Nothing; display only [TBC for the avatar]                           | stays                                                   |
 
 ## 6. Screen-level rules
 
-| Rule ID | Rule | Source |
-|---|---|---|
-| SR-001 | Balance and tier are displayed as returned by the server; the screen never calculates them. | [TBC: BR] |
-| SR-002 | Balance, verified weight and tier change only after the supplier signs a transaction. | Empty state text; [TBC: BR] |
-| SR-003 | When loading fails, the screen keeps showing the last loaded data with its time and a retry link; it never replaces real data with zeros. | Error state |
-| SR-004 | The pending banner (7) and the signed banner (21) use the same slot above the balance card; at most one top banner is shown unless open question 2 says otherwise. | Mockups |
-| SR-005 | Money is shown as "603.200 đ" (dot as thousands separator), weight as "58,0 kg" (decimal comma), date as dd/MM/yyyy, time as 24h. | ui-conventions [TBC] |
-| SR-006 | Banner types differ by icon and text, never by colour alone: clock (pending), warning triangle (error), check mark (success). | ui-conventions §5 [TBC] |
-| SR-007 | While loading, the Schedule collection button and the cards are not tappable. | Loading state |
+| Rule ID | Rule                                                                                                                                                                                                      | Source              |
+| ------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------- |
+| SR-001  | The supplier only sees balance, tier, requests, collections and receipts that belong to their own `supplier.id`.                                                                                          | [TBC: FR / BR]      |
+| SR-002  | Balance, verified weight and tier change only after the supplier signs a transaction; the screen never calculates them itself.                                                                            | [TBC: FR / BR]      |
+| SR-003  | The pending transaction banner stays above the balance card until the transaction is signed; after signing, the success banner takes its place.                                                           | [TBC: FR / BR]      |
+| SR-004  | Even when the supplier has no collection (Empty state), "Đặt lịch thu gom" stays active so the first booking can be made from home.                                                                       | [TBC: FR / BR]      |
+| SR-005  | If fetching fresh data fails, the app falls back to the last locally cached data and shows the exact sync time (`HH:mm`) in the error banner; it never replaces real figures with zeros.                   | Offline resilience convention |
+| SR-006  | While loading, the button "Đặt lịch thu gom" and the four cards are replaced by placeholders and cannot be tapped.                                                                                        | Loading state       |
+| SR-007  | All status banners (warning, error, success) use an icon + bold title + descriptive text, never colour alone.                                                                                              | ui-conventions §5   |
 
 ## 7. Linked requirements
 
-| FR ID | What this screen does for it |
-|---|---|
-| [TBC: FR-00-xx] | Displays the supplier summary: name, code, address, balance and tier |
-| [TBC: FR-00-xx] | Shows the pending transaction and links to signing |
-| [TBC: FR-00-xx] | Shows the confirmation after signing and links to the receipt |
-| [TBC: FR-00-xx] | Provides the entry to schedule a collection and shows open requests and the next collection |
-| [TBC: FR-00-xx] | Shows the notification badge and the main navigation |
+| FR ID           | What this screen does for it                                                                                                      |
+| --------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| [TBC: FR-xx-xx] | Shows the supplier's balance and tier and the latest figures after each signed collection                                         |
+| [TBC: FR-xx-xx] | Shows the transaction awaiting signature and gives the entry to the signing screen                                                |
+| [TBC: FR-xx-xx] | Gives the entry to book a collection and shows open requests and the next collection                                              |
+| [TBC: FR-xx-xx] | Shows the latest receipt and the confirmation after signing, with a link to the receipt                                           |
 
 ## 8. Responsive and accessibility notes
 
-- Smallest supported width: [TBC]; the four summary cards stay in a 2-column grid.
-- The tab bar is fixed at the bottom; the header is not scrolled away [TBC].
-- Banner state is carried by icon plus text, not colour alone (SR-006).
-- Body text contrast at least 4.5:1, including brown text on the amber banner and white text on the green card [TBC: verify].
-- Bell button needs an accessible label with the unread count, for example "Thông báo, 1 chưa đọc".
-- Loading text (24) is announced to screen readers.
+- Smallest supported width: 360px [TBC]; the four summary cards stay in a 2-column grid with equal width and a small gap; values and subtexts do not truncate.
+- Vertical scroll is enabled when banners are shown above the balance card; the bottom bar stays fixed.
+- Touch targets at least 44 × 44 [TBC: verify]: bell button, "Đặt lịch thu gom" button, each summary card and each tab; inline links ("Ký giao dịch", "Thử lại", "Xem biên nhận") need extra vertical padding to reach a 44px hit area.
+- Banners use different icons alongside the text: clock (pending), triangle (error), check mark (success); text contrast at least 4.5:1 [TBC: verify].
 
 ## 9. Open questions
 
 | # | Question | Blocking? | Status |
-|---|---|---|---|
-| 1 | [NEEDS CLARIFICATION: when two or more transactions await signature, does banner 7 show the count and the oldest one, or a list?] | No | Open. Default: show the count and the oldest transaction. |
-| 2 | [NEEDS CLARIFICATION: the Error mockup shows no pending banner. Should banner 7 appear from cached data together with banner 19?] | No | Open. Default: show only banner 19 (as in the mockup). |
-| 3 | [NEEDS CLARIFICATION: does the signed banner (21) disappear by itself or on the next visit?] | No | Open. Default: until the screen is reopened. |
-| 4 | [NEEDS CLARIFICATION: what do cards 10, 11 and 12 show when the supplier has data but no open request, no next collection, or no delivery this month?] | No | Open. Default: card shows "Chưa có". |
-| 5 | [NEEDS CLARIFICATION: what does tapping the avatar do?] | No | Open. Default: opens the profile. |
-| 6 | [NEEDS CLARIFICATION: what are the rules for tier levels (Hạng 1, Hạng 2) by verified kg?] | No | Open. Default: display only, rule lives in the BR list. |
-| 7 | [NEEDS CLARIFICATION: should Home refresh by itself or by pull-to-refresh?] | No | Open. Default: refresh on open and on Thử lại only. |
-| 8 | [NEEDS CLARIFICATION: frame width, Screen IDs of targets, FR IDs and AD actions] | Yes | Open. Fill from project documents. |
+| - | -------- | --------- | ------ |
+| 1 | [NEEDS CLARIFICATION: When two or more transactions await the supplier's signature, does banner 7 show only the oldest one with "N giao dịch chờ bạn ký", stack several banners, or open a list?] | No | Open. Default: shows the count and the oldest transaction, link goes to that transaction. |
+| 2 | [NEEDS CLARIFICATION: The error mockup shows no pending transaction banner. Should banner 7 still appear from cached data together with banner 19?] | No | Open. Default: only banner 19 is shown, as in the mockup. |
+| 3 | [NEEDS CLARIFICATION: How long does the green success banner stay before it disappears?] | No | Open. Default: remains until the next screen refresh or navigation action. |
+| 4 | [NEEDS CLARIFICATION: What do cards 10 to 13 show when the supplier has collections but no open request, no upcoming collection, or no UCO delivered this month?] | No | Open. Default: the card stays and shows "Chưa có" as its value. |
+| 5 | [NEEDS CLARIFICATION: Does the screen support pull-to-refresh like the warehouse home (S-F00-03)?] | No | Open. Default: yes, pull down re-fetches the data and shows the Loading state. |
+| 6 | [NEEDS CLARIFICATION: Which screens do the avatar and the tabs "Thu gom", "Ví của tôi", "Xanh", "Hồ sơ" open? The tab label in the mockup ("Ví của tôi") may differ from the name used in other documents.] | No | Open. Default: avatar opens the profile; tabs follow the Screen List. |
+| 7 | [NEEDS CLARIFICATION: Why does the bell count "1" disappear in the success state: is the notification marked as read once the transaction is signed?] | No | Open. Default: yes, signing clears the related notification. |
 
 ---
 
 ## Completion checklist
 
-- [ ] The mockup is a separate cropped image file, named with the Screen ID, at the frame width (current images include the phone bezel).
-- [x] The numbered image exists for every state, and its numbers match the # column of the element inventory.
+- [ ] The mockup is a separate cropped image file, named with the Screen ID, at the frame width. (Images need renaming to the `S-F00-02-<state>.png` names above.)
+- [x] The numbered image exists, and its numbers match the # column of the element inventory.
 - [x] Every visible element in the mockup appears in the element inventory.
 - [ ] Every colour in the mockup is a design token from ui-conventions.md.
 - [x] Every input element has a validation rule or an explicit "none".
 - [x] All five states are filled in.
 - [ ] Every navigation target is a Screen ID that exists in the Screen List.
 - [x] Every element that displays data names the field it displays (proposed names).
-- [ ] Every linked FR exists in the Function List, and every action of this screen in the activity diagram is covered by an interaction row.
+- [ ] Every linked FR exists in the Function List, and every action of this screen in its activity diagram is covered by an interaction row.
