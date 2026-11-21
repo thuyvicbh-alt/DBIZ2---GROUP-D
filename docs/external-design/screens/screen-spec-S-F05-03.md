@@ -8,61 +8,80 @@
 | Priority | Could |
 | Feature | F-05 Supplier Value & ESG / Green Profile |
 | Activity diagrams | None: the usage flow marks UC-14 as a read-only query, no activity diagram needed |
-| Mockup image | `img/S-F05-03.png` |
+| Mockup images | `img/S-F05-03-default.png`, `img/S-F05-03-default-numbered.png`, four other state images and their numbered versions (section 2) |
+| Frame width | 370px screen inside a 390 × 844 device frame, exported at 3x with a 50px shadow margin, 1470 × 2832 pixels |
+| Figma frame | [TBC: add the Figma frame link] |
 | Status | Draft |
 
 ## 1. Purpose
 
-**Shown when:** the supplier opens "Hồ sơ xanh" from the Supplier main menu or taps "Xem hồ sơ xanh" on S-F05-01, to see the verified UCO contribution and the collection history.
+**Shown when:** the supplier opens "Xanh" in the bottom bar or the UCO-delivered card of S-F00-02, or taps "Xem hồ sơ xanh" on S-F05-01, to see the verified UCO contribution and the collection history.
 
-**The user leaves this screen when:** the supplier taps "Xem báo cáo ESG" (S-F05-04), "Về số dư tích lũy" (S-F05-01), "Yêu cầu thu gom" in the empty state (S-F01-03), or Back.
+**The user leaves this screen when:** the supplier taps "Xem báo cáo ESG" (S-F05-04), "Về ví của tôi" (S-F05-01), "Yêu cầu thu gom" in the Empty state (S-F01-03), or Back.
 
 ## 2. Mockup
 
-![S-F05-03](img/S-F05-03.png)
+[![S-F05-03](img/S-F05-03-default.png)](img/S-F05-03-default.png)
+
+**Numbered:** each number is the # of the element inventory in section 3. A number stays the same in every state. The two stat tiles are numbered separately (5 and 6) and the history rows with their badges form element 8. Element 9 (Empty history card) and 11 ("Yêu cầu thu gom") appear only in the Empty state; 14 (Error banner) and 12 ("Tải lại hồ sơ xanh") only in the Error state; 15 (Toast) only in the Success state; 16 (Loading text) only in the Loading state. The Loading image numbers the skeleton blocks with the elements they replace (4, 7, 8), the loading text (16) and the disabled "Xem báo cáo ESG" (10).
+
+| Default, numbered | Empty, numbered | Loading, numbered | Error, numbered | Success, numbered |
+| --- | --- | --- | --- | --- |
+| [![default](img/S-F05-03-default-numbered.png)](img/S-F05-03-default-numbered.png) | [![empty](img/S-F05-03-empty-numbered.png)](img/S-F05-03-empty-numbered.png) | [![loading](img/S-F05-03-loading-numbered.png)](img/S-F05-03-loading-numbered.png) | [![error](img/S-F05-03-error-numbered.png)](img/S-F05-03-error-numbered.png) | [![success](img/S-F05-03-success-numbered.png)](img/S-F05-03-success-numbered.png) |
+
+| State | Image |
+|---|---|
+| Default | [`img/S-F05-03-default.png`](img/S-F05-03-default.png) (842,5 kg, 18 lần, Hạng 2, four collections) |
+| Empty | [`img/S-F05-03-empty.png`](img/S-F05-03-empty.png) (new supplier) |
+| Loading | [`img/S-F05-03-loading.png`](img/S-F05-03-loading.png) |
+| Error | [`img/S-F05-03-error.png`](img/S-F05-03-error.png) |
+| Success | [`img/S-F05-03-success.png`](img/S-F05-03-success.png) (reloaded after an error) |
+
+Colours, fonts and corners follow the design tokens in [ui-conventions.md](../ui-conventions.md#6-design-tokens). A pixel check found shades that are not in the token table (open question 7).
 
 ## 3. Element inventory
 
+Data field names are proposed; align them with the data dictionary.
+
 | # | Element | Type | Content / data source | Required | Validation |
 |---|---|---|---|---|---|
-| 1 | Back | Button | static | Yes | none |
+| 1 | Back | Icon button | static chevron icon | Yes | none |
 | 2 | Title | Header | static: "Hồ sơ xanh" | Yes | |
-| 3 | Supplier subtitle | Text | `supplier.business_name` · `supplier.id` (e.g., "Quán Phở Hàng Bài · SUP-001") | Yes | `SUP-` + 3 digits |
-| 4 | Error banner | Banner | static: "Không tải được hồ sơ xanh." + "Kiểm tra kết nối mạng và thử lại." (Error state only) | No | |
-| 5 | Contribution icon | Icon tile | static leaf icon | Yes | |
-| 6 | Verified contribution | Text | "Đóng góp đã xác minh" + `green_profile.verified_volume` (format: 1 decimal + `L`, e.g., "842,5 L") | Yes | `>= 0`; "— L" in Error state |
-| 7 | Contribution note | Text | static: "Lượng dầu ăn đã qua sử dụng đã được kho xác minh." | Yes | |
-| 8 | Collection count | Stat tile | "Số lần thu gom" + `green_profile.collection_count` (e.g., "18 lần") | Yes | integer `>= 0` |
-| 9 | Current tier | Stat tile | "Hạng hiện tại" + `supplier.loyalty_tier` (e.g., "Hạng 2") | Yes | |
-| 10 | History header | Subheader | static: "Lịch sử thu gom" | Yes | |
-| 11 | Collection row | List row | leaf icon + `collection.code` + `collection.date` + `collection.actual_volume` | Yes | `COL-` + 4 digits; `dd/MM/yyyy`; 1 decimal + `L`; newest first; row at least 44 px high |
-| 12 | Verification badge | Badge | `collection.warehouse_status`: "Đã xác minh" (check icon) or "Chờ kho xác minh" (clock icon) | Yes | text + icon, never color alone |
-| 13 | Empty history card | Card | icon + "Chưa có lần thu gom nào được xác minh" + "Sau khi kho xác minh, các lần thu gom của bạn sẽ hiện ở đây." (Empty state only) | No | |
-| 14 | Loading skeletons | Skeleton | grey placeholders for the contribution card and history; text "Đang tải hồ sơ xanh…" (Loading state only) | No | mirror the Default layout |
-| 15 | Refresh toast | Toast | static: "Đã tải lại hồ sơ xanh." (Success state only) | No | auto-dismisses after 4 seconds |
-| 16 | Primary button | Primary button | "Xem báo cáo ESG" (Default, Success, Loading); "Yêu cầu thu gom" (Empty); "Tải lại hồ sơ xanh" (Error) | Yes | "Xem báo cáo ESG" disabled in Loading |
-| 17 | Balance button | Secondary button | static: "Về số dư tích lũy" (Default, Empty, Error, Success) | No | |
+| 3 | Supplier subtitle | Text | `supplier.id` · `supplier.business_name` (example: "SUP-00125 · Quán Phở Hàng Bài") | Yes | `SUP-` + 5 digits |
+| 4 | Contribution card | Card | leaf icon; label "Đóng góp đã xác minh"; `green_profile.verified_volume` (example: "842,5 kg"); note "Lượng dầu ăn đã qua sử dụng đã được kho xác minh." | Yes | `>= 0`; 1 decimal + " kg"; "— kg" in Error |
+| 5 | Collection count tile | Stat tile | label "Số lần thu gom" + `green_profile.collection_count` (example: "18 lần") | Yes | integer `>= 0`; "—" in Error |
+| 6 | Current tier tile | Stat tile | label "Hạng hiện tại" + `loyalty.tier` (example: "Hạng 2") | Yes | whole number; "—" in Error |
+| 7 | History header | Subheader | static: "Lịch sử thu gom" | Yes | |
+| 8 | Collection list | List | rows: leaf icon + `collection.id` + `collection.date` + `collection.actual_quantity` + verification badge "Đã xác minh" (check icon) or "Chờ kho xác minh" (clock icon) from `collection.warehouse_status` | Yes | `COL-` + 5 digits; `dd/MM/yyyy`; 1 decimal + " kg"; newest first; row at least 44 px high; badge = text + icon |
+| 9 | Empty history card | Empty state card | leaf icon + "Chưa có lần thu gom nào được xác minh" + "Sau khi kho xác minh, các lần thu gom của bạn sẽ hiện ở đây." (Empty only) | No | |
+| 10 | Xem báo cáo ESG | Primary button | static label | Yes | disabled in Loading |
+| 11 | Yêu cầu thu gom | Primary button | static label; replaces 10 in the Empty state | Yes (Empty) | none |
+| 12 | Tải lại hồ sơ xanh | Primary button | static label; replaces 10 in the Error state | Yes (Error) | none |
+| 13 | Về ví của tôi | Secondary button | static label | Yes | none |
+| 14 | Error banner | Banner | warning icon + "Không tải được hồ sơ xanh." + "Kiểm tra kết nối mạng và thử lại." (Error only) | No | |
+| 15 | Refresh toast | Toast | check icon + "Đã tải lại hồ sơ xanh." (Success only) | No | auto-dismisses after 4 seconds |
+| 16 | Loading text | Text | static: "Đang tải hồ sơ xanh..." (Loading only) | No | |
 
 ## 4. States
 
 | State | What the user sees | Trigger |
 |---|---|---|
-| Default (1/5) | Contribution card ("842,5 L", "18 lần", "Hạng 2"), the history "Lịch sử thu gom" with verified and awaiting-verification collections, "Xem báo cáo ESG" and "Về số dư tích lũy". The mockup shows this state. | Screen opened, data loaded |
-| Empty (2/5) | Contribution card with "0,0 L", "0 lần", "Hạng 1"; card "Chưa có lần thu gom nào được xác minh"; primary button "Yêu cầu thu gom" | The supplier has no collection yet |
-| Loading (3/5) | Grey skeletons of the contribution card and the history, text "Đang tải hồ sơ xanh…", disabled "Xem báo cáo ESG" | Contribution and history are being fetched |
-| Error (4/5) | Red banner "Không tải được hồ sơ xanh. Kiểm tra kết nối mạng và thử lại."; contribution values show "—"; primary button "Tải lại hồ sơ xanh" | The request failed (network or server) |
-| Success / confirmation (5/5) | The Default content with the toast "Đã tải lại hồ sơ xanh." | The supplier taps "Tải lại hồ sơ xanh" in the Error state and the data loads. The screen is read-only, so this is its only confirmation. |
+| Default (1/5) | Contribution card "842,5 kg", tiles "18 lần" and "Hạng 2", "Lịch sử thu gom" with COL-00891, COL-00814, COL-00743 (Chờ kho xác minh) and COL-00662, "Xem báo cáo ESG" and "Về ví của tôi". The mockup shows this state. | Screen opened, data loaded |
+| Empty (2/5) | Contribution card "0,0 kg", tiles "0 lần" and "Hạng 1", card "Chưa có lần thu gom nào được xác minh", primary button "Yêu cầu thu gom" | The supplier has no verified collection yet |
+| Loading (3/5) | Grey skeletons of the contribution card, the history header and the list, text "Đang tải hồ sơ xanh...", disabled "Xem báo cáo ESG" | Contribution and history are being fetched |
+| Error (4/5) | Red banner "Không tải được hồ sơ xanh. Kiểm tra kết nối mạng và thử lại."; "— kg" and "—" in the card and tiles; no history; "Tải lại hồ sơ xanh" and "Về ví của tôi" | The request failed (network or server) |
+| Success / confirmation (5/5) | The Default content with the toast "Đã tải lại hồ sơ xanh." above the buttons | The supplier taps "Tải lại hồ sơ xanh" and the data loads. The screen is read-only, so this is its only confirmation. |
 
 ## 5. Interactions and navigation
 
 | # | Element | User action | System response | Goes to screen |
 |---|---|---|---|---|
-| 1 | Back | tap | Returns to the previous screen | S-F05-01 (or caller) |
-| 2 | Xem báo cáo ESG | tap | Opens the ESG contribution reports | S-F05-04 |
-| 3 | Về số dư tích lũy | tap | Opens the loyalty and payout balance | S-F05-01 |
-| 4 | Yêu cầu thu gom | tap (Empty state) | Opens the pickup request form | S-F01-03 |
-| 5 | Tải lại hồ sơ xanh | tap (Error state) | Fetches the data again; shows Loading, then Default with the toast or Error | stays |
-| 6 | History list | scroll | Shows older collections | stays |
+| 1 | Back (1) | tap | Returns to the previous screen | S-F05-01 or the caller (S-F00-02) |
+| 2 | Xem báo cáo ESG (10) | tap | Opens the ESG contribution reports | S-F05-04 |
+| 3 | Về ví của tôi (13) | tap | Opens the loyalty and payout balance | S-F05-01 |
+| 4 | Yêu cầu thu gom (11) | tap (Empty) | Opens the pickup request form | S-F01-03 |
+| 5 | Tải lại hồ sơ xanh (12) | tap (Error) | Fetches the data again; shows Loading, then Default with the toast, or Error | stays |
+| 6 | Collection list (8) | scroll | Shows older collections | stays |
 
 ## 6. Screen-level rules
 
@@ -72,9 +91,9 @@
 | SR-002 | The screen is read-only: no value can be edited. | FR-05-03 |
 | SR-003 | The history shows collections newest first, each with its warehouse verification status. | FR-05-03 |
 | SR-004 | Verification status is shown with text and icon, never by colour alone. | ui-conventions §5 |
-| SR-005 | The total "Đóng góp đã xác minh" equals the verified volume on S-F05-01, so both screens show the same figure. | FR-05-01, FR-05-03 |
+| SR-005 | "Đóng góp đã xác minh" equals the verified volume on S-F05-01, so both screens show the same figure. | FR-05-01, FR-05-03 |
 | SR-006 | The toast disappears after 4 seconds. | ui-conventions §3 |
-| SR-007 | Volumes use 1 decimal and `L`; dates use `dd/MM/yyyy`; collection IDs use `COL-` + 4 digits. | ui-conventions §2 |
+| SR-007 | Volumes use 1 decimal and kg; dates use `dd/MM/yyyy`; collection IDs use `COL-` + 5 digits. | ui-conventions §2 |
 | SR-008 | At most one Primary button on the screen. | ui-conventions §3 |
 
 ## 7. Linked requirements
@@ -83,6 +102,7 @@
 |---|---|
 | FR-05-03 | Displays the verified UCO contribution and the collection history |
 | FR-05-04 | Provides the entry to the ESG contribution reports ("Xem báo cáo ESG") |
+| FR-05-01 | Shows the same verified volume and tier as the wallet |
 | FR-06-03 | Restricts the data to the signed-in supplier |
 
 ## 8. Responsive and accessibility notes
@@ -90,27 +110,31 @@
 - Designed at 390 × 844; smallest supported width 360 px. The content scrolls and the footer buttons stay fixed.
 - Touch targets at least 44 × 44: back button 44 × 44, collection rows at least 44 px high, footer buttons 52 px and 48 px.
 - Verification badges use text plus icon; the error banner uses an icon and a distinct border, not colour alone.
-- Skeleton placeholders in Loading mirror the Default layout to avoid layout shift.
+- Skeletons in Loading mirror the Default layout to avoid layout shift.
 - Body text and badge text contrast at least 4.5:1.
 
 ## 9. Open questions
 
 | # | Question | Blocking? | Status |
 |---|---|---|---|
-| 1 | [NEEDS CLARIFICATION: FR-05-01 adds the quantity to the verified volume when the supplier signs, while FR-05-03 speaks of volume verified by the warehouse. Are these the same figure?] | No | Open. Default: one figure, shown on S-F05-01 and here (SR-005). |
+| 1 | [NEEDS CLARIFICATION: FR-05-01 adds the quantity to the verified volume when the supplier signs, while FR-05-03 speaks of volume verified by the warehouse. Are these the same figure?] | No | Open. Default: one figure on S-F05-01 and here (SR-005). |
 | 2 | [NEEDS CLARIFICATION: the screen shows no environmental figures (for example CO₂ saved) because the repository defines none.] | No | Open. Default: none; the reports are on S-F05-04. |
 | 3 | [NEEDS CLARIFICATION: should the history filter by period?] | No | Open. Default: no filter. |
 | 4 | [NEEDS CLARIFICATION: the Success state is added to keep the five-state format; UC-14 has no write action.] | No | Open. Default: toast after a successful reload. |
-| 5 | [NEEDS CLARIFICATION: the Supplier main menu has no Screen ID in the Screen List.] | No | Open. Default: Back goes to S-F05-01 or the caller. |
+| 5 | [NEEDS CLARIFICATION: the Screen Transition diagram has no arrow S-F05-03 → S-F05-01 ("Về ví của tôi"). The Screen List labels the entry from S-F05-03 to S-F05-04 "Reports", while the mockup says "Xem báo cáo ESG".] | No | Open. Default: add the arrow; keep the mockup label. |
+| 6 | [NEEDS CLARIFICATION: FR-05-03 is "Should" in the Function List (W1) but "Could" in the Screen List.] | No | Open. Default: Could, as in the Screen List. |
+| 7 | [NEEDS CLARIFICATION: shades in the state images (for example #0B5E42, #FFF1CC) are not in the ui-conventions §6 token table.] | No | Open. Default: tokens are the rule. |
 
 ---
 
 ## Completion checklist
 
-- [x] The mockup is a separate cropped image file, named with the Screen ID (`img/S-F05-03.png`).
+- [x] The mockup is a separate cropped image file, named with the Screen ID, at the frame width (`img/S-F05-03-<state>.png`).
+- [x] The numbered images exist, and their numbers match the # column of the element inventory.
 - [x] Every visible element across all 5 states appears in the element inventory.
+- [ ] Every colour in the mockup is a design token from ui-conventions.md. (Open question 7.)
 - [x] Every input/action element has a validation rule or an explicit state behavior.
 - [x] All five states (Default, Empty, Loading, Error, Success) are filled in.
 - [x] Every navigation target is a Screen ID that exists in the Screen List.
-- [x] Every element that displays data names the field it displays.
-- [x] Every linked FR exists in the Function List, and every action of this screen is covered by an interaction row (UC-14: no activity diagram, "not needed" in the usage flow).
+- [x] Every element that displays data names the field it displays (proposed names).
+- [x] Every linked FR exists in the Function List; UC-14 has no activity diagram ("not needed" in the usage flow), so every action is covered by an interaction row.
