@@ -9,7 +9,7 @@
 | Feature | F-03 UCO Transaction |
 | Activity diagrams | None: the usage flow marks UC-08 "not needed"; W1 traces FR-03-01 to sequence S-02 |
 | Mockup images | `img/S-F03-01-default.png` (default), `img/S-F03-01-default-numbered.png`, four state images and four numbered state images (section 2) |
-| Frame width | 390px phone frame (exported at 3x, 1470 × 2832 pixels including the device frame) |
+| Frame width | width	370px screen inside a 390 × 844 device frame (exported at 3x with a 50px shadow margin, 1470 × 2832 pixels) |
 | Figma frame | Frames "S-F03-01 / 1" to "S-F03-01 / 5", page "4 màn × 5 trạng thái" in the ReFeed Figma file |
 | Status | Draft |
 
