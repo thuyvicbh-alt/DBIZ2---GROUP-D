@@ -50,7 +50,7 @@ All colours, fonts and corners come from the design tokens in
 | 4 | Receipt title | Text | static: "Chi tiết giao dịch" (Default) / "Biên nhận giao dịch UCO" (Error) | Yes | |
 | 5 | Record IDs | Text | `transaction.id` · `collection.id` | Yes | `TX-` / `COL-` + 5 digits |
 | 6 | Signed timestamp | Text | "Thời điểm ký" (Default) / "Thời gian giao dịch:" (Error) · `transaction.signed_at` (FR-03-01) | Yes | `HH:mm · dd/MM/yyyy` |
-| 7 | Point of origin | Text | "Điểm phát sinh" (Default) / "Địa điểm thu gom:" (Error) · `supplier.address` (Point-of-Origin) | Yes | |
+| 7 | Point of origin | Text | "Địa điểm thu gom" (Default) / "Địa điểm thu gom:" (Error) · `supplier.address` (Point-of-Origin) | Yes | |
 | 8 | Actual quantity | Text | "Khối lượng thực tế" · `collection.actual_quantity` (FR-02-03) | Yes | 1 decimal + " kg" |
 | 9 | Base price | Text | "Giá gốc" · `transaction.base_price` | Yes | integer + " đ/kg" |
 | 10 | Loyalty bonus | Text | "Thưởng tích lũy (Hạng " + `transaction.loyalty_tier` + ")" · `transaction.loyalty_bonus_rate` | Yes | "+" + integer + " đ/kg" |
@@ -74,7 +74,7 @@ All colours, fonts and corners come from the design tokens in
 
 | State | What the user sees | Trigger |
 |---|---|---|
-| Default | Header "Biên nhận giao dịch", "Quán Phở Hàng Bài · SUP-00125"; card "Chi tiết giao dịch" TX-00891 · COL-00891 (Thời điểm ký 10:33 · 25/09/2026; Điểm phát sinh 12 Hàng Bài, Hoàn Kiếm; Khối lượng thực tế 32,5 kg; Giá gốc 10.000 đ/kg; Thưởng tích lũy (Hạng 1) +300 đ/kg; Giá áp dụng 10.300 đ/kg; Tổng tiền 334.750 đ); card "Trạng thái kho" with badge "Chờ kho xác minh" and reference note; "Tải biên nhận (PDF)" enabled; "Về lịch sử giao dịch" below; document note at the bottom. The mockup shows this state. | Screen opened for a signed transaction (`FR-03-02`) |
+| Default | Header "Biên nhận giao dịch", "Quán Phở Hàng Bài · SUP-00125"; card "Chi tiết giao dịch" TX-00891 · COL-00891 (Thời điểm ký 10:33 · 25/09/2026; Địa điểm thu gom 12 Hàng Bài, Hoàn Kiếm; Khối lượng thực tế 32,5 kg; Giá gốc 10.000 đ/kg; Thưởng tích lũy (Hạng 1) +300 đ/kg; Giá áp dụng 10.300 đ/kg; Tổng tiền 334.750 đ); card "Trạng thái kho" with badge "Chờ kho xác minh" and reference note; "Tải biên nhận (PDF)" enabled; "Về lịch sử giao dịch" below; document note at the bottom. The mockup shows this state. | Screen opened for a signed transaction (`FR-03-02`) |
 | Empty (no data) | Card with receipt icon "Chưa có biên nhận" - "Biên nhận được tạo sau khi bạn ký giao dịch. Giao dịch đã ký sẽ hiển thị ở đây." with button "Xem lịch sử giao dịch"; no receipt card, no warehouse card; "Tải biên nhận (PDF)" disabled in footer | No signed transaction receipt exists for this supplier |
 | Loading | Two cards of grey placeholders and the text "Đang tải biên nhận..."; "Tải biên nhận (PDF)" disabled in footer | The receipt data is being fetched |
 | Error | Red banner "Không tải được biên nhận - Mất kết nối khi tạo tệp PDF. Kiểm tra kết nối mạng và thử lại."; receipt card and warehouse status card kept; primary button relabeled "Thử lại tải PDF"; secondary button "Về lịch sử giao dịch" kept | PDF generation or download request failed |
