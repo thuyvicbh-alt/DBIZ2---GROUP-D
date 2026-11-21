@@ -7,10 +7,10 @@
 | Actor             | Supplier                                                                                                                               |
 | Priority          | Must                                                                                                                            |
 | Feature           | F-05 Supplier Value & ESG / Green Profile                                                                                                              |
-| Activity diagrams |  AD-UC-12 (Manage loyalty status and accumulated payout balance).                                                                                                            |
+| Activity diagrams | AD-UC-12 (Manage loyalty status and accumulated payout balance).                                                                                                            |
 | Mockup images     | `img/S-F05-01-default.png` (default), `img/S-F05-01-default-numbered.png`, four state images and four numbered state images (section 2) |
 | Frame width       | 370px screen inside a 390 × 844 device frame (exported at 3x with a 50px shadow margin, 1470 × 2832 pixels)                            |
-| Figma frame       | Frames "S-F05-01 / 1" to "S-F05-01 / 5", page "4 màn × 5 trạng thái" in the ReFeed Figma file                                                                                   |
+| Figma frame       | [TBC: add the Figma frame link]                                                                                   |
 | Status            | Draft                                                                                                                                  |
 
 ## 1. Purpose
@@ -37,7 +37,7 @@
 | Error   | [`img/S-F05-01-error.png`](img/S-F05-01-error.png) (reward and balance data could not be loaded) |
 | Success | [`img/S-F05-01-success.png`](img/S-F05-01-success.png) (withdrawal request of 300.000 đ just created) |
 
-All colours, fonts and corners come from the design tokens in [ui-conventions.md](../ui-conventions.md#6-design-tokens) [TBC: verify after ui-conventions is finalised].
+Colours, fonts and corners follow the design tokens in [ui-conventions.md](../ui-conventions.md#6-design-tokens). A pixel check of the state images found shades that are not in the token table (open question 9).
 
 ## 3. Element inventory
 
@@ -58,7 +58,7 @@ Data field names are proposed; align them with the data dictionary.
 | 11 | Rút tiền                    | Primary button          | static label                                                                                                                                                                                      | Yes      | enabled only when `wallet.balance` >= `withdrawal.min_amount`; disabled while loading and in the empty state |
 | 12 | Xem hồ sơ xanh              | Secondary button        | static label                                                                                                                                                                                      | Yes      | none                                                                        |
 | 13 | Withdrawal row              | List row                | arrow-up icon (grey); Title "Rút tiền"; Meta: `withdrawal.date` + status chip `withdrawal.status` ("Đã tạo yêu cầu"); Amount: "−" + `withdrawal.amount` + " đ"                                    | No       | shown for each withdrawal request, mixed with elements 10 by date           |
-| 14 | Success toast               | Toast                   | check icon + "Đã tạo yêu cầu rút tiền."                                                                                                                                                           | No       | shown right after a withdrawal request is created; auto-dismisses [TBC]     |
+| 14 | Success toast               | Toast                   | check icon + "Đã tạo yêu cầu rút tiền."                                                                                                                                                           | No       | shown right after a withdrawal request is created; auto-dismisses after 4 seconds |
 | 15 | Network error banner        | Error banner            | warning icon + Title: "Không tải được dữ liệu thưởng và số dư."; Body: "Kiểm tra kết nối mạng và thử lại."                                                                                        | No       | shown when the API fetch fails                                              |
 | 16 | Tải lại dữ liệu             | Primary button          | static label; replaces "Rút tiền" (11) in the error state                                                                                                                                         | Yes (error) | none                                                                     |
 | 17 | Empty history card          | Empty state card        | clock icon + Title: "Chưa có giao dịch nào"; Description: "Sau khi bạn ký giao dịch, tiền dầu gốc và thưởng tích lũy sẽ hiện ở đây. Hãy yêu cầu thu gom để bắt đầu tích lũy."                      | No       | shown only when the supplier has no transaction                             |
@@ -77,28 +77,28 @@ Data field names are proposed; align them with the data dictionary.
 
 ## 5. Interactions and navigation
 
-Target Screen IDs other than S-F00-02 are still to be taken from the Screen List.
+Target Screen IDs come from the Screen List and the Screen Transition diagram.
 
 | #  | Element                          | User action | System response                                                                  | Goes to screen                                          |
 | -- | -------------------------------- | ----------- | -------------------------------------------------------------------------------- | ------------------------------------------------------- |
-| 1  | Back (1)                         | tap         | Returns without changes                                                          | S-F00-02 (Supplier home) [TBC: previous screen]         |
-| 2  | Xem và ký giao dịch (5)          | tap         | Opens the signing screen for the pending transaction `COL-00892`                 | [TBC: Sign transaction]                                 |
-| 3  | Rút tiền (11), enabled           | tap         | Starts a withdrawal request                                                      | [TBC: Withdraw money]                                   |
+| 1  | Back (1)                         | tap         | Returns without changes                                                          | S-F00-02 (Supplier home); S-F03-02 when opened from a receipt |
+| 2  | Xem và ký giao dịch (5)          | tap         | Opens the signing screen for the pending transaction `COL-00892`                 | S-F03-01                                                |
+| 3  | Rút tiền (11), enabled           | tap         | Starts a withdrawal request                                                      | S-F05-02                                                |
 | 4  | Rút tiền (11), disabled          | tap         | Nothing; the hint under the button explains the minimum                          | stays                                                   |
-| 5  | Xem hồ sơ xanh (12)              | tap         | Opens the supplier's green profile                                               | [TBC: Green profile]                                    |
+| 5  | Xem hồ sơ xanh (12)              | tap         | Opens the supplier's green profile                                               | S-F05-03                                                |
 | 6  | Tải lại dữ liệu (16)             | tap         | Re-fetches reward and balance data                                               | stays (loading, then default/empty or error state)      |
-| 7  | Transaction rows (10, 13)        | tap         | Nothing; display only [TBC]                                                      | stays                                                   |
-| 8  | Screen content                   | pull down   | Triggers a manual refresh [TBC]                                                  | stays (loading, then updated state)                     |
+| 7  | Transaction rows (10, 13)        | tap         | Nothing; display only (open question 6)                                       | stays                                                   |
+| 8  | Screen content                   | pull down   | Triggers a manual refresh (open question 6)                                                  | stays (loading, then updated state)                     |
 
 ## 6. Screen-level rules
 
 | Rule ID | Rule | Source |
 | ------- | ---- | ------ |
-| SR-001  | The supplier only sees the balance, tier and transactions that belong to their own `supplier.id`. | [TBC: FR / BR] |
-| SR-002  | The minimum withdrawal amount is 200.000 đ; "Rút tiền" is enabled only when the balance reaches it. | [TBC: BR] |
-| SR-003  | When a withdrawal request is created, its amount leaves the balance immediately and shows as a "Rút tiền" row with status "Đã tạo yêu cầu". | [TBC: BR] |
-| SR-004  | Tier thresholds shown in the progress hint come from the server: Hạng 2 from 500,0 kg and Hạng 3 from 1.000,0 kg verified UCO. Hạng 2 gives a bonus of +300 đ/kg. | [TBC: BR] |
-| SR-005  | The bonus for a collection is shown as a separate "Thưởng tích lũy" row next to the "Tiền dầu gốc" row of the same `collection.id`. | [TBC: BR] |
+| SR-001  | The supplier only sees the balance, tier and transactions that belong to their own `supplier.id`. | FR-06-03 |
+| SR-002  | The minimum withdrawal amount is 200.000 đ; "Rút tiền" is enabled only when the balance reaches it. | FR-05-02; BR-PAY-01 (value not yet defined in the repository, open question 10) |
+| SR-003  | When a withdrawal request is created, its amount leaves the balance immediately and shows as a "Rút tiền" row with status "Đã tạo yêu cầu". | FR-05-02 |
+| SR-004  | Tier thresholds shown in the progress hint come from the server: Hạng 2 from 500,0 kg and Hạng 3 from 1.000,0 kg verified UCO. Hạng 2 gives a bonus of +300 đ/kg (open question 10). | FR-05-01; BR-05 |
+| SR-005  | The bonus for a collection is shown as a separate "Thưởng tích lũy" row next to the "Tiền dầu gốc" row of the same `collection.id`. | FR-05-01 |
 | SR-006  | When data cannot be loaded, figures are replaced by "—" (never by 0) and withdrawal is not offered; the primary button becomes "Tải lại dữ liệu". | Error state |
 | SR-007  | While loading, "Rút tiền" cannot be tapped. | Loading state |
 | SR-008  | All status banners (warning, error, success) use an icon + bold title + descriptive text, never colour alone; withdrawal and credit rows differ by sign, icon and colour. | ui-conventions §5 |
@@ -107,18 +107,20 @@ Target Screen IDs other than S-F00-02 are still to be taken from the Screen List
 
 | FR ID           | What this screen does for it |
 | --------------- | ---------------------------- |
-| [TBC: FR-xx-xx] | Displays the accumulated balance, minimum withdrawal amount and the transaction history |
-| [TBC: FR-xx-xx] | Displays the loyalty tier, verified UCO weight and progress to the next tier |
-| [TBC: FR-xx-xx] | Provides the entry to withdraw money and shows the new withdrawal request |
-| [TBC: FR-xx-xx] | Shows the transaction awaiting signature and links to the signing screen |
+| FR-05-01        | Displays the accumulated balance, minimum withdrawal amount and the transaction history |
+| FR-05-01        | Displays the loyalty tier, verified UCO weight and progress to the next tier |
+| FR-05-02        | Provides the entry to withdraw money and shows the new withdrawal request |
+| FR-03-01        | Shows the transaction awaiting signature and links to the signing screen |
+| FR-05-03        | Provides the entry to the Green Profile ("Xem hồ sơ xanh") |
+| FR-06-03        | Restricts the data to the signed-in supplier |
 
 ## 8. Responsive and accessibility notes
 
-- Smallest supported width: 360px [TBC]; cards use the full width minus screen padding, amounts stay on one line and long meta text (date · COL id · kg) wraps onto a second line.
+- Designed at 390 × 844; smallest supported width 360 px; cards use the full width minus screen padding, amounts stay on one line and long meta text (date · COL id · kg) wraps onto a second line.
 - The bottom bar (buttons 11 and 12 or 16 and 12) is fixed; the history list scrolls behind it.
-- Touch targets at least 44 × 44 [TBC: verify]: back button, both bottom buttons, inline link "Xem và ký giao dịch".
+- Touch targets at least 44 × 44 (ui-conventions §5): back button, both bottom buttons, inline link "Xem và ký giao dịch".
 - Credit and withdrawal rows differ by icon ("+" vs arrow up) and sign (+ vs −), not by colour alone; the progress bar is also given as text ("Còn 157,5 kg nữa...").
-- The toast is announced to screen readers; banners use icons (clock, warning triangle) alongside text with contrast of at least 4.5:1 [TBC: verify].
+- The toast is announced to screen readers; banners use icons (clock, warning triangle) alongside text with contrast of at least 4.5:1 (ui-conventions §5).
 
 ## 9. Open questions
 
@@ -131,7 +133,10 @@ Target Screen IDs other than S-F00-02 are still to be taken from the Screen List
 | 5 | [NEEDS CLARIFICATION: How long does the toast stay, and does the withdrawal row change status later (for example "Đã chuyển")?] | No | Open. Default: toast disappears after 4 seconds; later statuses are out of scope of this screen. |
 | 6 | [NEEDS CLARIFICATION: Do history rows open a detail or receipt, and does the screen support pull-to-refresh?] | No | Open. Default: no row detail, pull down refreshes. |
 | 7 | [NEEDS CLARIFICATION: In the error state "Rút tiền" is replaced by "Tải lại dữ liệu". Should the error banner (red) and the home error banner (amber, S-F00-02) use the same style?] | No | Open. Default: keep as designed. |
-| 8 | [NEEDS CLARIFICATION: Screen IDs of the targets, FR IDs and the activity diagram] | Yes | Open. Fill from project documents. |
+| 8 | [NEEDS CLARIFICATION: The mockups call the wallet area "Ví của tôi", while other project documents call it "Tích lũy".] | No | Open. Default: "Ví của tôi" as in the mockups. |
+| 9 | [NEEDS CLARIFICATION: Shades in the state images (for example #0B5E42, #5B6460, #254238) are not in the ui-conventions §6 token table.] | No | Open. Default: tokens are the rule; redraw the images from Figma. |
+| 10 | [NEEDS CLARIFICATION: BR-05 and BR-PAY-01 do not define the tier thresholds, the tier bonus (ui-conventions §2 gives +300 đ/kg for Hạng 2 here, +400 đ/kg elsewhere) or the minimum withdrawal in the repository.] | No | Open. Default: 500/1.000 kg, +300 đ/kg and 200.000 đ as in the mockups. |
+| 11 | [NEEDS CLARIFICATION: S-F05-03 returns here by "Về ví của tôi", but the Screen Transition diagram has no arrow S-F05-03 → S-F05-01.] | No | Open. Default: add the arrow. |
 
 ---
 
@@ -143,6 +148,6 @@ Target Screen IDs other than S-F00-02 are still to be taken from the Screen List
 - [ ] Every colour in the mockup is a design token from ui-conventions.md.
 - [x] Every input element has a validation rule or an explicit "none".
 - [x] All five states are filled in.
-- [ ] Every navigation target is a Screen ID that exists in the Screen List.
+- [x] Every navigation target is a Screen ID that exists in the Screen List.
 - [x] Every element that displays data names the field it displays (proposed names).
-- [ ] Every linked FR exists in the Function List, and every action of this screen in its activity diagram is covered by an interaction row.
+- [x] Every linked FR exists in the Function List, and every action of this screen in AD-UC-12 is covered by an interaction row.
