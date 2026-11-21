@@ -51,7 +51,7 @@ All components live in the Figma file *ReFeed – S-F05-01* (page 1 "Components"
 | Situation | Pattern | Example |
 |---|---|---|
 | **Profile incomplete (`S-F01-03` / `FR-01-03`)** | what is missing + link to fix | `"Hồ sơ Điểm phát sinh của bạn còn thiếu vị trí GPS. Bổ sung hồ sơ để đặt lịch thu gom."` |
-| **Invalid pickup request (`S-F01-03` / `FR-01-03`)** | what is wrong + valid rule | `"Khung giờ 08:00–10:00 ngày 20/09/2026 đã qua. Hãy chọn khung giờ từ hôm nay trở đi."` |
+| **Invalid pickup request (`S-F01-03` / `FR-01-03`)** | what is wrong + valid rule | `"Khung giờ 08:00 - 10:00 ngày 20/09/2026 đã qua. Hãy chọn khung giờ từ hôm nay trở đi."` |
 | **Pickup request created (`S-F01-03` / `FR-01-03`)** | confirmation + ID + next step | `"Đã tạo yêu cầu thu gom PK-00125. Xem yêu cầu của tôi."` |
 | **Invalid collection data (`S-F02-04` / `FR-02-02`)** | what is wrong + valid rule | `"Khối lượng thực tế phải lớn hơn 0 kg."` |
 | **UCO not ready (`S-F02-04`, modal)** | consequence of the action + destructive button | `"Lần thu gom PK-00126 sẽ chuyển sang Đã hủy và không ghi nhận khối lượng."` → "Hủy lần thu gom" / "Quay lại" |
