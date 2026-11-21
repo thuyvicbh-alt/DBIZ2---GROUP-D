@@ -14,7 +14,7 @@
 | Date and time of a record | `HH:mm · dd/MM/yyyy` | `10:24 · 25/09/2026` |
 | Pickup window | `dd/MM/yyyy · HH:mm–HH:mm`; on a stop card or screen header where the date is already shown: `HH:mm - HH:mm` | `25/09/2026 · 08:00 - 10:00` · `08:00 - 10:00` |
 | UCO quantity (actual, verified) | 1 decimal + ` kg`; decimal comma in Vietnamese, decimal point in English | `32,5 kg` (VI) · `32.5 kg` (EN) |
-| Estimated volume (pickup request) | range in whole kg | `30–50 kg` |
+| Estimated volume (pickup request) | range in whole kg | `30 - 50 kg` |
 | Money | integer, `.` as thousands separator + ` đ` | `334.750 đ` |
 | Unit price and loyalty bonus | integer + ` đ/kg`; a bonus always carries `+` | `10.000 đ/kg` · `+300 đ/kg` |
 | Loyalty tier | `Hạng` + number · bonus | `Hạng 2 · +400 đ/kg` |
@@ -69,13 +69,13 @@ All components live in the Figma file *ReFeed – S-F05-01* (page 1 "Components"
 - **Contrast:** Body text, button text and status badge text must reach at least `4.5:1` against their background (WCAG 2.2, 1.4.3). Measured on the current tokens: white on `color/green` `#0E8466` 4.7:1 · `color/green-dark` on `color/green-light` 4.7:1 · `color/muted` on `color/background` 4.9:1 · `color/pending` on white 5.1:1 · `color/info` on `color/info-light` 5.3:1 · `color/danger` on `color/danger-light` 5.8:1. (`color/green` was `#12A37F` at 3.2:1 and `color/pending` `#B7791F` at 3.6:1; both were darkened to pass.)
 - **Non-color indicators:** Statuses (`Đã gửi yêu cầu`, `Đã phân tài xế`, `Đã đến`, `Hoàn tất`, `Đã hủy`, `Chờ ký`) and alerts never rely on color alone: every one has a text label and its own icon (WCAG 2.2, 1.4.1).
 - **Touch targets:** Every button, list row, tab, shortcut tile, notification button and form input is at least `44 × 44` px (above the WCAG 2.2, 2.5.8 minimum of `24 × 24` px, because drivers and kitchen staff use the app standing, often with gloves). Known gap: the "Thử lại" link inside the balance banner on `S-F05-01` is below 44 px high; the whole banner becomes the tap target until it is redesigned.
-- **Viewport:** All four actors use the mobile app in Release 1, designed at `390 × 844` px (minimum supported width `360` px). Whether warehouse and ReFeed staff need a wider web dashboard is an open question for the client.
+- **Viewport:** All four actors use the mobile app in Release 1, designed on a `370 × 824` px screen inside a `390 × 844` px device frame (minimum supported width `360` px). Whether warehouse and ReFeed staff need a wider web dashboard is an open question for the client.
 
 ## 6. Design tokens
 
 Every ReFeed mockup uses only these values; they are the variables of the Figma collection
-`ReFeed colors`. The screens are drawn at 390px and exported at 3x with the device frame, so every
-image in `screens/img/` is 1470 × 2832 pixels.
+`ReFeed colors`. The screens are drawn on a 370px screen inside a 390 × 844 device frame and
+exported at 3x with a 50px shadow margin, so every image in `screens/img/` is 1470 × 2832 pixels.
 
 | Token | Value | Used for |
 |---|---|---|
@@ -103,7 +103,7 @@ image in `screens/img/` is 1470 × 2832 pixels.
 | font/size | home title 22px, screen title 18px, body 13px, small 12px, badge 11px, button 16px, total 22px | |
 | space/unit | 2px; screen padding 18px, card padding 14px, gap between cards 10px | padding, gaps |
 | radius | button and banner 12px, card 14px, input 10px, avatar 20px, badge and pill 99px | corners |
-| frame/width | 390px (minimum supported 360px) | every mockup is drawn at this width |
+| frame/width | 370px screen inside a 390 × 844 device frame (minimum supported 360px) | every mockup is drawn at this width |
 
 Contrast, checked with the WCAG 2.2 formula:
 
