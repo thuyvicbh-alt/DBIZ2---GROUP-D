@@ -1,14 +1,12 @@
-# Screen Spec: S-F00-02 Home (Trang chủ)
-
-> Items marked **[TBC]** are not visible in the mockups and must be confirmed against the Function List, Screen List, data dictionary and ui-conventions.md before status changes to Reviewed.
+# Screen Spec: Supplier Main Home
 
 | Field | Value |
 |---|---|
 | Screen ID | S-F00-02 |
-| Screen name | Home (Trang chủ) |
+| Screen name | Supplier Main Home |
 | Actor | Supplier (food business that delivers used cooking oil, UCO) |
 | Priority | Must [TBC] |
-| Feature | F-00 [TBC: feature name] |
+| Feature | F-00  |
 | Activity diagrams | [TBC: AD ID and action names] |
 | Mockup images | `img/S-F00-02.png` (default), `img/S-F00-02-numbered.png`, four state images (section 2) |
 | Frame width | [TBC: 360px, exported at 3x?] |
