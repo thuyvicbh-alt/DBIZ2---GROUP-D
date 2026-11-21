@@ -60,10 +60,10 @@ All colours, fonts and corners come from the design tokens in
 | 14 | Tải biên nhận (PDF) | Primary button | static: "Tải biên nhận (PDF)" (Default/Empty/Loading) / "Thử lại tải PDF" (Error) | Yes | disabled in Empty and Loading states |
 | 15 | Secondary navigation button | Secondary button | static: "Về lịch sử giao dịch" (Default/Error) / "Xem lịch sử giao dịch" (Empty) | Yes | none |
 | 16 | Document note | Text | static: "Chứng từ giao dịch, không thay thế hóa đơn GTGT" | No | shown in Default state |
-| 17 | Empty message | Card with secondary button | static: "Chưa có biên nhận" — "Biên nhận được tạo sau khi bạn ký giao dịch. Giao dịch đã ký sẽ hiển thị ở đây."; button `#15` ("Xem lịch sử giao dịch") | No | shown only when no signed receipt exists |
+| 17 | Empty message | Card with secondary button | static: "Chưa có biên nhận" - "Biên nhận được tạo sau khi bạn ký giao dịch. Giao dịch đã ký sẽ hiển thị ở đây."; button `#15` ("Xem lịch sử giao dịch") | No | shown only when no signed receipt exists |
 | 18 | Loading placeholder | Skeleton cards & text | two cards of grey placeholders and the text "Đang tải biên nhận..." | No | shown only while fetching receipt data |
-| 19 | Message area | Banner | static: "Không tải được biên nhận — Mất kết nối khi tạo tệp PDF. Kiểm tra kết nối mạng và thử lại." | No | shown only when PDF generation/download fails |
-| 20 | Success card | Summary card | check mark, "Tải biên nhận thành công" — `collection.id` · `collection.actual_quantity` · `transaction.amount` | No | shown only after PDF download succeeds |
+| 19 | Message area | Banner | static: "Không tải được biên nhận - Mất kết nối khi tạo tệp PDF. Kiểm tra kết nối mạng và thử lại." | No | shown only when PDF generation/download fails |
+| 20 | Success card | Summary card | check mark, "Tải biên nhận thành công" - `collection.id` · `collection.actual_quantity` · `transaction.amount` | No | shown only after PDF download succeeds |
 | 21 | File name | Text | "Tên tệp" · `collection.id` + "_bien-nhan.pdf" | No | shown only in Success state |
 | 22 | File size | Text | "Dung lượng" · `receipt_pdf.file_size` | No | integer + " KB"; shown only in Success state |
 | 23 | Download timestamp | Text | "Thời gian tải" · `receipt_pdf.downloaded_at` | No | `HH:mm · dd/MM/yyyy`; shown only in Success state |
@@ -75,7 +75,7 @@ All colours, fonts and corners come from the design tokens in
 | State | What the user sees | Trigger |
 |---|---|---|
 | Default | Header "Biên nhận giao dịch", "Quán Phở Hàng Bài · SUP-00125"; card "Chi tiết giao dịch" TX-00891 · COL-00891 (Thời điểm ký 10:33 · 25/09/2026; Điểm phát sinh 12 Hàng Bài, Hoàn Kiếm; Khối lượng thực tế 32,5 kg; Giá gốc 10.000 đ/kg; Thưởng tích lũy (Hạng 1) +300 đ/kg; Giá áp dụng 10.300 đ/kg; Tổng tiền 334.750 đ); card "Trạng thái kho" with badge "Chờ kho xác minh" and reference note; "Tải biên nhận (PDF)" enabled; "Về lịch sử giao dịch" below; document note at the bottom. The mockup shows this state. | Screen opened for a signed transaction (`FR-03-02`) |
-| Empty (no data) | Card with receipt icon "Chưa có biên nhận" — "Biên nhận được tạo sau khi bạn ký giao dịch. Giao dịch đã ký sẽ hiển thị ở đây." with button "Xem lịch sử giao dịch"; no receipt card, no warehouse card; "Tải biên nhận (PDF)" disabled in footer | No signed transaction receipt exists for this supplier |
+| Empty (no data) | Card with receipt icon "Chưa có biên nhận" - "Biên nhận được tạo sau khi bạn ký giao dịch. Giao dịch đã ký sẽ hiển thị ở đây." with button "Xem lịch sử giao dịch"; no receipt card, no warehouse card; "Tải biên nhận (PDF)" disabled in footer | No signed transaction receipt exists for this supplier |
 | Loading | Two cards of grey placeholders and the text "Đang tải biên nhận..."; "Tải biên nhận (PDF)" disabled in footer | The receipt data is being fetched |
-| Error | Red banner "Không tải được biên nhận — Mất kết nối khi tạo tệp PDF. Kiểm tra kết nối mạng và thử lại."; receipt card and warehouse status card kept; primary button relabeled "Thử lại tải PDF"; secondary button "Về lịch sử giao dịch" kept | PDF generation or download request failed |
-| Success / confirmation | Time 10:31; check mark, "Tải biên nhận thành công" — "COL-00891 · 32,5 kg · 334.750 đ"; file
+| Error | Red banner "Không tải được biên nhận - Mất kết nối khi tạo tệp PDF. Kiểm tra kết nối mạng và thử lại."; receipt card and warehouse status card kept; primary button relabeled "Thử lại tải PDF"; secondary button "Về lịch sử giao dịch" kept | PDF generation or download request failed |
+| Success / confirmation | Time 10:31; check mark, "Tải biên nhận thành công" - "COL-00891 · 32,5 kg · 334.750 đ"; file
