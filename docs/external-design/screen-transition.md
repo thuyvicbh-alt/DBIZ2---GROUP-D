@@ -34,7 +34,6 @@ flowchart LR
   S00_02 -->|"Ví của tôi (bottom nav)"| S05_01
   S00_02 -->|"Hồ sơ xanh (bottom nav) / UCO-delivered shortcut"| S05_03
   S01_06 -->|"Hồ sơ Điểm phát sinh"| S01_02
-  S01_06 -->|"Đăng xuất"| S00_01
   S01_06 -->|"Trang chủ (bottom nav)"| S00_02
   S01_02 -->|"saved / back"| S01_06
   S01_03 -->|"[profile incomplete] Complete profile"| S01_02
@@ -75,7 +74,6 @@ flowchart LR
   notif --> S02_03
   S00_01 -->|"signed in as driver"| S02_03
   S02_03 -->|"selects a pickup point"| S02_04
-  S02_03 -->|"Đăng xuất"| S00_01
   S02_04 -->|"[collection saved] Record handover"| S02_05
   S02_04 -->|"[pickup saved or cancelled] Back to route"| S02_03
   S02_04 -->|"back"| S02_03
@@ -97,7 +95,6 @@ flowchart LR
   S00_01 -->|"signed in as warehouse staff"| S00_03
   S00_03 -->|"Receive UCO"| S04_01
   S00_03 -->|"Batches"| S04_02
-  S00_03 -->|"Đăng xuất"| S00_01
   S04_01 -->|"[received quantity saved] Manage batch"| S04_02
   S04_01 -->|"back"| S00_03
   S04_02 -->|"back"| S00_03
@@ -119,7 +116,6 @@ flowchart LR
   S00_01 -->|"signed in as ReFeed staff"| S06_01
   S06_01 -->|"dispatch entry / pending-pickup drill-down"| S02_01
   S06_01 -->|"drill-down"| S06_02
-  S06_01 -->|"Đăng xuất"| S00_01
   S02_01 -->|"Plan route (selected area)"| S02_02
   S02_01 -->|"back"| S06_01
   S02_02 -->|"[route dispatched] Dispatch queue"| S02_01
