@@ -7,10 +7,10 @@
 | Actor             | Supplier                                                                                                                               |
 | Priority          | Must                                                                                                                            |
 | Feature           | F-05 Supplier Value & ESG / Green Profile                                                                                                              |
-| Activity diagrams |                                                                                                               |
+| Activity diagrams |  AD-UC-12 (Manage loyalty status and accumulated payout balance).                                                                                                            |
 | Mockup images     | `img/S-F05-01-default.png` (default), `img/S-F05-01-default-numbered.png`, four state images and four numbered state images (section 2) |
 | Frame width       | 370px screen inside a 390 × 844 device frame (exported at 3x with a 50px shadow margin, 1470 × 2832 pixels)                            |
-| Figma frame       |                                                                                    |
+| Figma frame       | Frames "S-F05-01 / 1" to "S-F05-01 / 5", page "4 màn × 5 trạng thái" in the ReFeed Figma file                                                                                   |
 | Status            | Draft                                                                                                                                  |
 
 ## 1. Purpose
