@@ -9,7 +9,7 @@
 | Feature | F-02 Collection Operations & Handover |
 | Activity diagrams | AD-UC-06 (actions "Select supplier point and confirm arrival" — the confirm part, decision `d0` "UCO ready?", "Enter or correct actual UCO quantity and optional evidence", "Submit collection details", and the outcomes of `d1` "Required collection data valid?") |
 | Mockup images | `img/S-F02-04-default.png` (default), `img/S-F02-04-default-numbered.png`, four state images and four numbered state images (section 2) |
-| Frame width | 390px phone frame (exported at 3x, 1470 × 2832 pixels including the device frame) |
+| Frame width | width	370px screen inside a 390 × 844 device frame (exported at 3x with a 50px shadow margin, 1470 × 2832 pixels) |
 | Figma frame | Frames "S-F02-04 / 1" to "S-F02-04 / 5", page "4 màn × 5 trạng thái" in the ReFeed Figma file |
 | Status | Draft |
 
