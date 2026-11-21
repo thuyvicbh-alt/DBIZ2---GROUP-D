@@ -9,15 +9,15 @@
 | Feature | F-03 UCO Transaction |
 | Activity diagrams | None: the usage flow marks UC-08 "not needed"; W1 traces FR-03-01 to sequence S-02 |
 | Mockup images | `img/S-F03-01-default.png` (default), `img/S-F03-01-default-numbered.png`, four state images and four numbered state images (section 2) |
-| Frame width | width	370px screen inside a 390 × 844 device frame (exported at 3x with a 50px shadow margin, 1470 × 2832 pixels) |
+| Frame width | 370px screen inside a 390 × 844 device frame (exported at 3x with a 50px shadow margin, 1470 × 2832 pixels) |
 | Figma frame | Frames "S-F03-01 / 1" to "S-F03-01 / 5", page "4 màn × 5 trạng thái" in the ReFeed Figma file |
 | Status | Draft |
 
 ## 1. Purpose
 
-**Shown when:** the supplier opens the notification "draft agreement ready" after the driver sends the handover from S-F02-05, or taps "Transaction awaiting signature" on S-F05-01.
+**Shown when:** the supplier opens the notification "draft agreement ready" after the driver sends the handover from S-F02-05, taps the awaiting-signature banner on S-F00-02, or taps "Transaction awaiting signature" on S-F05-01.
 
-**The user leaves this screen when:** the transaction is signed (success state, then "Xem biên nhận" or "Về trang chủ"), or the supplier goes back to the main menu without signing.
+**The user leaves this screen when:** the transaction is signed (success state, then "Xem biên nhận" or "Về trang chủ"), or the supplier goes back to the supplier home (S-F00-02) without signing.
 
 ## 2. Mockup
 
@@ -91,9 +91,9 @@ All colours, fonts and corners come from the design tokens in
 | 5 | Ký và khóa biên bản (modal) | tap | Locks the agreement (document hash) with the amount, stores the signature, marks the pickup Completed (FR-03-01) and adds the amount to the balance (FR-05-01), or shows the error state | stays (loading, then success or error state) |
 | 6 | Quay lại (modal) | tap | Closes the modal; nothing is signed | stays |
 | 7 | Xem biên nhận | tap (success state) | Opens the receipt of this transaction | S-F03-02 |
-| 8 | Về trang chủ | tap (success state) | Returns to the supplier home | Supplier main menu |
+| 8 | Về trang chủ | tap (success state) | Returns to the supplier home | S-F00-02 |
 | 9 | Xem lịch sử giao dịch | tap (empty state) | Opens the transaction history | S-F05-01 |
-| 10 | Back | tap | Returns without signing; the transaction stays awaiting signature | Supplier main menu |
+| 10 | Back | tap | Returns without signing; the transaction stays awaiting signature | S-F00-02 |
 
 ## 6. Screen-level rules
 
@@ -120,7 +120,7 @@ All colours, fonts and corners come from the design tokens in
 ## 8. Responsive and accessibility notes
 
 - Smallest supported width: 360px; label–value rows keep the value right-aligned and long values wrap; the total "334.750 đ" never wraps.
-- Designed at 390 × 844; the content scrolls and the footer button stays fixed; the signature pad keeps at least 300 × 100px.
+- Designed on a 370 × 824 screen inside a 390 × 844 device frame; the content scrolls and the footer button stays fixed; the signature pad keeps at least 300 × 100px.
 - Touch targets at least 44 × 44: back button 44 × 44, checkbox row 44px high, footer buttons 52px high, "Xóa / Ký lại" 44px high.
 - The signature pad has a visible caption; the locked state is shown by the text "Đã ký · đã khóa" and a grey pad, not by colour alone; status badges use text plus icon.
 - Body text contrast at least 4.5:1.
@@ -129,8 +129,8 @@ All colours, fonts and corners come from the design tokens in
 
 | # | Question | Blocking? | Status |
 |---|---|---|---|
-| 1 | [NEEDS CLARIFICATION: the supplier home ("Supplier main menu" in the screen-transition diagram) has no Screen ID in the Screen List. Add one?] | No | Open. Default: "Về trang chủ" and back go to the Supplier main menu node. |
-| 2 | [NEEDS CLARIFICATION: does the supplier sign on their own device or on the driver's phone at the handover?] | No | Open. Default: on the supplier's own device after the notification (Screen List open question 1). |
+| 1 | [NEEDS CLARIFICATION: the supplier home ("Supplier main menu" in the screen-transition diagram) has no Screen ID in the Screen List. Add one?] | No | Closed: added to the Screen List as S-F00-02 Supplier home; the screen-transition node is renamed to match. |
+| 2 | [NEEDS CLARIFICATION: does the supplier sign on their own device or on the driver's phone at the handover?] | No | Open. Default: on the supplier's own device after the notification; SR-007 of S-F02-05. |
 | 3 | [NEEDS CLARIFICATION: W1 has no path for a supplier who disagrees with the quantity or amount. Should the screen offer "reject" or "report a problem"?] | No | Open. Default: no reject action; the supplier contacts ReFeed by phone and does not sign. |
 | 4 | [NEEDS CLARIFICATION: the note "Đây là chứng từ giao dịch, không phải hóa đơn thuế." is not traced to W0/W1. Confirm the wording with ReFeed.] | No | Open. Default: the note is shown. |
 
@@ -144,7 +144,7 @@ All colours, fonts and corners come from the design tokens in
 - [ ] Every colour in the mockup is a design token from ui-conventions.md.
 - [x] Every input element has a validation rule or an explicit "none".
 - [x] All five states are filled in.
-- [ ] Every navigation target is a Screen ID that exists in the Screen List.
+- [x] Every navigation target is a Screen ID that exists in the Screen List.
 - [x] Every element that displays data names the field it displays.
 - [x] Every linked FR exists in the Function List, and every action of this screen in its activity diagram is
       covered by an interaction row (UC-08: no activity diagram, "not needed" in the usage flow).
