@@ -5,12 +5,12 @@
 | Screen ID         | S-F00-02                                                                                                                               |
 | Screen name       | Supplier home                                                                                                                          |
 | Actor             | Supplier                                                                                                                               |
-| Priority          | Must [TBC]                                                                                                                             |
+| Priority          | Must                                                                                                                           |
 | Feature           | F-00 Navigation & Home                                                                                                                 |
-| Activity diagrams | None [TBC]: main entry screen after login for Supplier; routes to the pickup request, signing, balance and receipt screens             |
+| Activity diagrams | None: main entry screen after login for Supplier; routes to the pickup request, signing, balance and receipt screens             |
 | Mockup images     | `img/S-F00-02-default.png` (default), `img/S-F00-02-default-numbered.png`, four state images and four numbered state images (section 2) |
-| Frame width       | [TBC: same as S-F00-03, 370px screen inside a 390 × 844 device frame, exported at 3x with a 50px shadow margin, 1470 × 2832 pixels]    |
-| Figma frame       | [TBC: frame names and page in the ReFeed Figma file]                                                                                   |
+| Frame width       | [370px screen inside a 390 × 844 device frame, exported at 3x with a 50px shadow margin, 1470 × 2832 pixels]    |
+| Figma frame       | [frame names and page in the ReFeed Figma file]                                                                                   |
 | Status            | Draft                                                                                                                                  |
 
 ## 1. Purpose
