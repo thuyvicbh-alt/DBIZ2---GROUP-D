@@ -3,14 +3,14 @@
 | Field             | Value                                                                                                                                  |
 | ----------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
 | Screen ID         | S-F00-02                                                                                                                               |
-| Screen name       | Supplier main home                                                                                                                          |
+| Screen name       | Supplier home                                                                                                                          |
 | Actor             | Supplier                                                                                                                               |
 | Priority          | Must                                                                                                                           |
 | Feature           | F-00 Navigation & Home                                                                                                                 |
 | Activity diagrams | None: main entry screen after login for Supplier; routes to the pickup request, signing, balance and receipt screens             |
 | Mockup images     | `img/S-F00-02-default.png` (default), `img/S-F00-02-default-numbered.png`, four state images and four numbered state images (section 2) |
-| Frame width       | [370px screen inside a 390 × 844 device frame, exported at 3x with a 50px shadow margin, 1470 × 2832 pixels]    |
-| Figma frame       | Frames "S-F00-02 / 1" to "S-F00-02 / 5", page "4 màn × 5 trạng thái" in the ReFeed Figma file                                                                                   |
+| Frame width       | 370px screen inside a 390 × 844 device frame, exported at 3x with a 50px shadow margin, 1470 × 2832 pixels |
+| Figma frame       | [TBC: add the Figma frame link]                                                                                   |
 | Status            | Draft                                                                                                                                  |
 
 ## 1. Purpose
@@ -37,7 +37,7 @@
 | Error   | [`img/S-F00-02-error.png`](img/S-F00-02-error.png) (network lost, showing cached data from 09:12) |
 | Success | [`img/S-F00-02-success.png`](img/S-F00-02-success.png) (just signed COL-00891, balance updated) |
 
-All colours, fonts and corners come from the design tokens in [ui-conventions.md](../ui-conventions.md#6-design-tokens) [TBC: verify after ui-conventions is finalised].
+Colours, fonts and corners follow the design tokens in [ui-conventions.md](../ui-conventions.md#6-design-tokens). A pixel check of the five state images found shades that are not in the token table (see open question 8).
 
 ## 3. Element inventory
 
@@ -82,31 +82,31 @@ Data field names are proposed; align them with the data dictionary.
 
 ## 5. Interactions and navigation
 
-Target Screen IDs other than S-F00-04 are still to be taken from the Screen List.
+Target Screen IDs come from the Screen List and the Screen Transition diagram.
 
 | #  | Element                           | User action | System response                                                              | Goes to screen                                          |
 | -- | --------------------------------- | ----------- | ---------------------------------------------------------------------------- | ------------------------------------------------------- |
-| 1  | Notifications (bell icon, 2)      | tap         | Opens the notifications list for the supplier                                | S-F00-04 (Notifications)                                |
-| 2  | Ký giao dịch (8)                  | tap         | Opens the signing screen for the pending transaction `COL-00891`             | [TBC: Sign transaction]                                 |
-| 3  | Đặt lịch thu gom (9)              | tap         | Opens the pickup request form                                                | [TBC: Create pickup request]                            |
-| 4  | Open requests card (10)           | tap         | Opens the open pickup request(s)                                             | [TBC: My requests]                                      |
-| 5  | Next collection card (11)         | tap         | Opens the upcoming collection                                                | [TBC: Request / collection detail]                      |
-| 6  | UCO delivered card (12)           | tap         | Opens the UCO delivered summary for the month                                | [TBC]                                                   |
-| 7  | Latest receipt card (13)          | tap         | Opens the receipt `COL-00836`                                                | [TBC: Receipt detail]                                   |
+| 1  | Notifications (bell icon, 2)      | tap         | Opens the notifications list for the supplier                                | [TBC: no Screen ID in the Screen List; see open question 9]                                |
+| 2  | Ký giao dịch (8)                  | tap         | Opens the signing screen for the pending transaction `COL-00891`             | S-F03-01                                                |
+| 3  | Đặt lịch thu gom (9)              | tap         | Opens the pickup request form                                                | S-F01-03                                                |
+| 4  | Open requests card (10)           | tap         | Opens the open pickup request(s)                                             | S-F01-04                                                |
+| 5  | Next collection card (11)         | tap         | Opens the upcoming collection                                                | S-F01-05                                                |
+| 6  | UCO delivered card (12)           | tap         | Opens the supplier's Green Profile (UCO-delivered shortcut)                | S-F05-03                                                |
+| 7  | Latest receipt card (13)          | tap         | Opens the receipt `COL-00836`                                                | S-F03-02                                                |
 | 8  | Tab "Trang chủ" (14)              | tap         | Nothing; already active                                                      | stays                                                   |
-| 9  | Tabs "Thu gom", "Ví của tôi", "Xanh", "Hồ sơ" (15 to 18) | tap | Switches to the selected area                                    | [TBC]                                                   |
+| 9  | Tabs "Thu gom", "Ví của tôi", "Xanh", "Hồ sơ" (15 to 18) | tap | Switches to the selected area                                    | "Thu gom" S-F01-04; "Ví của tôi" S-F05-01; "Xanh" S-F05-03; "Hồ sơ" S-F01-06 (see open question 6) |
 | 10 | Thử lại (20)                      | tap         | Re-fetches the home data                                                     | stays (loading, then default/empty or error state)      |
-| 11 | Xem biên nhận (22)                | tap         | Opens the receipt of the signed transaction `COL-00891`                      | [TBC: Receipt detail]                                   |
-| 12 | Avatar (1), balance card (5), tier pill (6) | tap | Nothing; display only [TBC for the avatar]                           | stays                                                   |
+| 11 | Xem biên nhận (22)                | tap         | Opens the receipt of the signed transaction `COL-00891`                      | S-F03-02                                                |
+| 12 | Avatar (1), balance card (5), tier pill (6) | tap | Nothing; display only. The avatar opens the supplier account (open question 6) | stays; avatar: S-F01-06                       |
 
 ## 6. Screen-level rules
 
 | Rule ID | Rule                                                                                                                                                                                                      | Source              |
 | ------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------- |
-| SR-001  | The supplier only sees balance, tier, requests, collections and receipts that belong to their own `supplier.id`.                                                                                          | [TBC: FR / BR]      |
-| SR-002  | Balance, verified weight and tier change only after the supplier signs a transaction; the screen never calculates them itself.                                                                            | [TBC: FR / BR]      |
-| SR-003  | The pending transaction banner stays above the balance card until the transaction is signed; after signing, the success banner takes its place.                                                           | [TBC: FR / BR]      |
-| SR-004  | Even when the supplier has no collection (Empty state), "Đặt lịch thu gom" stays active so the first booking can be made from home.                                                                       | [TBC: FR / BR]      |
+| SR-001  | The supplier only sees balance, tier, requests, collections and receipts that belong to their own `supplier.id`.                                                                                          | FR-06-03            |
+| SR-002  | Balance, verified weight and tier change only after the supplier signs a transaction; the screen never calculates them itself.                                                                            | FR-05-01            |
+| SR-003  | The pending transaction banner stays above the balance card until the transaction is signed; after signing, the success banner takes its place.                                                           | FR-03-01            |
+| SR-004  | Even when the supplier has no collection (Empty state), "Đặt lịch thu gom" stays active so the first booking can be made from home.                                                                       | FR-01-03            |
 | SR-005  | If fetching fresh data fails, the app falls back to the last locally cached data and shows the exact sync time (`HH:mm`) in the error banner; it never replaces real figures with zeros.                   | Offline resilience convention |
 | SR-006  | While loading, the button "Đặt lịch thu gom" and the four cards are replaced by placeholders and cannot be tapped.                                                                                        | Loading state       |
 | SR-007  | All status banners (warning, error, success) use an icon + bold title + descriptive text, never colour alone.                                                                                              | ui-conventions §5   |
@@ -115,17 +115,19 @@ Target Screen IDs other than S-F00-04 are still to be taken from the Screen List
 
 | FR ID           | What this screen does for it                                                                                                      |
 | --------------- | --------------------------------------------------------------------------------------------------------------------------------- |
-| [TBC: FR-xx-xx] | Shows the supplier's balance and tier and the latest figures after each signed collection                                         |
-| [TBC: FR-xx-xx] | Shows the transaction awaiting signature and gives the entry to the signing screen                                                |
-| [TBC: FR-xx-xx] | Gives the entry to book a collection and shows open requests and the next collection                                              |
-| [TBC: FR-xx-xx] | Shows the latest receipt and the confirmation after signing, with a link to the receipt                                           |
+| FR-05-01        | Shows the supplier's balance and tier and the latest figures after each signed collection                                         |
+| FR-03-01        | Shows the transaction awaiting signature and gives the entry to the signing screen                                                |
+| FR-01-03, FR-01-05 | Gives the entry to book a collection and shows open requests and the next collection                                           |
+| FR-03-02        | Shows the latest receipt and the confirmation after signing, with a link to the receipt                                           |
+| FR-01-01        | Home of the supplier after a successful login                                                                                     |
+| FR-06-03        | Restricts every figure to the signed-in supplier                                                                                  |
 
 ## 8. Responsive and accessibility notes
 
-- Smallest supported width: 360px [TBC]; the four summary cards stay in a 2-column grid with equal width and a small gap; values and subtexts do not truncate.
+- Designed at 390 × 844; smallest supported width 360 px; the four summary cards stay in a 2-column grid with equal width and a small gap; values and subtexts do not truncate.
 - Vertical scroll is enabled when banners are shown above the balance card; the bottom bar stays fixed.
-- Touch targets at least 44 × 44 [TBC: verify]: bell button, "Đặt lịch thu gom" button, each summary card and each tab; inline links ("Ký giao dịch", "Thử lại", "Xem biên nhận") need extra vertical padding to reach a 44px hit area.
-- Banners use different icons alongside the text: clock (pending), triangle (error), check mark (success); text contrast at least 4.5:1 [TBC: verify].
+- Touch targets at least 44 × 44 (ui-conventions §5): bell button, "Đặt lịch thu gom" button, each summary card and each tab; inline links ("Ký giao dịch", "Thử lại", "Xem biên nhận") need extra vertical padding to reach a 44px hit area.
+- Banners use different icons alongside the text: clock (pending), triangle (error), check mark (success); text contrast at least 4.5:1 (ui-conventions §5).
 
 ## 9. Open questions
 
@@ -138,17 +140,20 @@ Target Screen IDs other than S-F00-04 are still to be taken from the Screen List
 | 5 | [NEEDS CLARIFICATION: Does the screen support pull-to-refresh like the warehouse home (S-F00-03)?] | No | Open. Default: yes, pull down re-fetches the data and shows the Loading state. |
 | 6 | [NEEDS CLARIFICATION: Which screens do the avatar and the tabs "Thu gom", "Ví của tôi", "Xanh", "Hồ sơ" open? The tab label in the mockup ("Ví của tôi") may differ from the name used in other documents.] | No | Open. Default: avatar opens the profile; tabs follow the Screen List. |
 | 7 | [NEEDS CLARIFICATION: Why does the bell count "1" disappear in the success state: is the notification marked as read once the transaction is signed?] | No | Open. Default: yes, signing clears the related notification. |
+| 8 | [NEEDS CLARIFICATION: Several greys and greens in the mockup images (for example #73817C, #9BA5A1, #AFB7B4) are not in the ui-conventions §6 token table. Should the images use the tokens only?] | No | Open. Default: tokens are the rule; the images are redrawn when the Figma file is updated. |
+| 9 | [NEEDS CLARIFICATION: The Screen List has no notifications screen, and the bell has no target. ui-conventions §3 describes a notification for a draft agreement.] | No | Open. Default: the bell opens the transaction awaiting signature (S-F03-01) until a notifications screen is defined. |
+| 10 | [NEEDS CLARIFICATION: The Screen List row of S-F00-02 cites only FR-01-01 and FR-06-03, but the screen also serves FR-01-03, FR-01-05, FR-03-01, FR-03-02 and FR-05-01.] | No | Open. Default: section 7 lists all of them; update the Screen List. |
 
 ---
 
 ## Completion checklist
 
-- [ ] The mockup is a separate cropped image file, named with the Screen ID, at the frame width. (Images need renaming to the `S-F00-02-<state>.png` names above.)
+- [x] The mockup is a separate cropped image file, named with the Screen ID, at the frame width (`img/S-F00-02-<state>.png`).
 - [x] The numbered image exists, and its numbers match the # column of the element inventory.
 - [x] Every visible element in the mockup appears in the element inventory.
 - [ ] Every colour in the mockup is a design token from ui-conventions.md.
 - [x] Every input element has a validation rule or an explicit "none".
 - [x] All five states are filled in.
-- [ ] Every navigation target is a Screen ID that exists in the Screen List.
+- [ ] Every navigation target is a Screen ID that exists in the Screen List. (The bell has none: open question 9.)
 - [x] Every element that displays data names the field it displays (proposed names).
-- [ ] Every linked FR exists in the Function List, and every action of this screen in its activity diagram is covered by an interaction row.
+- [x] Every linked FR exists in the Function List; the screen has no activity diagram, so every action is covered by an interaction row in section 5.
