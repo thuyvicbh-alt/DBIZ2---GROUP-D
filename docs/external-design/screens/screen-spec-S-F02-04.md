@@ -9,7 +9,7 @@
 | Feature | F-02 Collection Operations & Handover |
 | Activity diagrams | AD-UC-06 (actions "Select supplier point and confirm arrival" — the confirm part, decision `d0` "UCO ready?", "Enter or correct actual UCO quantity and optional evidence", "Submit collection details", and the outcomes of `d1` "Required collection data valid?") |
 | Mockup images | `img/S-F02-04-default.png` (default), `img/S-F02-04-default-numbered.png`, four state images and four numbered state images (section 2) |
-| Frame width | width	370px screen inside a 390 × 844 device frame (exported at 3x with a 50px shadow margin, 1470 × 2832 pixels) |
+| Frame width | 370px screen inside a 390 × 844 device frame (exported at 3x with a 50px shadow margin, 1470 × 2832 pixels) |
 | Figma frame | Frames "S-F02-04 / 1" to "S-F02-04 / 5", page "4 màn × 5 trạng thái" in the ReFeed Figma file |
 | Status | Draft |
 
@@ -117,7 +117,7 @@ All colours, fonts and corners come from the design tokens in
 ## 8. Responsive and accessibility notes
 
 - Smallest supported width: 360px; the map keeps its height and scales in width; the address wraps to two lines and the "Chỉ đường" button keeps its 44px height.
-- Designed at 390 × 844; the content scrolls and the footer button stays fixed above the keyboard.
+- Designed on a 370 × 824 screen inside a 390 × 844 device frame; the content scrolls and the footer button stays fixed above the keyboard.
 - Touch targets at least 44 × 44: back button 44 × 44, UCO status options and inputs 48px high, photo tiles 56 × 56, footer buttons 52px high.
 - The quantity field opens a numeric keypad with decimal comma.
 - Field errors use a red border plus an error text below the field; the pickup status uses badge text plus icon.
@@ -127,9 +127,9 @@ All colours, fonts and corners come from the design tokens in
 
 | # | Question | Blocking? | Status |
 |---|---|---|---|
-| 1 | [NEEDS CLARIFICATION: no W1 row covers cancelling a pickup when UCO is not ready (AD-UC-06 `s6`). Add FR-02-04 or merge into FR-02-02? Should the reason (supplier absent / no UCO) be recorded and the supplier notified?] | No | Open. Default: modal, pickup Cancelled, no reason recorded; link FR-02-04 here once it is added to W1 (Screen List note 3). |
+| 1 | [NEEDS CLARIFICATION: no W1 row covers cancelling a pickup when UCO is not ready (AD-UC-06 `s6`). Add FR-02-04 or merge into FR-02-02? Should the reason (supplier absent / no UCO) be recorded and the supplier notified?] | No | Open. Default: modal, pickup Cancelled, no reason recorded; link FR-02-04 here once it is added to W1 (Screen List, row S-F02-04). |
 | 2 | [NEEDS CLARIFICATION: what happens when GPS is unavailable or the device is offline?] | No | Open. Default: saving is blocked with "Chưa lấy được vị trí GPS. Bật định vị rồi lưu lại."; no offline save (AD-UC-06 open question 3). |
-| 3 | [NEEDS CLARIFICATION: UC-06 (S-F02-04) and UC-07 (S-F02-05) both capture actual quantity and evidence. Should S-F02-05 only add handover time, amount and draft agreement?] | No | Open. Default: S-F02-04 captures quantity and evidence; S-F02-05 adds handover time and shows the amount and draft agreement (Screen List open question 2). |
+| 3 | [NEEDS CLARIFICATION: UC-06 (S-F02-04) and UC-07 (S-F02-05) both capture actual quantity and evidence. Should S-F02-05 only add handover time, amount and draft agreement?] | No | Open. Default: S-F02-04 captures quantity and evidence; S-F02-05 adds handover time and shows the amount and draft agreement (W1: FR-02-02 for S-F02-04, FR-02-03 for S-F02-05). |
 
 ---
 
