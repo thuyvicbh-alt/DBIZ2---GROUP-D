@@ -25,22 +25,22 @@ flowchart LR
   S00_01 -->|"Register"| S01_01
   S00_01 -->|"signed in as supplier"| S00_02
   S01_01 -->|"[account created] Continue"| S00_02
-  S00_02 -->|"Hồ sơ (bottom nav)"| S01_06
-  S00_02 -->|"Thu gom (bottom nav)"| S01_03
+  S00_02 -->|"Hồ sơ"| S01_06
+  S00_02 -->|"Thu gom"| S01_03
   S00_02 -->|"open-requests shortcut"| S01_04
   S00_02 -->|"next-pickup shortcut"| S01_05
   S00_02 -->|"awaiting-signature banner"| S03_01
   S00_02 -->|"latest-receipt shortcut"| S03_02
-  S00_02 -->|"Ví của tôi (bottom nav)"| S05_01
-  S00_02 -->|"Hồ sơ xanh (bottom nav) / UCO-delivered shortcut"| S05_03
+  S00_02 -->|"Ví của tôi"| S05_01
+  S00_02 -->|"Hồ sơ xanh / UCO-delivered shortcut"| S05_03
   S01_06 -->|"Hồ sơ Điểm phát sinh"| S01_02
   S01_06 -->|"Sign out"| S00_01
-  S01_06 -->|"Trang chủ (bottom nav)"| S00_02
+  S01_06 -->|"Trang chủ"| S00_02
   S01_02 -->|"saved / back"| S01_06
   S01_03 -->|"[profile incomplete] Complete profile"| S01_02
   S01_03 -->|"[request created] View my requests"| S01_04
   S01_03 -->|"[rescheduled] View request"| S01_05
-  S01_03 -->|"Trang chủ (bottom nav) / back"| S00_02
+  S01_03 -->|"Trang chủ/ back"| S00_02
   S01_04 -->|"selects a request"| S01_05
   S01_04 -->|"back"| S00_02
   S01_05 -->|"Reschedule"| S01_03
@@ -49,13 +49,13 @@ flowchart LR
   S05_01 -->|"History: View receipt"| S03_02
   S05_01 -->|"Withdraw"| S05_02
   S05_01 -->|"Green Profile"| S05_03
-  S05_01 -->|"Trang chủ (bottom nav) / back"| S00_02
+  S05_01 -->|"Trang chủ/ back"| S00_02
   S03_01 -->|"[signed] View receipt"| S03_02
   S03_01 -->|"Về trang chủ / back"| S00_02
   S03_02 -->|"back"| S05_01
   S05_02 -->|"back"| S05_01
   S05_03 -->|"Reports"| S05_04
-  S05_03 -->|"Trang chủ (bottom nav) / back"| S00_02
+  S05_03 -->|"Trang chủ / back"| S00_02
   S05_04 -->|"back"| S05_03
 ```
 
@@ -75,7 +75,7 @@ flowchart LR
   notif --> S02_03
   S00_01 -->|"signed in as driver"| S02_03
   S02_03 -->|"selects a pickup point"| S02_04
-  S02_03 -->|"Đăng xuất"| S00_01
+  S02_03 -->|"Sign out"| S00_01
   S02_04 -->|"[collection saved] Record handover"| S02_05
   S02_04 -->|"[pickup saved or cancelled] Back to route"| S02_03
   S02_04 -->|"back"| S02_03
@@ -97,7 +97,7 @@ flowchart LR
   S00_01 -->|"signed in as warehouse staff"| S00_03
   S00_03 -->|"Receive UCO"| S04_01
   S00_03 -->|"Batches"| S04_02
-  S00_03 -->|"Đăng xuất"| S00_01
+  S00_03 -->|"Sign out"| S00_01
   S04_01 -->|"[received quantity saved] Manage batch"| S04_02
   S04_01 -->|"back"| S00_03
   S04_02 -->|"back"| S00_03
@@ -119,7 +119,7 @@ flowchart LR
   S00_01 -->|"signed in as ReFeed staff"| S06_01
   S06_01 -->|"dispatch entry / pending-pickup drill-down"| S02_01
   S06_01 -->|"drill-down"| S06_02
-  S06_01 -->|"Đăng xuất"| S00_01
+  S06_01 -->|"Sign out"| S00_01
   S02_01 -->|"Plan route (selected area)"| S02_02
   S02_01 -->|"back"| S06_01
   S02_02 -->|"[route dispatched] Dispatch queue"| S02_01
