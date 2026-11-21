@@ -10,7 +10,7 @@
 | Activity diagrams | AD-UC-13 (actions "Submit withdrawal request", "Validate withdrawal eligibility"); AD-UC-12 (actions "Request balance withdrawal", "See existing balance & withdrawal rejection reason", "See withdrawal result & updated payout status and balance") |
 | Mockup images | `img/S-F05-02-default.png`, `img/S-F05-02-default-numbered.png`, four other state images and their numbered versions, and the confirm modal `img/S-F05-02-modal.png` / `-modal-numbered.png` (section 2) |
 | Frame width | 370px screen inside a 390 × 844 device frame, exported at 3x with a 50px shadow margin, 1470 × 2832 pixels |
-| Figma frame | [TBC: add the Figma frame link] |
+| Figma frame | Frames "S-F05-02 / 1" to "S-F05-02 / 6" in the ReFeed Figma file |
 | Status | Draft |
 
 ## 1. Purpose
