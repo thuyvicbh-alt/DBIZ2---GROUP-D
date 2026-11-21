@@ -9,7 +9,7 @@
 | Feature | F-02 Collection Operations & Handover |
 | Activity diagrams | AD-UC-06 (actions "Open assigned collection route", "Select supplier point and confirm arrival" — the select part; the loop through `d2` "More assigned pickup points remain?") |
 | Mockup images | `img/S-F02-03-default.png` (default), `img/S-F02-03-default-numbered.png`, four state images and four numbered state images (section 2) |
-| Frame width | width	370px screen inside a 390 × 844 device frame (exported at 3x with a 50px shadow margin, 1470 × 2832 pixels) |
+| Frame width | 370px screen inside a 390 × 844 device frame (exported at 3x with a 50px shadow margin, 1470 × 2832 pixels) |
 | Figma frame | Frames "S-F02-03 / 1" to "S-F02-03 / 5", page "4 màn × 5 trạng thái" in the ReFeed Figma file |
 | Status | Draft |
 
@@ -51,8 +51,8 @@ All colours, fonts and corners come from the design tokens in
 |---|---|---|---|---|---|
 | 1 | Avatar | Avatar (initials) | static role initials "TX" | Yes | none |
 | 2 | Notification button | Icon button with count | `notification.unread_count` for the driver; count hidden when 0 | Yes | count shown only when > 0 |
-| 3 | Title | Header | "Tài xế " + `driver.id` (e.g. "Tài xế D018") | Yes | |
-| 4 | Context line | Text | "Tuyến được giao · " + `route.date` + " · Xe " + `vehicle.plate`; without a route: `route.date` + " · Xe " + `vehicle.plate` | Yes | date `dd/MM/yyyy`, plate as registered (ui-conventions §2) |
+| 3 | Title | Header | `driver.full_name` (e.g. "Trịnh Trần Phương Tuấn") | Yes | |
+| 4 | Context line | Text | `driver.id` + " · " + `vehicle.plate` (e.g. "D018 · 29C-123.45") | Yes | ID `D` + 3 digits; plate as registered (ui-conventions §2) |
 | 5 | Route progress | Stat card (highlight) | `route.done_count` " / " `route.stop_count` " điểm"; `route.area` (FR-02-01) | Yes | done = stops whose `pickup.status` is not Driver Assigned |
 | 6 | Collected today | Stat card | sum of `collection.actual_quantity` of the route; "Ước tính cả tuyến: " `route.estimated_volume` (FR-02-01 grouped volume) | Yes | 1 decimal + " kg" |
 | 7 | Section label | Text | static: "Thứ tự điểm thu gom" | Yes | |
@@ -70,8 +70,8 @@ All colours, fonts and corners come from the design tokens in
 
 | State | What the user sees | Trigger |
 |---|---|---|
-| Default | Header "Tài xế D018", "Tuyến được giao · 25/09/2026 · Xe 29C-123.45", unread count "1" on the bell; progress "1 / 5 điểm" (Hoàn Kiếm), "Đã thu hôm nay 32,5 kg · Ước tính cả tuyến: 150 kg"; stop list in visiting order: Điểm 1 · 07:00 - 09:00 Cơm Tấm Bà Triệu (badge "Đã hoàn thành", PK-00124, thực tế 41 kg, đã ghi nhận bàn giao), Điểm 2 · 08:00 - 10:00 Quán Phở Hàng Bài (current stop, green border, PK-00125 · 12 Hàng Bài, Hoàn Kiếm · Ước tính 30 - 50 kg, "Mở điểm thu gom"), Điểm 3 · 09:00 - 11:00 Bún Chả Hàng Mành (PK-00126, Ước tính 50 - 100 kg), Điểm 4 · 11:00 - 13:00 Bánh Cuốn Hàng Gà (PK-00127); the list scrolls. The mockup shows this state. | Screen opened, route loaded |
-| Empty (no data) | Context line "25/09/2026 · Xe 29C-123.45"; no unread count; card with truck icon "Hôm nay bạn chưa được giao tuyến" — "Tuyến mới sẽ hiện ở đây khi nhân viên ReFeed điều phối. Bạn sẽ nhận được thông báo." and button "Tải lại danh sách tuyến"; no stat cards, no list | No route dispatched to this driver for today |
+| Default | Header "Trịnh Trần Phương Tuấn", "D018 · 29C-123.45", unread count "1" on the bell; progress "1 / 5 điểm" (Hoàn Kiếm), "Đã thu hôm nay 41 kg · Ước tính cả tuyến: 150 kg"; stop list in visiting order: Điểm 1 · 07:00 - 08:00 Cơm Tấm Bà Triệu (badge "Đã hoàn thành", PK-00124, thực tế 41 kg, đã ghi nhận bàn giao), Điểm 2 · 08:00 - 10:00 Quán Phở Hàng Bài (current stop, green border, PK-00125 · 12 Hàng Bài, Hoàn Kiếm · Ước tính 30 - 50 kg, "Mở điểm thu gom"), Điểm 3 · 09:00 - 11:00 Bún Chả Hàng Mành (PK-00126, Ước tính 50 - 100 kg), Điểm 4 · 11:00 - 13:00 Bánh Cuốn Hàng Gà (PK-00127); the list scrolls. The mockup shows this state. | Screen opened, route loaded |
+| Empty (no data) | Header "Trịnh Trần Phương Tuấn", "D018 · 29C-123.45"; no unread count; card with truck icon "Hôm nay bạn chưa được giao tuyến" — "Tuyến mới sẽ hiện ở đây khi nhân viên ReFeed điều phối. Bạn sẽ nhận được thông báo." and button "Tải lại danh sách tuyến"; no stat cards, no list | No route dispatched to this driver for today |
 | Loading | Header without unread count; grey placeholders for the two stat cards, the section label and three stop cards (the middle one with a button block); text "Đang tải tuyến…" | Route is being fetched |
 | Error | Orange banner "Không tải được tuyến mới nhất — Mất kết nối mạng. Đang hiển thị dữ liệu lúc 10:12." with link "Thử lại"; below it the last loaded route: stat cards and stop list (Điểm 1 · 07:00 - 08:00 Cơm Tấm Bà Triệu "Đã hoàn thành", Điểm 2 Quán Phở Hàng Bài with "Mở điểm thu gom") | The route request failed; a cached copy exists |
 | Success / confirmation | Time 12:58; no unread count; check mark, "Đã hoàn thành tuyến" — "Bạn đã ghé đủ 5 điểm ở Hoàn Kiếm. Hãy chở UCO về Kho Hà Nội để nhập kho."; summary card: "Đã thu gom 4 điểm · 150,0 kg", "Đã hủy (UCO chưa sẵn sàng) 1 điểm · PK-00128", "Biên bản chờ nhà cung cấp ký 1"; button "Xem lại các điểm thu gom" | No stop of the route is left in status Driver Assigned (AD-UC-06 `d2` [No]) |
@@ -111,7 +111,7 @@ All colours, fonts and corners come from the design tokens in
 ## 8. Responsive and accessibility notes
 
 - Smallest supported width: 360px; the two stat cards stay side by side (each at least 150px); long supplier names and addresses wrap to two lines.
-- Designed at 390 × 844; only the stop list scrolls, the header stays fixed.
+- Designed on a 370 × 824 screen inside a 390 × 844 device frame; only the stop list scrolls, the header stays fixed.
 - Touch targets at least 44 × 44: the whole stop card is tappable, "Mở điểm thu gom" is 52px high, the notification button is 44 × 44, and the 40px avatar gets a 44px tap area.
 - Status badges use text plus icon (Đã phân tài xế: truck, Đã đến: pin, Hoàn tất: check, Đã hủy: cross).
 - Body text contrast at least 4.5:1.
