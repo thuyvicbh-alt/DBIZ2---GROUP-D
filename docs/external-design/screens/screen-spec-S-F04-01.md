@@ -47,7 +47,7 @@ All colours, fonts and corners come from the design tokens in
 | 1 | Back | Button | static | Yes | none |
 | 2 | Title | Header | static: "Nhận hàng tại kho" | Yes | |
 | 3 | Context line | Text | `warehouse.name` · `warehouse.id` | Yes | `WH-` + 2 digits |
-| 4 | Collection ID input | Text input | label "Mã thu gom (Collection_ID)"; value `collection.id` | Yes | `COL-` + 5 digits |
+| 4 | Collection ID input | Text input | label "Mã thu gom"; value `collection.id` | Yes | `COL-` + 5 digits |
 | 5 | Quét mã / Quét mã QR | Button | static: "Quét mã" (inline in `#4` in Default/Loading/Error) / "Quét mã QR" (primary button in Empty) | Yes | opens QR scanner |
 | 6 | Lookup status badge | Badge | static: "✓ Đã tìm thấy" (`collection.status` = valid for receiving) | Yes | shown once `collection.id` is resolved |
 | 7 | Supplier row | Text | "Nhà cung cấp" · `supplier.business_name` · `supplier.id` | Yes | `SUP-` + 5 digits |
@@ -60,7 +60,7 @@ All colours, fonts and corners come from the design tokens in
 | 14 | Allowed tolerance row | Text | "Dung sai cho phép" · `config.receiving_tolerance_pct` (static "±2%") | Yes | read-only system rule |
 | 15 | Primary submit button | Primary button | static: "Xác nhận nhập kho" (Default/Empty/Loading) / "Lưu & gửi cảnh báo" (Error/Warning, red fill) | Yes | disabled in Empty and Loading, or when `#11` is empty/invalid |
 | 16 | Footer note | Text | static: "Khối lượng được ghi vào lô sau khi lưu." | No | shown in Default state |
-| 17 | Empty message | Card | QR scan icon, title "Chưa chọn mã thu gom", body "Quét mã QR hoặc nhập Collection_ID để bắt đầu nhận hàng." | No | shown only in Empty state |
+| 17 | Empty message | Card | QR scan icon, title "Chưa chọn mã thu gom", body "Quét mã QR hoặc nhập mã thu gom để bắt đầu nhận hàng." | No | shown only in Empty state |
 | 18 | Nhập mã | Secondary button | static label | No | shown only in Empty state; focuses `#4` |
 | 19 | Loading placeholder | Skeleton & text | grey skeleton rows inside lookup card, grey skeleton card below, and caption "Đang tra cứu mã thu gom..." | No | shown only while fetching collection record |
 | 20 | Warning banner | Alert banner | red banner: "Chênh lệch vượt mức cho phép - Nhận 28,0 kg, thấp hơn 32,5 kg đã thu. Kiểm tra lại cân hoặc ghi chú nguyên nhân." | No | shown when `abs(discrepancy_pct) > 2%` |
