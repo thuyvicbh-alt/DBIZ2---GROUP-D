@@ -6,24 +6,24 @@
 | Screen name | Warehouse home |
 | Actor | Warehouse Staff |
 | Priority | Must |
-| Feature | F-00 Navigation & Warehouse Home |
-| Activity diagrams | AD-UC-04 / AD-UC-05 (entry point to "Receive UCO at warehouse" and "Manage batches & mass balance") |
+| Feature | F-00 Navigation & Home |
+| Activity diagrams | None: main entry screen after login for Warehouse Staff; routes to F-04 (Warehouse receiving & batch management) |
 | Mockup images | `img/S-F00-03-default.png` (default), `img/S-F00-03-default-numbered.png`, four state images and four numbered state images (section 2) |
-| Frame width | 390px phone frame (exported at 3x, 1470 × 2832 pixels including the device frame) |
+| Frame width | 370px screen inside a 390 × 844 device frame (exported at 3x with a 50px shadow margin, 1470 × 2832 pixels) |
 | Figma frame | Frames "S-F00-03 / 1" to "S-F00-03 / 5", page "4 màn × 5 trạng thái" in the ReFeed Figma file |
 | Status | Draft |
 
 ## 1. Purpose
 
-**Shown when:** the warehouse staff signs in or opens the warehouse workspace to check today's incoming collection routes, active UCO batch status, discrepancy alerts, and core warehouse tasks.
+**Shown when:** the warehouse staff logs in successfully, or returns to home after completing UCO receiving (S-F04-01) or batch management (S-F04-02).
 
-**The user leaves this screen when:** the staff taps "Quét mã thu gom" to open warehouse receiving (`S-F04-01`), taps "Quản lý lô hàng" to open batch and mass-balance management (`S-F04-02`), taps "Kiểm tra" on a discrepancy banner, or opens notifications.
+**The user leaves this screen when:** they tap the notifications icon, tap "Kiểm tra" on a weight discrepancy alert, tap "Quét mã thu gom" to receive UCO (S-F04-01), or tap "Quản lý lô hàng" to view/update batches (S-F04-02).
 
 ## 2. Mockup
 
 ![S-F00-03](img/S-F00-03-default.png)
 
-**Numbered:** each number is the # of the element inventory in section 3. Elements 14–21 appear only in their respective states (14–15 in empty, 16 in loading, 17 in error, 18–21 in success), so each is numbered on that state's image. In the empty state the discrepancy alert card (8) is replaced by the no-routes card (14–15) while the task cards (9–13) remain available. In the loading state the summary cards, alert/status card, and task cards are replaced by skeleton placeholders (16). In the success state the alert card (8) is replaced by the receiving confirmation card (18) and the summary cards reflect updated figures.
+**Numbered:** each number is the # of the element inventory in section 3. Element 5 (Discrepancy alert banner) appears only in the default state when a weight discrepancy exists; element 13 (Empty route card) appears only in the empty state; element 14 (Network error banner) appears only in the error state; element 15 (Success banner) appears only in the success state after receiving a collection. The loading image numbers the header (1–4) and shows grey skeleton placeholders for the summary cards and task cards.
 
 | Default, numbered | Empty, numbered | Loading, numbered | Error, numbered | Success, numbered |
 |---|---|---|---|---|
@@ -31,11 +31,11 @@
 
 | State | Image |
 |---|---|
-| Default | [`img/S-F00-03-default.png`](img/S-F00-03-default.png) |
-| Empty | [`img/S-F00-03-empty.png`](img/S-F00-03-empty.png) |
+| Default | [`img/S-F00-03-default.png`](img/S-F00-03-default.png) (has weight discrepancy alert) |
+| Empty | [`img/S-F00-03-empty.png`](img/S-F00-03-empty.png) (no routes arriving at warehouse today) |
 | Loading | [`img/S-F00-03-loading.png`](img/S-F00-03-loading.png) |
-| Error | [`img/S-F00-03-error.png`](img/S-F00-03-error.png) (refresh failed because network connection was lost; cached data shown) |
-| Success | [`img/S-F00-03-success.png`](img/S-F00-03-success.png) |
+| Error | [`img/S-F00-03-error.png`](img/S-F00-03-error.png) (network lost, showing cached data from 10:12) |
+| Success | [`img/S-F00-03-success.png`](img/S-F00-03-success.png) (just received collection COL-00891 / COL-00938) |
 
 All colours, fonts and corners come from the design tokens in
 [ui-conventions.md](../ui-conventions.md#6-design-tokens).
@@ -44,104 +44,86 @@ All colours, fonts and corners come from the design tokens in
 
 | # | Element | Type | Content / data source | Required | Validation |
 |---|---|---|---|---|---|
-| 1 | Avatar / role badge | Badge | static: "KH" | Yes | none |
-| 2 | Notification bell | Icon button | static bell icon | Yes | opens notifications |
-| 3 | Warehouse title | Header | `warehouse.name` (e.g., "Kho Hà Nội") | Yes | |
-| 4 | Role & scope subtitle | Text | static: "Nhân viên kho · Nhập kho & lô hàng" | Yes | |
-| 5 | Today's incoming routes card | Metric card | label "TUYẾN VỀ HÔM NAY"; count `routes.today_count` + " tuyến"; subtitle `routes.summary_note` (e.g., "Ước tính 150 kg" / "Chưa có tuyến điều phối" / "Còn 1 tuyến chưa về") | Yes | integer `>= 0` |
-| 6 | Active batch card | Metric card | label "LÔ HIỆN TẠI"; code `batch.code` (e.g., "B001"); subtitle `batch.current_weight_kg` + " kg · " + `batch.collection_count` + " lần thu gom" | Yes | 1 decimal + " kg" |
-| 7 | Tasks section header | Subheader | static: "TÁC VỤ KHO" | Yes | |
-| 8 | Weight discrepancy banner | Alert card | warning icon, title "Chênh lệch khối lượng", body `alert.collection_id` + ": kho nhận " + `alert.received_kg` + " kg, chênh " + `alert.diff_kg` + " kg so với lúc thu gom (" + `alert.collected_kg` + " kg).", action link "Kiểm tra" | No | shown when a discrepancy alert is active |
-| 9 | Receive UCO card header | Subheader | static: "Nhận UCO" | Yes | |
-| 10 | Receive UCO description | Text | static: "Quét mã thu gom và kiểm tra chênh lệch khối lượng" | Yes | |
-| 11 | Quét mã thu gom | Primary button | static label | Yes | none |
-| 12 | Batch & mass-balance description | Text | static: "Tạo, cập nhật lô và đối soát khối lượng" | Yes | |
-| 13 | Quản lý lô hàng | Secondary button | static label | Yes | none |
-| 14 | No routes empty card | Card | truck icon, title "Hôm nay chưa có tuyến nào về kho", body "Khi nhân viên ReFeed điều phối tuyến, số tuyến và khối lượng dự kiến sẽ hiện ở đây." | No | shown only when `routes.today_count = 0` |
-| 15 | Empty card icon badge | Icon badge | static route/truck icon | No | part of `#14` |
-| 16 | Loading placeholder | Skeleton cards & text | top two skeleton metric cards, middle skeleton banner, lower skeleton task cards, and caption "Đang tải việc của kho..." | No | shown only while fetching warehouse data |
-| 17 | Stale-data warning banner | Alert banner | warning icon, title "Không tải được số liệu mới nhất", body "Mất kết nối mạng. Đang hiển thị dữ liệu lúc " + `cache.last_synced_at` + ".", action link "Thử lại" | No | shown when refresh fails due to network loss |
-| 18 | Receiving success banner | Status card | check icon, title "Đã nhập kho " + `last_receiving.collection_id`, body `last_receiving.received_kg` + " kg · khớp với lúc thu gom. Đã thêm vào lô " + `batch.code` + "." | No | shown immediately after a collection is received |
-| 19 | UCO scan icon badge | Icon badge | static QR/scan icon inside "Nhận UCO" card | Yes | |
-| 20 | Batch icon badge | Icon badge | static batch/database icon inside "Lô hàng" card | Yes | |
-| 21 | Updated routes status line | Text | "Còn " + `routes.remaining_count` + " tuyến chưa về" inside `#5` (Success state) | No | integer `>= 0` |
+| 1 | Staff avatar | Badge | static: "KH" | Yes | none |
+| 2 | Staff name | Header | `user.full_name` (uppercase) | Yes | |
+| 3 | Context line | Text | `warehouse.id` · `warehouse.name` | Yes | `WT` + 5 digits |
+| 4 | Notifications | Icon button | static bell icon; unread indicator if applicable | Yes | none |
+| 5 | Discrepancy alert banner | Warning banner | Title: "Chênh lệch khối lượng"; Body: `collection.id` + ": kho nhận " + `warehouse_receipt.weight` + ", chênh " + `discrepancy_delta` + " kg so với lúc thu gom (" + `collection.actual_quantity` + ")."; Action link: "Kiểm tra" | No | shown when an unresolved weight discrepancy exists |
+| 6 | Inbound routes card | Metric card (primary) | Label: "TUYẾN VỀ HÔM NAY"; Value: `routes_today.count` + " tuyến"; Subtext: "Ước tính " + `routes_today.estimated_weight` + " kg" (or "Chưa có tuyến điều phối" when 0; or "Còn " + `routes_today.remaining` + " tuyến chưa về") | Yes | integer >= 0 |
+| 7 | Current batch card | Metric card (secondary) | Label: "LÔ HIỆN TẠI"; Value: `active_batch.id`; Subtext: `active_batch.total_weight` + " kg · " + `active_batch.collection_count` + " lần thu gom" | Yes | `B` + 3 digits; 1 decimal + " kg" |
+| 8 | Section title | Subheader | static: "TÁC VỤ KHO" | Yes | |
+| 9 | Receive UCO card | Action card | Icon + Title: "Nhận UCO"; Description: "Quét mã thu gom và kiểm tra chênh lệch khối lượng" | Yes | |
+| 10 | Quét mã thu gom | Primary button | static label | Yes | none |
+| 11 | Batch management card | Action card | Icon + Title: "Lô hàng"; Description: "Tạo, cập nhật lô và đối soát khối lượng" | Yes | |
+| 12 | Quản lý lô hàng | Secondary button | static label | Yes | none |
+| 13 | Empty route card | Empty state card | Truck icon + Title: "Hôm nay chưa có tuyến nào về kho"; Description: "Khi nhân viên ReFeed điều phối tuyến, số tuyến và khối lượng dự kiến sẽ hiện ở đây." | No | shown only when `routes_today.count == 0` |
+| 14 | Network error banner | Warning banner | Title: "Không tải được số liệu mới"; Body: "Mất kết nối mạng. Đang hiển thị dữ liệu lúc " + `cache.last_synced_at` + "."; Action link: "Thử lại" | No | shown when API fetch fails |
+| 15 | Success banner | Success banner | Check icon + Title: "Đã nhập kho " + `collection.id`; Body: `warehouse_receipt.weight` + " kg · khớp với lúc thu gom. Đã thêm vào lô " + `active_batch.id` + "." | No | shown immediately after a matching UCO receipt |
 
 ## 4. States
 
 | State | What the user sees | Trigger |
 |---|---|---|
-| Default | Header with "KH", bell icon, "Kho Hà Nội", "Nhân viên kho · Nhập kho & lô hàng"; green card "TUYẾN VỀ HÔM NAY" (`2 tuyến`, "Ước tính 150 kg") beside "LÔ HIỆN TẠI" (`B001`, `200,0 kg · 3 lần thu gom`); amber banner "Chênh lệch khối lượng" for `COL-00891` (`kho nhận 32,1 kg, chênh -0,4 kg so với lúc thu gom (32,5 kg)`) with "Kiểm tra"; "TÁC VỤ KHO" with "Nhận UCO" ("Quét mã thu gom") and "Lô hàng" ("Quản lý lô hàng"). The mockup shows this state. | Warehouse home opened with active routes, batch data, and an active discrepancy alert |
-| Empty (no data) | Header (`#1`–`#4`); card "TUYẾN VỀ HÔM NAY" (`0 tuyến`, "Chưa có tuyến điều phối") beside "LÔ HIỆN TẠI" (`B001`, `200,0 kg · 3 lần thu gom`); empty card "Hôm nay chưa có tuyến nào về kho" with explanation; "TÁC VỤ KHO" cards ("Nhận UCO" and "Lô hàng") still accessible | No incoming routes are scheduled to the warehouse today (`0 tuyến`) |
-| Loading | Header (`#1`–`#4`); grey skeleton placeholders for top metric cards, alert area, and task cards with caption "Đang tải việc của kho..." | Warehouse dashboard metrics and route status are being fetched |
-| Error | Header (`#1`–`#4`); amber warning banner "Không tải được số liệu mới nhất — Mất kết nối mạng. Đang hiển thị dữ liệu lúc 10:12." with "Thử lại"; last cached summary cards (`2 tuyến`, `B001`) and task cards ("Nhận UCO" and "Lô hàng") kept | Refreshing latest warehouse figures fails due to network disconnection while cached data exists |
-| Success / confirmation | Header (`#1`–`#4`); green confirmation banner "Đã nhập kho COL-00891 — 32,3 kg · khớp với lúc thu gom. Đã thêm vào lô B001."; updated cards ("TUYẾN VỀ HÔM NAY" `2 tuyến`, "Còn 1 tuyến chưa về"; "LÔ HIỆN TẠI" `B001`, `241,0 kg · 4 lần thu gom`); "TÁC VỤ KHO" cards ("Nhận UCO" and "Lô hàng") | Returned to home after successfully receiving and recording a collection (`S-F04-01`) |
+| Default | Header "KH", "NGUYỄN VĂN A", "WT01234 · Kho Hà Nội", bell icon; "TUYẾN VỀ HÔM NAY" card ("2 tuyến", "Ước tính 150 kg") and "LÔ HIỆN TẠI" card ("B001", "200,0 kg · 3 lần thu gom"); amber warning banner "Chênh lệch khối lượng — COL-00891: kho nhận 32,1 kg, chênh -0,4 kg so với lúc thu gom (32,5 kg)." with link "Kiểm tra"; section "TÁC VỤ KHO" with "Nhận UCO" ("Quét mã thu gom") and "Lô hàng" ("Quản lý lô hàng"). | Screen opened with active inbound routes and at least one unresolved weight discrepancy |
+| Empty (no data) | "TUYẾN VỀ HÔM NAY" shows "0 tuyến" and "Chưa có tuyến điều phối"; "LÔ HIỆN TẠI" still shows active batch "B001" ("200,0 kg · 3 lần thu gom"); below the metric cards, a white card with truck icon displays "Hôm nay chưa có tuyến nào về kho — Khi nhân viên ReFeed điều phối tuyến, số tuyến và khối lượng dự kiến sẽ hiện ở đây."; "TÁC VỤ KHO" cards remain enabled below. | No routes are scheduled/dispatched to this warehouse for today (`routes_today.count == 0`) |
+| Loading | Header (avatar, name, warehouse ID/name, bell) visible; metric cards replaced by two grey rounded blocks; "TÁC VỤ KHO" header and two action cards replaced by grey skeleton bars; centered text "Đang tải việc của kho..." at the bottom. | Initial screen load or pull-to-refresh while fetching dashboard metrics |
+| Error | Amber warning banner at the top: "Không tải được số liệu mới — Mất kết nối mạng. Đang hiển thị dữ liệu lúc 10:12." with link "Thử lại"; metric cards and "TÁC VỤ KHO" remain visible and interactive using the last cached snapshot. | Network connection lost or API timeout when fetching warehouse data |
+| Success / confirmation | Green banner at the top with check icon: "Đã nhập kho COL-00891 — 32,3 kg · khớp với lúc thu gom. Đã thêm vào lô B001."; "TUYẾN VỀ HÔM NAY" updates subtext to "Còn 1 tuyến chưa về"; "LÔ HIỆN TẠI" updates weight and count ("241,0 kg · 4 lần thu gom"). | Returned to home immediately after confirming a UCO receipt with no weight discrepancy |
 
 ## 5. Interactions and navigation
 
 | # | Element | User action | System response | Goes to screen |
 |---|---|---|---|---|
-| 1 | Quét mã thu gom (`#11`) | tap | Opens warehouse receiving screen to scan QR or enter `Collection_ID` | S-F04-01 |
-| 2 | Quản lý lô hàng (`#13`) | tap | Opens active batch and mass-balance management screen | S-F04-02 |
-| 3 | Kiểm tra (`#8` action link) | tap | Opens receiving/discrepancy inspection for the flagged collection (`COL-00891`) | S-F04-01 |
-| 4 | Thử lại (`#17` action link) | tap | Retries fetching the latest warehouse routes, batch, and alert data | stays (loading, then default or error state) |
-| 5 | Notification bell (`#2`) | tap | Opens warehouse notifications and operational alerts | Notifications view |
-| 6 | Avatar / role badge (`#1`) | tap | Opens warehouse staff profile and shift/warehouse info | Staff profile / shift info |
+| 1 | Notifications (Bell icon) | tap | Opens the notifications list for warehouse staff | S-F00-04 (Notifications) |
+| 2 | Kiểm tra (Discrepancy banner) | tap | Opens the discrepancy inspection/resolution detail for `COL-00891` | S-F04-01 (or Discrepancy detail) |
+| 3 | Quét mã thu gom | tap | Opens the QR scanner / UCO receiving flow | S-F04-01 (Receive UCO) |
+| 4 | Quản lý lô hàng | tap | Opens the batch management and reconciliation screen | S-F04-02 (Batch management) |
+| 5 | Thử lại (Error banner) | tap | Re-fetches warehouse dashboard metrics and alerts | stays (loading, then default/empty or error state) |
+| 6 | Screen content | pull down | Triggers manual refresh of dashboard data | stays (loading, then updated state) |
 
 ## 6. Screen-level rules
 
 | Rule ID | Rule | Source |
 |---|---|---|
-| SR-001 | Warehouse staff see only routes, batches, and alerts assigned to their own `warehouse.id` (`WH-xx`). | FR-06-03 |
-| SR-002 | When refreshing fails due to a network error (`Error` state), previously loaded figures remain displayed with their timestamp (`cache.last_synced_at`) so the staff is not left with a blank screen. | ui-conventions §4 |
-| SR-003 | Core warehouse tasks ("Nhận UCO" and "Lô hàng") remain available even when there are no incoming routes scheduled for today (`0 tuyến`). | FR-04-01; FR-04-03 |
-| SR-004 | Alerts and statuses ("Chênh lệch khối lượng", "Không tải được số liệu mới nhất", "Đã nhập kho") pair icons with text and never rely on colour alone. | ui-conventions §5 |
+| SR-001 | Warehouse staff only view inbound routes, discrepancies, and batches belonging to their assigned `warehouse.id`. | FR-06-03 |
+| SR-002 | Even when inbound routes today = 0 (Empty state), the current active batch (`LÔ HIỆN TẠI`) and both task buttons ("Quét mã thu gom", "Quản lý lô hàng") remain active so staff can process unscheduled walk-ins or manage existing batches. | FR-04-01, FR-04-02 |
+| SR-003 | If fetching fresh data fails, the app falls back to the last locally cached data and displays the exact sync timestamp (`HH:mm`) in the error banner. | Offline resilience convention |
+| SR-004 | Weight discrepancy alerts remain pinned above "TÁC VỤ KHO" until acknowledged or resolved. | FR-04-01 |
+| SR-005 | All status banners (warning, error, success) use an icon + bold title + descriptive text, never colour alone. | ui-conventions §5 |
 
 ## 7. Linked requirements
 
 | FR ID | What this screen does for it |
 |---|---|
-| FR-04-01 | Provides entry ("Quét mã thu gom") to scan/enter collections, surfaces discrepancy alerts ("Kiểm tra"), and confirms newly received UCO added to the batch |
-| FR-04-03 | Displays the current active batch (`B001`), current weight, collection count, and entry ("Quản lý lô hàng") to manage batches and mass balance |
-| FR-06-03 | Restricts dashboard data and actions to the signed-in warehouse staff's assigned warehouse |
+| FR-04-01 | Displays inbound route summary, surfaces weight discrepancy warnings, and provides primary entry to UCO receiving ("Quét mã thu gom") |
+| FR-04-02 | Displays the current active batch summary (`B001`, total weight, collection count) and provides entry to batch management ("Quản lý lô hàng") |
+| FR-06-03 | Scopes all displayed metrics, alerts, and batches to the signed-in warehouse staff's assigned warehouse |
 
 ## 8. Responsive and accessibility notes
 
-- Smallest supported width: 360px; the two top summary cards (`TUYẾN VỀ HÔM NAY` and `LÔ HIỆN TẠI`) sit side-by-side with `tabular-nums` figures so weights and counts align cleanly.
-- Designed at 390 × 844; content scrolls vertically with full-width action buttons (`48px`–`52px` touch target height) inside each task card.
-- Touch targets at least 44 × 44: notification bell button 44 × 44, inline action links ("Kiểm tra", "Thử lại") spaced with accessible tap targets, primary/secondary task buttons ≥ 48px high.
-- Status banners and alerts use semantic icons alongside text labels, never colour alone.
-- Body text contrast at least 4.5:1.
+- Smallest supported width: 360px; the two top metric cards (`TUYẾN VỀ HÔM NAY` and `LÔ HIỆN TẠI`) share a 2-column grid with equal width and a 12px gap; subtexts wrap cleanly onto 2 lines without truncating numbers.
+- Designed on a 370 × 824 screen inside a 390 × 844 device frame; vertical scroll enabled when banners expand.
+- Touch targets at least 44 × 44: notification bell button 44 × 44, "Quét mã thu gom" button 48px high, "Quản lý lô hàng" button 48px high, inline links ("Kiểm tra", "Thử lại") have expanded vertical padding for 44px hit area.
+- Banners use distinct semantic icons (triangle exclamation for warning/error, circle check for success) alongside high-contrast text (contrast ratio ≥ 4.5:1).
 
 ## 9. Open questions
 
 | # | Question | Blocking? | Status |
 |---|---|---|---|
-| 1 | [NEEDS CLARIFICATION: in the mockup footer labels, stage 1 says "Mặc định: có chênh lệch khối lượng", stage 2 says "Rỗng: hôm nay chưa có tuyến về kho", and stage 5 says "Thành công: vừa nhập kho COL-00938" while the card shows `COL-00891`. Align the sample ID (`COL-00891`) across stage 1 and stage 5?] | No | Open. Default: standardize on `COL-00891` as the sample collection ID. |
-| 2 | [NEEDS CLARIFICATION: does tapping "Kiểm tra" on the discrepancy banner open `S-F04-01` pre-loaded with `COL-00891` or a dedicated discrepancy review view?] | No | Open. Default: opens `S-F04-01` pre-populated with `COL-00891`. |
-| 3 | [NEEDS CLARIFICATION: should "Notifications view" and "Staff profile / shift info" be assigned Screen IDs in the Screen List?] | No | Open. Default: keep as external/secondary nodes until added to the Screen List. |
+| 1 | [NEEDS CLARIFICATION: In mockup S-F00-03 / 5, the banner shows `COL-00891` while the caption below the frame says `vừa nhập kho COL-00938`. Should the spec standardize on `COL-00891` across all states?] | No | Open. Default: standardized on `COL-00891` in the spec to match the screen UI text. |
+| 2 | [NEEDS CLARIFICATION: When there are multiple unresolved weight discrepancies, does the banner stack multiple cards, show a carousel, or summarize "Có N chênh lệch khối lượng"?] | No | Open. Default: shows the most recent unresolved discrepancy with a link to inspect. |
+| 3 | [NEEDS CLARIFICATION: How long does the green success banner ("Đã nhập kho COL-00891") stay visible on S-F00-03 before auto-dismissing or reverting to default?] | No | Open. Default: remains until the next screen refresh or navigation action. |
 
 ---
 
 ## Completion checklist
 
 - [x] The mockup is a separate cropped image file, named with the Screen ID, at the frame width.
-- [x] The numbered images exist, and their numbers match the # column of the element inventory.
+- [x] The numbered image exists, and its numbers match the # column of the element inventory.
 - [x] Every visible element in the mockup appears in the element inventory.
 - [ ] Every colour in the mockup is a design token from ui-conventions.md.
 - [x] Every input element has a validation rule or an explicit "none".
 - [x] All five states are filled in.
-- [ ] Every navigation target is a Screen ID that exists in the Screen List.
+- [x] Every navigation target is a Screen ID that exists in the Screen List.
 - [x] Every element that displays data names the field it displays.
-- [x] Every linked FR exists in the Function List, and every action of this screen in its activity diagram is
-      covered by an interaction row.
-```[cite: 7, 12, 13]
-
-### Danh sách 6 file ảnh bạn cần đẩy vào thư mục `img/` trên GitHub cho `S-F00-03`:
-1. `img/S-F00-03-default.png` *(Stage 1 chưa đánh số)*[cite: 12]
-2. `img/S-F00-03-default-numbered.png` *(Stage 1 có số)*[cite: 12]
-3. `img/S-F00-03-empty-numbered.png` *(Stage 2 có số)*[cite: 12]
-4. `img/S-F00-03-loading-numbered.png` *(Stage 3 có số)*[cite: 12]
-5. `img/S-F00-03-error-numbered.png` *(Stage 4 có số)*[cite: 13]
-6. `img/S-F00-03-success-numbered.png` *(Stage 5 có số)*[cite: 13]
-
-Bạn còn màn hình nào khác cần làm tiếp không?
+- [x] Every linked FR exists in the Function List, and every action of this screen in its activity diagram is covered by an interaction row.
