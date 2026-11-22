@@ -9,7 +9,7 @@
 | Feature | F-06 Operations & Compliance Monitoring |
 | Activity diagrams | AD-UC-06 (actions "Inspect audit log entries", "Search & filter audit trail", "Verify SHA-256 integrity", "Export compliance report (.CSV / ISCC)") |
 | Mockup images | `img/S-F06-02-default.png` (default), five numbered state images and four state images (section 2) |
-| Frame width | 390x844px (exported at 2x Retina, 780x1688 pixels) |
+| Frame width | 370px screen inside a 390 × 844 device frame (exported at 3x with a 50px shadow margin, 1470 × 2832 pixels) |
 | Figma frame | ReFeed Mobile App – ReFeed Staff Flow (`06012.pdf`, Page 2) |
 | Status | Draft |
 
