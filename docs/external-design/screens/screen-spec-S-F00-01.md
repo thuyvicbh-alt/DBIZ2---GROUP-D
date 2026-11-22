@@ -79,7 +79,7 @@ Only the success card changes with the role of the account; the logo, the taglin
  
 | Nhà cung cấp UCO | Tài xế | Nhân viên kho | Nhân viên ReFeed |
 |---|---|---|---|
-| ![S-F00-01 success, supplier](img/S-F00-01-success.png) | ![S-F00-01 success, driver](img/S-F00-01-success-Driver.png) | ![S-F00-01 success, warehouse staff](img/S-F00-01-success-ReFeed-Warehouse Staff.png) | ![S-F00-01 success, ReFeed staff](img/S-F00-01-success-ReFeed Staff.png) |
+| ![S-F00-01 success, supplier](img/S-F00-01-success.png) | ![S-F00-01 success, driver](img/S-F00-01-success-Driver.png) | ![S-F00-01 success, warehouse staff](img/S-F00-01-success-ReFeed-Warehouse_Staff.png) | ![S-F00-01 success, ReFeed staff](img/S-F00-01-success-ReFeed_Staff.png) |
  
 The Driver's home is the assigned route, so its card has the extra row "Trang chủ: Tuyến được giao" and the line under the card names that screen. The "Tài khoản" row shows the account ID for Supplier and Driver and the email for Warehouse Staff and ReFeed Staff, because only those two have an ID format in ui-conventions §2.
  
