@@ -7,7 +7,7 @@
 | Version | v2.1 (4 External Actors) |
 | Built from | [CVCA](cvca.md) & Context Diagram Revision |
 | System Boundary | `ReFeed System` |
-| External Entities | UCO Suppliers · UCO Collectors · Warehouse Staff · ReFeed Admin |
+| External Entities | UCO Suppliers · UCO Collectors · Warehouse Staff · ReFeed Staff |
 
 ## 1. Diagram
 
@@ -16,7 +16,7 @@ flowchart LR
     SUP["UCO Suppliers"]
     COL["UCO Collectors"]
     WHS["Warehouse Staff"]
-    ADM["ReFeed Admin"]
+    ADM["ReFeed Staff"]
     RF(("ReFeed System"))
 
     %% UCO Suppliers
@@ -31,7 +31,7 @@ flowchart LR
     WHS -->|"inventory data, inbound UCO QA & batch data"| RF
     RF -->|"inbound schedule alert"| WHS
 
-    %% ReFeed Admin
+    %% ReFeed Staff
     ADM -->|"payment approval, system config"| RF
     RF -->|"operation & UCO data, audit logs"| ADM
 ```
@@ -41,10 +41,10 @@ flowchart LR
 | Data group | Kept by | Reaches ReFeed from | Reaches Actor from ReFeed |
 |---|---|---|---|
 | Pickup & Supplier Profile | ReFeed System | UCO Suppliers | UCO Collectors, Warehouse Staff |
-| Dispatch & Route Planning | ReFeed System | ReFeed Admin | UCO Collectors |
-| Collection & Handover Record | ReFeed System | UCO Collectors | UCO Suppliers, Warehouse Staff, ReFeed Admin |
-| Warehouse Inbound & QA Data | ReFeed System | Warehouse Staff | ReFeed Admin |
-| Operation & Financial Approvals | ReFeed System | ReFeed Admin | UCO Suppliers |
+| Dispatch & Route Planning | ReFeed System | ReFeed Staff | UCO Collectors |
+| Collection & Handover Record | ReFeed System | UCO Collectors | UCO Suppliers, Warehouse Staff, ReFeed Staff |
+| Warehouse Inbound & QA Data | ReFeed System | Warehouse Staff | ReFeed Staff |
+| Operation & Financial Approvals | ReFeed System | ReFeed Staff | UCO Suppliers |
 
 ## 3. Change log
 
@@ -52,4 +52,4 @@ flowchart LR
 |---|---|---|---|
 | v1.0 | Lesson 3 | Initial 4-actor Context Diagram (Suppliers, Collectors, Warehouse Staff, Admin) | Based on initial scope and Use Case Diagram |
 | v2.0 | Lesson 7 | Draft with 5 entities (added Eco Oil System) | External refinery integration attempt |
-| v2.1 | Lesson 7 | Reverted to 4 External Actors (Suppliers, Collectors, Warehouse Staff, Admin) | Aligned with updated 4-actor Context Diagram requirement |
+| v2.1 | Lesson 7 | Reverted to 4 External Actors (Suppliers, Collectors, Warehouse Staff, Refeed Staff) | Aligned with updated 4-actor Context Diagram requirement |
