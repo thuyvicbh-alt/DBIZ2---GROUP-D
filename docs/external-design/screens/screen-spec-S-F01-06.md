@@ -8,7 +8,7 @@
 | Priority | Must |
 | Feature | F-01 Supplier Portal & Account Management |
 | Activity diagrams | Not specified |
-| Mockup images | `img/S-F01-06-default.jpg` (default), `img/S-F01-06-default-numbered.jpg`, four state images and four numbered state images (section 2) |
+| Mockup images | `img/S-F01-06-default.png` (default), `img/S-F01-06-default-numbered.png`, four state images and four numbered state images (section 2) |
 | Frame width | 390 × 844 px device frame (minimum supported width 360 px) |
 | Figma frame | Figma file "S-F01-06 · Supplier profile" |
 | Status | Draft |
@@ -21,21 +21,21 @@
 
 ## 2. Mockup
 
-![S-F01-06](img/S-F01-06-default.jpg)
+![S-F01-06](img/S-F01-06-default.png)
 
 **Numbered:** each number is the # of the element inventory in section 3. Element 4 (account information card) appears in the default, error and success states, and is replaced by element 11 (empty profile prompt card) in the empty state. Element 10 (status banner) appears only in the error state (amber offline banner) and the success state (green update confirmation banner). In the loading state the cards and button are replaced by unnumbered skeleton blocks, so only 1, 9 and 12 are numbered.
 
 | Default, numbered | Empty, numbered | Loading, numbered | Error, numbered | Success, numbered |
 |---|---|---|---|---|
-| ![S-F01-06 default numbered](img/S-F01-06-default-numbered.jpg) | ![S-F01-06 empty numbered](img/S-F01-06-empty-numbered.jpg) | ![S-F01-06 loading numbered](img/S-F01-06-loading-numbered.jpg) | ![S-F01-06 error numbered](img/S-F01-06-error-numbered.jpg) | ![S-F01-06 success numbered](img/S-F01-06-success-numbered.jpg) |
+| ![S-F01-06 default numbered](img/S-F01-06-default-numbered.png) | ![S-F01-06 empty numbered](img/S-F01-06-empty-numbered.png) | ![S-F01-06 loading numbered](img/S-F01-06-loading-numbered.png) | ![S-F01-06 error numbered](img/S-F01-06-error-numbered.png) | ![S-F01-06 success numbered](img/S-F01-06-success-numbered.png) |
 
 | State | Image |
 |---|---|
-| Default | [`img/S-F01-06-default.jpg`](img/S-F01-06-default.jpg) |
-| Empty | [`img/S-F01-06-empty.jpg`](img/S-F01-06-empty.jpg) |
-| Loading | [`img/S-F01-06-loading.jpg`](img/S-F01-06-loading.jpg) |
-| Error | [`img/S-F01-06-error.jpg`](img/S-F01-06-error.jpg) (network disconnected, showing cached profile data) |
-| Success | [`img/S-F01-06-success.jpg`](img/S-F01-06-success.jpg) (profile updated confirmation) |
+| Default | [`img/S-F01-06-default.png`](img/S-F01-06-default.png) |
+| Empty | [`img/S-F01-06-empty.png`](img/S-F01-06-empty.png) |
+| Loading | [`img/S-F01-06-loading.png`](img/S-F01-06-loading.png) |
+| Error | [`img/S-F01-06-error.png`](img/S-F01-06-error.jpng) (network disconnected, showing cached profile data) |
+| Success | [`img/S-F01-06-success.png`](img/S-F01-06-success.png) (profile updated confirmation) |
 
 All colours, fonts and corners come from the design tokens in
 [ui-conventions.md](../ui-conventions.md#6-design-tokens).
