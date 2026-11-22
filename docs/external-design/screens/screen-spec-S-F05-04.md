@@ -9,7 +9,7 @@
 | Feature | F-05 Green Profile & ESG Contribution Reports |
 | Activity diagrams | AD-UC-05 (actions "View ESG contribution summary", "Select reporting period", "Export ESG PDF report", "Open exported report") |
 | Mockup images | `img/S-F05-04-default.png` (default), five numbered state images and four state images (section 2) |
-| Frame width | 390px × 844px (exported at 2x Retina, 780 × 1688 pixels) |
+| Frame width | 370px screen inside a 390 × 844 device frame (exported at 3x with a 50px shadow margin, 1470 × 2832 pixels) |
 | Figma frame | ReFeed Mobile App – Supplier Flow (`0504.pdf`) |
 | Status | Draft |
 
