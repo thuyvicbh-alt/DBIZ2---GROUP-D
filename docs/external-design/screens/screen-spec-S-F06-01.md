@@ -9,7 +9,7 @@
 | Feature | F-06 Operations & Compliance Monitoring |
 | Activity diagrams | AD-UC-06 (actions "Monitor daily operational KPIs", "Review pending signatures & compliance alerts", "Navigate to dispatch queue", "Navigate to audit log & reports") |
 | Mockup images | `img/S-F06-01-default.png` (default), five numbered state images and four state images (section 2) |
-| Frame width | 390px × 844px (exported at 2x Retina, 780 × 1688 pixels) |
+| Frame width | 370px screen inside a 390 × 844 device frame (exported at 3x with a 50px shadow margin, 1470 × 2832 pixels) |
 | Figma frame | ReFeed Mobile App – ReFeed Staff Flow (`06012.pdf`, Page 1) |
 | Status | Draft |
 
