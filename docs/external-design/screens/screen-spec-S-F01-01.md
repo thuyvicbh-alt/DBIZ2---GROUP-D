@@ -1,0 +1,135 @@
+# Screen Spec: S-F01-01 Supplier registration
+
+| Field | Value |
+|---|---|
+| Screen ID | S-F01-01 |
+| Screen name | Supplier registration |
+| Actor | Supplier |
+| Priority | Must |
+| Feature | F-01 Supplier Portal & Account Management |
+| Activity diagrams | AD-UC-01 (action "Submit Credentials or Registration Data" — the registration part, decision `d1` "Authentication valid?" [No] → `s2` "Display Error Message & Prompt Retry", decision `d2` [Yes - New Registration] → `s3` "Create Supplier Account with Unique Supplier_ID" → `s4` "Display Dashboard & Authentication Result") |
+| Mockup images | `img/S-F01-01-default.png` (default), `img/S-F01-01-default-numbered.png`, four state images and four numbered state images (section 2) |
+| Frame width | 390 × 844 px device frame (minimum supported width 360 px) |
+| Figma frame | Figma file "S-F01-01 · Supplier registration" |
+| Status | Draft |
+
+## 1. Purpose
+
+**Shown when:** a new supplier taps "Đăng ký tài khoản nhà cung cấp" on S-F00-01.
+
+**The user leaves this screen when:** the account is created and the supplier taps "Mở trang chủ nhà cung cấp" (success state), or the supplier taps Back.
+
+## 2. Mockup
+
+![S-F01-01](img/S-F01-01-default.png)
+
+**Numbered:** each number is the # of the element inventory in section 3. Element 7 is the password field and element 8 its show / hide button. Element 12 (error banner) and element 13 (field error message) appear only in the error state, element 17 (loading text) only in the loading state. In the loading state the fields are replaced by skeleton blocks, so only 1, 2, 3, 11 and 17 are numbered. The success image numbers the header (1, 2) and the success elements 14, 15 and 16.
+
+| Default, numbered | Empty, numbered | Loading, numbered | Error, numbered | Success, numbered |
+|---|---|---|---|---|
+| ![S-F01-01 default numbered](img/S-F01-01-default-numbered.png) | ![S-F01-01 empty numbered](img/S-F01-01-empty-numbered.png) | ![S-F01-01 loading numbered](img/S-F01-01-loading-numbered.png) | ![S-F01-01 error numbered](img/S-F01-01-error-numbered.png) | ![S-F01-01 success numbered](img/S-F01-01-success-numbered.png) |
+
+| State | Image |
+|---|---|
+| Default | [`img/S-F01-01-default.png`](img/S-F01-01-default.png) |
+| Empty | [`img/S-F01-01-empty.png`](img/S-F01-01-empty.png) |
+| Loading | [`img/S-F01-01-loading.png`](img/S-F01-01-loading.png) |
+| Error | [`img/S-F01-01-error.png`](img/S-F01-01-error.png) (invalid tax ID, AD-UC-01 `d1` [No]) |
+| Success | [`img/S-F01-01-success.png`](img/S-F01-01-success.png) |
+
+All colours, fonts and corners come from the design tokens in
+[ui-conventions.md](../ui-conventions.md#6-design-tokens).
+
+## 3. Element inventory
+
+| # | Element | Type | Content / data source | Required | Validation |
+|---|---|---|---|---|---|
+| 1 | Back | Button | static | Yes | none |
+| 2 | Title and context line | Header | static "Đăng ký nhà cung cấp" + "Tạo tài khoản" | Yes | none |
+| 3 | Card title | Header | static "Thông tin tài khoản" | Yes | none |
+| 4 | Business name | Text input | `supplier.business_name`; label "Tên cơ sở kinh doanh"; placeholder "Ví dụ: Quán Phở Hàng Bài" | Yes | not empty |
+| 5 | Representative | Text input | `supplier.representative_name`; label "Người đại diện"; placeholder "Họ và tên người đại diện" | Yes | not empty |
+| 6 | Email | Text input | `account.email`; label "Email"; placeholder "email@example.vn" | Yes | not empty; email format |
+| 7 | Password | Password input | `account.password`, shown as dots; label "Mật khẩu"; placeholder "Tạo mật khẩu" | Yes | not empty |
+| 8 | Show / hide password | Icon button (eye) | static | No | none |
+| 9 | Tax ID | Text input | `supplier.tax_id`; label "Mã số thuế"; placeholder "10 hoặc 13 chữ số" (BR-01) | Yes | 10 or 13 digits |
+| 10 | Business licence | Text input | `supplier.business_license_no`; label "Giấy phép kinh doanh"; placeholder "Nhập số giấy phép kinh doanh" | Yes | not empty |
+| 11 | Tạo tài khoản nhà cung cấp | Primary button | static label; "Đang tạo tài khoản…" with a spinner while creating | Yes | disabled until fields 4–7, 9 and 10 are filled, and while creating |
+| 12 | Error banner | Banner | "Mã số thuế không hợp lệ." + "Kiểm tra lại và thử lại." (AD-UC-01 `s2`) | No | icon + text + colour (ui-conventions §5) |
+| 13 | Field error message | Text | "Nhập 10 hoặc 13 chữ số." with an icon, under the field in error | No | shown only for the field that failed |
+| 14 | Success header card | Card | check mark + "Đã tạo tài khoản" | No | none |
+| 15 | Account summary card | Card | rows "Mã nhà cung cấp" (`supplier.supplier_id`, e.g. `SUP-00125`), "Cơ sở" (`supplier.business_name`), "Điểm thu gom" ("Đã lưu" = the tax ID and the business licence are saved), "Trạng thái tài khoản" (badge "Đang hoạt động", `supplier_account.status` = Active) | No | badge text + icon (ui-conventions §3) |
+| 16 | Mở trang chủ nhà cung cấp | Primary button | static label (success state only) | Yes | none |
+| 17 | Loading text | Text | static "Đang tạo tài khoản…" | No | none |
+
+## 4. States
+
+| State | What the user sees | Trigger |
+|---|---|---|
+| Default | Header "Đăng ký nhà cung cấp" / "Tạo tài khoản" with back button; card "Thông tin tài khoản" with the six fields filled ("Quán Phở Hàng Bài", "Trần Minh Anh", "cuahang.hangbai@example.vn", password as dots with the eye button, "0101234567", "GPKD-2024-01847"); footer button "Tạo tài khoản nhà cung cấp" enabled. The mockup shows this state. | All required fields filled |
+| Empty (no data) | Same layout; the six fields show their placeholders; footer button disabled | First open from S-F00-01 |
+| Loading | Card "Thông tin tài khoản" with six label bars and six field bars (skeleton) instead of the fields, and the text "Đang tạo tài khoản…"; footer button "Đang tạo tài khoản…" with a spinner, disabled | The supplier taps "Tạo tài khoản nhà cung cấp" and the account is being created |
+| Error | Red banner above the card "Mã số thuế không hợp lệ. Kiểm tra lại và thử lại."; the tax ID "01012345" with a red border and light red fill and the message "Nhập 10 hoặc 13 chữ số." with an icon below; the other values kept; footer button enabled | Data rejected (AD-UC-01 `d1` [No: Invalid Data/Credentials] → `s2`) |
+| Success / confirmation | Card with a check mark and "Đã tạo tài khoản"; summary card (Mã nhà cung cấp `SUP-00125`, Cơ sở "Quán Phở Hàng Bài", Điểm thu gom "Đã lưu", Trạng thái tài khoản "Đang hoạt động"); footer button "Mở trang chủ nhà cung cấp" | Account created (AD-UC-01 `d2` [Yes - New Registration] → `s3` → `s4`, FR-01-01) |
+
+## 5. Interactions and navigation
+
+| # | Element | User action | System response | Goes to screen |
+|---|---|---|---|---|
+| 1 | Back | tap | Returns to sign in; the entered values are discarded | S-F00-01 |
+| 2 | Business name, Representative, Email, Password, Tax ID, Business licence | type | Opens the keyboard; the red border and message of the error state clear when the value changes | stays |
+| 3 | Show / hide password | tap | Switches the password between dots and plain text | stays |
+| 4 | Tạo tài khoản nhà cung cấp | tap | Disables the form and shows the loading state; validates the data (FR-01-01, BR-01); creates the account with a unique Supplier_ID and status Active; then shows the success or the error state | stays (loading, then success or error state) |
+| 5 | Mở trang chủ nhà cung cấp | tap (success state) | Opens the supplier home with the new account signed in | Supplier main menu |
+
+## 6. Screen-level rules
+
+| Rule ID | Rule | Source |
+|---|---|---|
+| SR-001 | The tax ID is validated before the account is created: 10 or 13 digits. | BR-01; AD-UC-01 `s1` |
+| SR-002 | The Supplier_ID is generated by the system, is unique, and cannot be typed or changed on this screen. | FR-01-01; BR-01; AD-UC-01 `s3` |
+| SR-003 | A new account is created with status Active. | AD-UC-01 §4 and open question 2 (default) |
+| SR-004 | Invalid data are not saved; the entered values stay on the screen so the supplier can correct and resubmit. | AD-UC-01 `d1` [No] → `s2` |
+| SR-005 | While the account is being created, the fields and the button cannot be changed or tapped again. | FR-01-01 |
+| SR-006 | Pickup location and GPS are not entered here; they are completed on S-F01-02 and are needed before a pickup can be requested. | screen-list.md (S-F01-02); FR-01-03 (profile-completeness rule) |
+| SR-007 | Errors are shown with text and icon, never by colour alone. | ui-conventions §5 |
+
+## 7. Linked requirements
+
+| FR ID | What this screen does for it |
+|---|---|
+| FR-01-01 | Takes the registration data, validates it, creates the supplier account with a unique Supplier_ID and shows the error and a retry when the data are invalid |
+| FR-01-02 | Takes the compliance data (tax ID, business licence) with the account; the location data are completed on S-F01-02 |
+
+## 8. Responsive and accessibility notes
+
+- Smallest supported width: 360px; the card and the footer button keep their side margins and shrink in width.
+- The card scrolls when the keyboard is open; the footer button stays fixed at the bottom.
+- Touch targets at least 44 × 44: back button 44 × 44, the inputs at least 44px high, the show / hide button at least 44 × 44, the footer button 52px high.
+- Every field has a visible label above it; the placeholders are examples only.
+- The password is hidden by default and the eye button switches it.
+- Field errors use a red border, a light red fill and an error text with an icon below the field; the banner has an icon and text.
+- Body text contrast at least 4.5:1.
+
+## 9. Open questions
+
+| # | Question | Blocking? | Status |
+|---|---|---|---|
+| 1 | [NEEDS CLARIFICATION: which compliance data must a supplier give at registration — the tax ID only, or also a business licence number? FR-01-02 does not name the documents.] | No | Open. Default: both fields are required, as in the mockup. |
+| 2 | [NEEDS CLARIFICATION: AD-UC-01 `s5` "Display Account Already Exists & Redirect to Login" has no state on this screen.] | No | Open. Default: shown as an error state with a message following ui-conventions §4 (what is wrong + what to do), text to be written. |
+| 3 | [NEEDS CLARIFICATION: screen-transition.md has no arrow from S-F01-01 back to S-F00-01, and the success state still shows Back.] | No | Open. Default: Back returns to S-F00-01 in every state; add the arrow to the transition diagram. |
+
+---
+
+## Completion checklist
+
+- [x] The mockup is a separate cropped image file, named with the Screen ID, at the frame width.
+- [x] The numbered image exists, and its numbers match the # column of the element inventory.
+- [x] Every visible element in the mockup appears in the element inventory.
+- [ ] Every colour in the mockup is a design token from ui-conventions.md.
+- [x] Every input element has a validation rule or an explicit "none".
+- [x] All five states are filled in.
+- [ ] Every navigation target is a Screen ID that exists in the Screen List (Supplier main menu has none, see S-F00-01 open question 3).
+- [x] Every element that displays data names the field it displays.
+- [ ] Every linked FR exists in the Function List, and every action of this screen in AD-UC-01 is
+      covered by an interaction row.
