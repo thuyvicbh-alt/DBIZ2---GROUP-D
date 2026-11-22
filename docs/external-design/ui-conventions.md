@@ -57,10 +57,10 @@ All components live in the Figma file *ReFeed – S-F05-01* (page 1 "Components"
 | **Invalid pickup request (`S-F01-03` / `FR-01-03`)** | what is wrong + valid rule | `"Khung giờ 08:00 - 10:00 ngày 20/09/2026 đã qua. Hãy chọn khung giờ từ hôm nay trở đi."` |
 | **Pickup request created (`S-F01-03` / `FR-01-03`)** | confirmation + ID + next step | `"Đã tạo yêu cầu thu gom PK-00125. Xem yêu cầu của tôi."` |
 | **Invalid collection data (`S-F02-04` / `FR-02-02`)** | what is wrong + valid rule | `"Khối lượng thực tế phải lớn hơn 0 kg."` |
-| **UCO not ready (`S-F02-04`, modal)** | consequence of the action + destructive button | `"Lần thu gom PK-00126 sẽ chuyển sang Đã hủy và không ghi nhận khối lượng."` → "Hủy lần thu gom" / "Quay lại" |
+| **UCO not ready (`S-F02-04`, modal)** | consequence of the action + destructive button | `"Lần thu gom PK-00125 sẽ chuyển sang Đã hủy và không ghi nhận khối lượng."` → "Hủy lần thu gom" / "Quay lại" |
 | **Transaction awaiting signature (supplier home, `S-F03-01`)** | what waits + amount + action | `"1 giao dịch chờ bạn ký · COL-00891 · 32,5 kg · 334.750 đ. Ký giao dịch"` |
-| **Quantity discrepancy (`S-F04-01` / `FR-04-01`)** | measured difference + reference value | `"COL-00891: kho nhận 32,1 kg, chênh −0,4 kg so với lúc thu gom (32,5 kg)."` The tolerance value is still to be confirmed by ReFeed. |
-| **Balance not updated (`S-F05-01` / `FR-05-01`)** | what is late + since when + retry | `"COL-00936 đã ký nhưng chưa được cộng vào số dư. Số liệu bên dưới tính đến ngày 18/09. Thử lại"` |
+| **Quantity discrepancy (`S-F04-01` / `FR-04-01`)** | measured difference + reference value | `"COL-00891: kho nhận 32,3 kg, chênh −0,2 kg so với lúc thu gom (32,5 kg)."` The tolerance value is still to be confirmed by ReFeed. |
+| **Balance not updated (`S-F05-01` / `FR-05-01`)** | what is late + since when + retry | `"COL-00891 đã ký nhưng chưa được cộng vào số dư. Số liệu bên dưới tính đến ngày 18/09. Thử lại"` |
 | **Empty list (`S-F05-01`, `S-F01-04`)** | current state + next action | `"Chưa có giao dịch. Số dư sẽ tăng sau mỗi lần thu gom bạn ký xác nhận."` → "Đặt lịch thu gom" |
 | **GPS missing (`S-F02-04` / `FR-02-02`)** | what is missing + what to do | `"Chưa lấy được vị trí GPS. Bật định vị rồi lưu lại."` |
 | **Route not refreshed (`S-F02-03` / `FR-02-02`)** | what happened + time of the data shown + retry | `"Không tải được tuyến mới nhất. Mất kết nối mạng. Đang hiển thị dữ liệu lúc 10:12. Thử lại"` |
