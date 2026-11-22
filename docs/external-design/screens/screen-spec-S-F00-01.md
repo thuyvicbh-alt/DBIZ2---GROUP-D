@@ -74,8 +74,8 @@ Only the success card changes with the role of the account; the logo, the taglin
 |---|---|---|---|---|---|
 | Nhà cung cấp UCO | `SUP-00125` | Vai trò, Tài khoản | "Đang mở Trang chủ…" | Supplier main menu | [`img/S-F00-01-success.png`](img/S-F00-01-success.png) |
 | Tài xế | `D018` | Vai trò, Tài khoản, Trang chủ ("Tuyến được giao") | "Đang mở Tuyến được giao…" | S-F02-03 | [`img/S-F00-01-success-Driver.png`](img/S-F00-01-success-Driver.png) |
-| Nhân viên kho | `kho.hanoi@example.vn` | Vai trò, Tài khoản | "Đang mở Trang chủ…" | Warehouse main menu | [`img/S-F00-01-success-ReFeed-Warehouse_Staff.png`](img/S-F00-01-success-ReFeed-Warehouse_Staff.png) |
-| Nhân viên ReFeed | `admin.hanoi@example.vn` | Vai trò, Tài khoản | "Đang mở Trang chủ…" | S-F06-01 | [`img/S-F00-01-success-ReFeed_Staff.png`](img/S-F00-01-success-ReFeed_Staff.png) |
+| Nhân viên kho | `kho.hanoi@example.vn` | Vai trò, Tài khoản | "Đang mở Trang chủ…" | Warehouse main menu | [`img/S-F00-01-success-ReFeed-Warehouse Staff.png`](img/S-F00-01-success-ReFeed-Warehouse_Staff.png) |
+| Nhân viên ReFeed | `admin.hanoi@example.vn` | Vai trò, Tài khoản | "Đang mở Trang chủ…" | S-F06-01 | [`img/S-F00-01-success-ReFeed Staff.png`](img/S-F00-01-success-ReFeed_Staff.png) |
  
 | Nhà cung cấp UCO | Tài xế | Nhân viên kho | Nhân viên ReFeed |
 |---|---|---|---|
