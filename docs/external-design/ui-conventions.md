@@ -21,11 +21,14 @@
 | Supplier ID | `SUP-` + 5 digits | `SUP-00125` |
 | Pickup request ID | `PK-` + 5 digits | `PK-00125` |
 | Collection ID | `COL-` + 5 digits | `COL-00891` |
+| Warehouse ID | `WT-` + 5 digits | `WT-01234` |
 | Driver ID | `D` + 3 digits | `D018` |
 | Vehicle | Vietnamese licence plate | `29C-123.45` |
 | Batch ID | `B` + 3 digits | `B001` |
 | Evidence photo | `IMG-` + 3 digits | `IMG-001` |
 | GPS position | latitude, longitude, 5 decimals; accuracy as `±` + whole m | `21.02080, 105.85070 · ±8 m` |
+
+Warehouse identifiers always keep the exact `WT-` + five-digit format, including the hyphen and zero padding (for example, `WT-01234`) wherever `warehouse.id` appears.
 
 ## 3. Components
 All components live in the Figma file *ReFeed – S-F05-01* (page 1 "Components", page "Trang chủ theo actor" and page "Trang chủ v2 (lời chào & lối tắt)", which holds the current home screens); colors come from the variable collection `ReFeed colors`, typography is Inter only. The four driver and supplier screens with five states each (`S-F02-03`, `S-F02-04`, `S-F02-05`, `S-F03-01`) are on page "4 màn × 5 trạng thái" of the Figma file *ReFeed – 4 màn × 5 trạng thái* and use the same variables (section 6).
