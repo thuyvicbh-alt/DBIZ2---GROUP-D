@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | Screen ID | S-F03-01 |
-| Screen name | Transaction review and e-signature |
+| Screen name | Transaction review and e-signature (Biên bản giao nhận) |
 | Actor | Supplier |
 | Priority | Must |
 | Feature | F-03 UCO Transaction |
@@ -25,8 +25,10 @@
 
 **Numbered:** each number is the # of the element inventory in section 3. Element 19 (Message
 area) appears only in the error state and element 20 (Empty message) only in the empty state, so
-each is numbered on that state's image. In the error state the agreement card (4–8) and the document
-note (18) are not shown and the signature pad (14) is empty. The empty and loading images number the
+each is numbered on that state's image. In the error state the agreement card (4–8) and the amount
+card (9–13) stay on screen, the signature pad (14) is empty, and the confirmation checkbox (16) and the
+document note (18) sit below the visible part of the screen (the content scrolls), so they are not
+numbered on the error image. The empty and loading images number the
 header (1–3), the loading image also the disabled button (17); the success image numbers the header
 and the locked signature pad (14), and its summary card is described in section 4.
 
@@ -77,7 +79,7 @@ All colours, fonts and corners come from the design tokens in
 | Default | Header "Biên bản giao nhận", "Quán Phở Hàng Bài · SUP-00125"; agreement "Biên bản giao nhận & mua bán UCO" PK-00125 · COL-00891 (Điểm phát sinh 12 Hàng Bài, Hoàn Kiếm; Thời gian thu gom 10:24 · 25/09/2026; Người thu gom Tài xế D018 · 29C-123.45); 32,5 kg, Giá gốc 10.000 đ/kg, Thưởng tích lũy (Hạng 1) +300 đ/kg, Giá áp dụng 10.300 đ/kg, Tổng tiền 334.750 đ; signature pad with the supplier's signature and "Xóa / Ký lại"; checkbox ticked; "Xác nhận thông tin" enabled; document note below. The mockup shows this state. | Screen opened with one transaction awaiting signature |
 | Empty (no data) | Card with receipt icon "Không có giao dịch nào chờ ký" — "Khi tài xế ghi nhận bàn giao, biên bản sẽ hiện ở đây để bạn xem và ký." with button "Xem lịch sử giao dịch"; no agreement, no signature pad, no footer button | No transaction of this supplier is awaiting signature (e.g. already signed) |
 | Loading | Two cards of grey placeholders and the text "Đang tải biên bản…"; "Xác nhận thông tin" disabled | The agreement is being fetched |
-| Error | Red banner "Chưa ký được giao dịch — Mất kết nối khi gửi chữ ký. Biên bản chưa bị khóa và chưa cộng tiền vào số dư."; amount card kept; signature pad empty with "Xóa / Ký lại"; checkbox kept; "Xác nhận thông tin" disabled until the supplier signs again | The signing request failed |
+| Error | Red banner "Chưa ký được giao dịch — Mất kết nối khi gửi chữ ký. Biên bản chưa bị khóa và chưa cộng tiền vào số dư."; agreement card (PK-00125 · COL-00891, 12 Hàng Bài, Hoàn Kiếm, 10:24 · 25/09/2026, Tài xế D018 · 29C-123.45) and amount card (32,5 kg … Tổng tiền 334.750 đ) kept; signature pad empty with "Xóa / Ký lại"; the confirmation checkbox stays ticked below the signature pad (reached by scrolling); "Xác nhận thông tin" disabled until the supplier signs again | The signing request failed |
 | Success / confirmation | Time 10:33; check mark, "Đã ký giao dịch" — "COL-00891 · 32,5 kg · 334.750 đ. Số tiền đã được cộng vào số dư tích lũy của bạn."; card (Thời điểm ký 10:33 · 25/09/2026, Biên bản "Hoàn tất", Cộng vào số dư +334.750 đ); signature shown "Đã ký · đã khóa"; buttons "Xem biên nhận" and "Về trang chủ" | Agreement locked, signature stored and pickup Completed (FR-03-01); amount added to the balance (FR-05-01) |
 
 ## 5. Interactions and navigation
