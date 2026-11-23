@@ -79,3 +79,65 @@ All colours, fonts and corners come from the design tokens in
 | Loading | Two cards of grey placeholders and the text "Đang tải biên nhận..."; "Tải biên nhận (PDF)" disabled in footer | The receipt data is being fetched |
 | Error | Red banner "Không tải được biên nhận - Mất kết nối khi tạo tệp PDF. Kiểm tra kết nối mạng và thử lại."; receipt card and warehouse status card kept; primary button relabeled "Thử lại tải PDF"; secondary button "Về lịch sử giao dịch" kept | PDF generation or download request failed |
 | Success / confirmation | Time 10:31; check mark, "Tải biên nhận thành công" - "COL-00891 · 32,5 kg · 334.750 đ"; file
+
+## 5. Interactions and navigation
+
+| # | Element | User action | System response | Goes to screen |
+|---|---|---|---|---|
+| 1 | Tải biên nhận (PDF) | tap (default state) | Generates and downloads the PDF receipt (`FR-03-03`), or shows the error state | stays (loading, then success or error state) |
+| 2 | Thử lại tải PDF | tap (error state) | Retries generating and downloading the PDF receipt | stays (loading, then success or error state) |
+| 3 | Về lịch sử giao dịch | tap (default or error state) | Opens the transaction history list | S-F05-01 |
+| 4 | Xem lịch sử giao dịch | tap (empty state) | Opens the transaction history list | S-F05-01 |
+| 5 | Mở tệp PDF | tap (success state) | Opens `COL-00891_bien-nhan.pdf` in the device's default PDF viewer | Device PDF viewer |
+| 6 | Về số dư tích lũy | tap (success state) | Opens the accumulated payout balance screen | S-F05-01 |
+| 7 | Back | tap | Returns to the previous screen without altering the receipt | S-F05-01 (or S-F03-01 if opened right after signing) |
+
+## 6. Screen-level rules
+
+| Rule ID | Rule | Source |
+|---|---|---|
+| SR-001 | The supplier sees only receipts of their own `supplier.id`. | FR-06-03 |
+| SR-002 | All transaction, weight, price, and amount values on the receipt are read-only and locked upon signing on S-F03-01. | FR-03-01; FR-03-02 |
+| SR-003 | Warehouse verification status (`#13`) is strictly informational and does not affect the supplier's balance or block PDF receipt export. | FR-03-02 |
+| SR-004 | "Tải biên nhận (PDF)" is disabled in the Empty and Loading states. | ui-conventions §4 |
+| SR-005 | If PDF download fails, the loaded receipt and warehouse cards stay visible so the supplier can still read the details and tap "Thử lại tải PDF". | FR-03-03 (error state) |
+| SR-006 | Statuses are shown with text and icon, never by colour alone. | ui-conventions §5 |
+
+## 7. Linked requirements
+
+| FR ID | What this screen does for it |
+|---|---|
+| FR-03-02 | Displays the official signed transaction receipt with itemized pricing, total payout, and read-only warehouse verification status |
+| FR-03-03 | Exports the signed transaction receipt as a downloadable PDF file (`<collection.id>_bien-nhan.pdf`) and confirms download metadata |
+| FR-06-03 | Restricts the receipt shown to the signed-in supplier |
+
+## 8. Responsive and accessibility notes
+
+- Smallest supported width: 360px; label–value rows keep the value right-aligned and long values wrap; the total "334.750 đ" never wraps.
+- Designed at 390 × 844; the content scrolls and the footer action buttons stay fixed at the bottom.
+- Touch targets at least 44 × 44: back button 44 × 44, footer primary and secondary buttons 52px high, empty-state secondary button 48px high.
+- Status badge ("Chờ kho xác minh"), error banner, and success confirmation use icon plus text rather than colour alone.
+- Body text contrast at least 4.5:1.
+
+## 9. Open questions
+
+| # | Question | Blocking? | Status |
+|---|---|---|---|
+| 1 | [NEEDS CLARIFICATION: in the mockups, labels `#4`, `#6`, and `#7` differ slightly between Default ("Chi tiết giao dịch", "Thời điểm ký", "Điểm phát sinh") and Error ("Biên nhận giao dịch UCO", "Thời gian giao dịch:", "Địa điểm thu gom:"). Unify them?] | No | Open. Default: use the Default state labels across both states. |
+| 2 | [NEEDS CLARIFICATION: "Về số dư tích lũy" in the success state goes to S-F05-01 (which combines transaction history and accumulated balance) or a dedicated payout balance screen?] | No | Open. Default: goes to S-F05-01. |
+| 3 | [NEEDS CLARIFICATION: the note "Chứng từ giao dịch, không thay thế hóa đơn GTGT" uses slightly different phrasing from S-F03-01 ("Đây là chứng từ giao dịch, không phải hóa đơn thuế."). Confirm standard legal wording with ReFeed.] | No | Open. Default: keep the wording shown on S-F03-02. |
+
+---
+
+## Completion checklist
+
+- [x] The mockup is a separate cropped image file, named with the Screen ID, at the frame width.
+- [x] The numbered images exist, and their numbers match the # column of the element inventory.
+- [x] Every visible element in the mockup appears in the element inventory.
+- [ ] Every colour in the mockup is a design token from ui-conventions.md.
+- [x] Every input element has a validation rule or an explicit "none".
+- [x] All five states are filled in.
+- [ ] Every navigation target is a Screen ID that exists in the Screen List.
+- [x] Every element that displays data names the field it displays.
+- [x] Every linked FR exists in the Function List, and every action of this screen in its activity diagram is
+      covered by an interaction row (UC-08: no activity diagram, "not needed" in the usage flow).
