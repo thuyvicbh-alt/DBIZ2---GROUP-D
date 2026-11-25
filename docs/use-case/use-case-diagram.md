@@ -71,8 +71,8 @@ One sequence diagram per use case, at analysis level: the lifelines are the elem
 | UC-04 Track and manage a pickup status | [SD-UC-04](SD-UC-04.md) | Done |
 | UC-05 Plan and dispatch a collection route | [SD-UC-05](SD-UC-05.md) | Done |
 | UC-06 Check route and confirm delivery | [SD-UC-06](SD-UC-06.md) | Done |
-| UC-07 Input handover information | [SD-UC-07](SD-UC-07.md) | Done |
-| UC-08 Confirm and sign a UCO transaction | SD-UC-08 | Not drawn |
+| UC-07 Input handover information | [SD-UC-07](SD-UC-07.md) | Draft updated: handover only; signing continues in SD-UC-08 |
+| UC-08 Confirm and sign a UCO transaction | [SD-UC-08](SD-UC-08.md) | Draft for group review; linked to AD-UC-08 and current W1 |
 | UC-09 View or download a transaction receipt | SD-UC-09 | Not drawn |
 | UC-10 Receive and verify collected UCO at warehouse | [SD-UC-10](SD-UC-10.md) | Done |
 | UC-11 Manage UCO batch and mass-balance records | [SD-UC-11](SD-UC-11.md) | Done |

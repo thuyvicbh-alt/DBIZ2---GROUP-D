@@ -7,7 +7,7 @@
 | Actor | Supplier |
 | Priority | Must |
 | Feature | F-03 UCO Transaction |
-| Activity diagrams | None: the usage flow marks UC-08 "not needed"; W1 traces FR-03-02 and FR-03-03 to sequence S-02 |
+| Activity diagrams | UC-09 remains a read/download interaction; its signing predecessor is [AD-UC-08](../../activity/AD-UC-08.md) / [SD-UC-08](../../use-case/SD-UC-08.md). Current receipt functions are FR-03-11–FR-03-14. |
 | Mockup images | `img/S-F03-02-default.png` (default), `img/S-F03-02-default-numbered.png`, four state images and four numbered state images (section 2) |
 | Frame width | 390px phone frame (exported at 3x, 1470 × 2832 pixels including the device frame) |
 | Figma frame | Frames "S-F03-02 / 1" to "S-F03-02 / 5", page "4 màn × 5 trạng thái" in the ReFeed Figma file |
@@ -49,13 +49,13 @@ All colours, fonts and corners come from the design tokens in
 | 3 | Context line | Text | `supplier.business_name` · `supplier.id` | Yes | `SUP-` + 5 digits |
 | 4 | Receipt title | Text | static: "Chi tiết giao dịch" (Default) / "Biên nhận giao dịch UCO" (Error) | Yes | |
 | 5 | Record IDs | Text | `transaction.id` · `collection.id` | Yes | `TX-` / `COL-` + 5 digits |
-| 6 | Signed timestamp | Text | "Thời điểm ký" (Default) / "Thời gian giao dịch:" (Error) · `transaction.signed_at` (FR-03-01) | Yes | `HH:mm · dd/MM/yyyy` |
+| 6 | Signed timestamp | Text | "Thời điểm ký" (Default) / "Thời gian giao dịch:" (Error) · `transaction.signed_at` (FR-03-07) | Yes | `HH:mm · dd/MM/yyyy` |
 | 7 | Point of origin | Text | "Địa điểm thu gom" (Default) / "Địa điểm thu gom:" (Error) · `supplier.address` (Point-of-Origin) | Yes | |
 | 8 | Actual quantity | Text | "Khối lượng thực tế" · `collection.actual_quantity` (FR-02-03) | Yes | 1 decimal + " kg" |
 | 9 | Base price | Text | "Giá gốc" · `transaction.base_price` | Yes | integer + " đ/kg" |
 | 10 | Loyalty bonus | Text | "Thưởng tích lũy (Hạng " + `transaction.loyalty_tier` + ")" · `transaction.loyalty_bonus_rate` | Yes | "+" + integer + " đ/kg" |
 | 11 | Applied price | Text | "Giá áp dụng" · base price + loyalty bonus | Yes | integer + " đ/kg" |
-| 12 | Total amount | Total row | "Tổng tiền" · `transaction.amount` (FR-02-03) | Yes | integer + " đ" |
+| 12 | Total amount | Total row | "Tổng tiền" · `transaction.amount` (FR-02-16) | Yes | integer + " đ" |
 | 13 | Warehouse status card | Info card | header "Trạng thái kho"; badge `warehouse.verification_status` ("Chờ kho xác minh"); note "Thông tin mang tính tham khảo, không ảnh hưởng đến số dư." | Yes | read-only status badge |
 | 14 | Tải biên nhận (PDF) | Primary button | static: "Tải biên nhận (PDF)" (Default/Empty/Loading) / "Thử lại tải PDF" (Error) | Yes | disabled in Empty and Loading states |
 | 15 | Secondary navigation button | Secondary button | static: "Về lịch sử giao dịch" (Default/Error) / "Xem lịch sử giao dịch" (Empty) | Yes | none |
@@ -74,7 +74,7 @@ All colours, fonts and corners come from the design tokens in
 
 | State | What the user sees | Trigger |
 |---|---|---|
-| Default | Header "Biên nhận giao dịch", "Quán Phở Hàng Bài · SUP-00125"; card "Chi tiết giao dịch" TX-00891 · COL-00891 (Thời điểm ký 10:33 · 25/09/2026; Địa điểm thu gom 12 Hàng Bài, Hoàn Kiếm; Khối lượng thực tế 32,5 kg; Giá gốc 10.000 đ/kg; Thưởng tích lũy (Hạng 1) +300 đ/kg; Giá áp dụng 10.300 đ/kg; Tổng tiền 334.750 đ); card "Trạng thái kho" with badge "Chờ kho xác minh" and reference note; "Tải biên nhận (PDF)" enabled; "Về lịch sử giao dịch" below; document note at the bottom. The mockup shows this state. | Screen opened for a signed transaction (`FR-03-02`) |
+| Default | Header "Biên nhận giao dịch", "Quán Phở Hàng Bài · SUP-00125"; card "Chi tiết giao dịch" TX-00891 · COL-00891 (Thời điểm ký 10:33 · 25/09/2026; Địa điểm thu gom 12 Hàng Bài, Hoàn Kiếm; Khối lượng thực tế 32,5 kg; Giá gốc 10.000 đ/kg; Thưởng tích lũy (Hạng 1) +300 đ/kg; Giá áp dụng 10.300 đ/kg; Tổng tiền 334.750 đ); card "Trạng thái kho" with badge "Chờ kho xác minh" and reference note; "Tải biên nhận (PDF)" enabled; "Về lịch sử giao dịch" below; document note at the bottom. The mockup shows this state. | Screen opened for an authorized signed transaction (`FR-03-11`, `FR-03-12`) |
 | Empty (no data) | Card with receipt icon "Chưa có biên nhận" - "Biên nhận được tạo sau khi bạn ký giao dịch. Giao dịch đã ký sẽ hiển thị ở đây." with button "Xem lịch sử giao dịch"; no receipt card, no warehouse card; "Tải biên nhận (PDF)" disabled in footer | No signed transaction receipt exists for this supplier |
 | Loading | Two cards of grey placeholders and the text "Đang tải biên nhận..."; "Tải biên nhận (PDF)" disabled in footer | The receipt data is being fetched |
 | Error | Red banner "Không tải được biên nhận - Mất kết nối khi tạo tệp PDF. Kiểm tra kết nối mạng và thử lại."; receipt card and warehouse status card kept; primary button relabeled "Thử lại tải PDF"; secondary button "Về lịch sử giao dịch" kept | PDF generation or download request failed |
@@ -84,7 +84,7 @@ All colours, fonts and corners come from the design tokens in
 
 | # | Element | User action | System response | Goes to screen |
 |---|---|---|---|---|
-| 1 | Tải biên nhận (PDF) | tap (default state) | Generates and downloads the PDF receipt (`FR-03-03`), or shows the error state | stays (loading, then success or error state) |
+| 1 | Tải biên nhận (PDF) | tap (default state) | Generates and downloads the PDF receipt (`FR-03-13`), or shows the error state | stays (loading, then success or error state) |
 | 2 | Thử lại tải PDF | tap (error state) | Retries generating and downloading the PDF receipt | stays (loading, then success or error state) |
 | 3 | Về lịch sử giao dịch | tap (default or error state) | Opens the transaction history list | S-F05-01 |
 | 4 | Xem lịch sử giao dịch | tap (empty state) | Opens the transaction history list | S-F05-01 |
@@ -96,20 +96,22 @@ All colours, fonts and corners come from the design tokens in
 
 | Rule ID | Rule | Source |
 |---|---|---|
-| SR-001 | The supplier sees only receipts of their own `supplier.id`. | FR-06-03 |
-| SR-002 | All transaction, weight, price, and amount values on the receipt are read-only and locked upon signing on S-F03-01. | FR-03-01; FR-03-02 |
-| SR-003 | Warehouse verification status (`#13`) is strictly informational and does not affect the supplier's balance or block PDF receipt export. | FR-03-02 |
+| SR-001 | The supplier sees only receipts of their own `supplier.id`. | FR-06-04 |
+| SR-002 | All transaction, weight, price, and amount values on the receipt are read-only and locked upon signing on S-F03-01. | FR-03-06; FR-03-12, FR-03-13 |
+| SR-003 | Warehouse verification status (`#13`) is strictly informational and does not affect the supplier's balance or block PDF receipt export. | FR-03-14 |
 | SR-004 | "Tải biên nhận (PDF)" is disabled in the Empty and Loading states. | ui-conventions §4 |
-| SR-005 | If PDF download fails, the loaded receipt and warehouse cards stay visible so the supplier can still read the details and tap "Thử lại tải PDF". | FR-03-03 (error state) |
+| SR-005 | If PDF download fails, the loaded receipt and warehouse cards stay visible so the supplier can still read the details and tap "Thử lại tải PDF". | FR-03-13 (error state) |
 | SR-006 | Statuses are shown with text and icon, never by colour alone. | ui-conventions §5 |
 
 ## 7. Linked requirements
 
 | FR ID | What this screen does for it |
 |---|---|
-| FR-03-02 | Displays the official signed transaction receipt with itemized pricing, total payout, and read-only warehouse verification status |
-| FR-03-03 | Exports the signed transaction receipt as a downloadable PDF file (`<collection.id>_bien-nhan.pdf`) and confirms download metadata |
-| FR-06-03 | Restricts the receipt shown to the signed-in supplier |
+| FR-03-11 | Checks supplier ownership and signed status before showing the receipt |
+| FR-03-12 | Retrieves the itemized signed-transaction receipt data |
+| FR-03-13 | Renders/provides the PDF receipt for viewing or downloading |
+| FR-03-14 | Shows read-only warehouse verification status for information only |
+| FR-06-04 | Restricts receipt access to the signed-in supplier |
 
 ## 8. Responsive and accessibility notes
 
@@ -140,4 +142,4 @@ All colours, fonts and corners come from the design tokens in
 - [ ] Every navigation target is a Screen ID that exists in the Screen List.
 - [x] Every element that displays data names the field it displays.
 - [x] Every linked FR exists in the Function List, and every action of this screen in its activity diagram is
-      covered by an interaction row (UC-08: no activity diagram, "not needed" in the usage flow).
+      covered by an interaction row. UC-09 remains read/download; its signing predecessor is documented in AD-UC-08.

@@ -88,5 +88,6 @@ Other examples used by the package include `SUP-00125` (Supplier), `PK-00125` (p
 ## Notes on diagrams and numbers
 
 - Diagrams are Mermaid code blocks. Activity diagrams use `swimlane-beta`, which requires Mermaid 11.16 or later; if a viewer cannot render one, paste the block into [mermaid.live](https://mermaid.live).
+- The supplied Lesson 7 references are preserved in [activity-diagram-template.md](templates/activity-diagram-template.md) and [mermaid-activity-patterns.md](templates/mermaid-activity-patterns.md).
 - Mermaid has no dedicated use-case diagram type, so the use-case diagram is represented as a flowchart; use UML notation when redrawing it in a diagramming tool.
 - Money is in VND. Rates, AI leverage factors, thresholds, and benefit figures are the team's teaching estimates recorded in the function-list and appraisal documents.

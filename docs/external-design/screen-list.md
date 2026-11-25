@@ -16,8 +16,8 @@
 | S-F02-03 | Assigned route | Driver / Collector | F-02 | A driver/collector opens the assigned route and sees its pickup points in visiting order | S-F00-01 (driver home); dispatch notification; S-F02-04 (after a pickup is saved or cancelled) | UC-06 · FR-02-02 | Must | `screens/screen-spec-S-F02-03.md` |
 | S-F02-04 | Pickup point collection | Driver / Collector | F-02 | At one pickup point the driver/collector confirms arrival, reports whether UCO is ready, and enters and submits the actual quantity with optional photo and notes | S-F02-03 (select a pickup point) | UC-06 · FR-02-02 (the "UCO not ready" cancellation: see note 3) | Must | `screens/screen-spec-S-F02-04.md` |
 | S-F02-05 | Handover record and draft agreement | Driver / Collector | F-02 | The driver/collector records handover time and evidence and sees the calculated transaction amount and the draft handover agreement | S-F02-04 (after collection details are saved) | UC-07 · FR-02-03 | Must | `screens/screen-spec-S-F02-05.md` |
-| S-F03-01 | Transaction review and e-signature | Supplier | F-03 | A supplier reviews the recorded handover (quantity, base price, loyalty bonus, total amount) and signs the transaction electronically | Notification after the draft agreement is generated; S-F00-02 (awaiting-signature banner); S-F05-01 (transaction awaiting signature) | UC-08 · FR-03-01 | Must | `screens/screen-spec-S-F03-01.md` |
-| S-F03-02 | Transaction receipt | Supplier | F-03 | A supplier views or downloads the electronic receipt (PDF) of a signed transaction, with the warehouse verification status shown for information only | S-F03-01 (after signing); S-F05-01 (transaction history); S-F00-02 (latest-receipt shortcut) | UC-09 · FR-03-02 | Must | `screens/screen-spec-S-F03-02.md` |
+| S-F03-01 | Transaction review and e-signature | Supplier | F-03 | A supplier reviews the recorded handover (quantity, base price, loyalty bonus, total amount) and signs the transaction electronically | Notification after the draft agreement is generated; S-F00-02 (awaiting-signature banner); S-F05-01 (transaction awaiting signature) | UC-08 · current W1 FR-03-01–FR-03-10; separate UC-12 post-signing FR-05-03–FR-05-06 | Must | `screens/screen-spec-S-F03-01.md` |
+| S-F03-02 | Transaction receipt | Supplier | F-03 | A supplier views or downloads the electronic receipt (PDF) of a signed transaction, with the warehouse verification status shown for information only | S-F03-01 (after signing); S-F05-01 (transaction history); S-F00-02 (latest-receipt shortcut) | UC-09 · current W1 FR-03-11–FR-03-14 | Must | `screens/screen-spec-S-F03-02.md` |
 | S-F04-01 | Warehouse receiving | Warehouse Staff | F-04 | Warehouse staff scan or enter the Collection_ID, record the received quantity and see the comparison with the collected quantity, with a discrepancy alert above tolerance | S-F00-03 | UC-10 · FR-04-01 | Must | `screens/screen-spec-S-F04-01.md` |
 | S-F04-02 | Batch and mass-balance management | Warehouse Staff | F-04 | Warehouse staff create or update a UCO batch from received collections and maintain its mass-balance record | S-F00-03; S-F04-01 (after receiving) | UC-11 · FR-04-02 | Should | `screens/screen-spec-S-F04-02.md` |
 | S-F05-01 | Loyalty and payout balance | Supplier | F-05 | A supplier sees current loyalty tier, verified UCO volume and progress to the next tier, accumulated payout balance, and transaction history (base payment, loyalty bonus, tier upgrade bonus) | S-F00-02 (bottom navigation "My wallet") | UC-12 · FR-05-01 | Must | `screens/screen-spec-S-F05-01.md` |
@@ -34,7 +34,7 @@
 | Cancel this pickup request? | S-F01-05 | Confirm that the supplier cancels an eligible pickup request (FR-01-04) |
 | Confirm route and dispatch? | S-F02-02 | Confirm the reviewed route before the driver and vehicle are assigned and the driver is notified (FR-02-01) |
 | UCO not ready: cancel this pickup? | S-F02-04 | Confirm that the current pickup is cancelled because UCO is not ready (AD-UC-06, branch `d0 [No: UCO not ready]`) |
-| Confirm and e-sign | S-F03-01 | Confirm the electronic signature that locks the agreement (FR-03-01) |
+| Confirm and e-sign | S-F03-01 | Confirm the electronic signature before validation, agreement locking, signature storage and pickup completion (current FR-03-04, FR-03-06–FR-03-08) |
 | Confirm withdrawal | S-F05-02 | Confirm the withdrawal amount before the withdrawal request is created (FR-05-02) |
 
 ## Checks before you save
@@ -55,7 +55,7 @@
 | "Invalid pickup request details" | Error state of S-F01-03 (FR-01-03) |
 | "Invalid collection data" | Error state of S-F02-04 (FR-02-02) |
 | "Quantity discrepancy alert" | State of S-F04-01 (FR-04-01) |
-| Update payout balance and loyalty tier after signing (FR-05-01) | System-triggered, no user interface; the supplier sees the result on S-F05-01 |
+| Update payout balance, verified volume and eligible loyalty tier/bonus after signing (current FR-05-03–FR-05-06) | System-triggered after the transaction is signed (UC-12); the supplier sees the result on S-F03-01 and S-F05-01 |
 | Enforce role-based access control (FR-06-03) | Applied on every screen; the user meets it at S-F00-01 |
 | A separate "main menu" list for supplier, warehouse or ReFeed staff | Each role opens on its home screen (S-F00-02, S-F00-03, S-F02-03, S-F06-01); the supplier's areas are reached through the bottom navigation, a component on the supplier screens (ui-conventions §3) |
 | Run automated tests (FR-06-04), Deploy and monitor (FR-06-05) | Delivery pipeline, no user interface |

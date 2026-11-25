@@ -38,7 +38,7 @@ flowchart LR
 | 2 | UC-02 Manage Point-of-Origin and compliance profile | `AD-UC-02.md` | S-F01-01, S-F01-06, S-F01-02 |
 | 3 | UC-03 Request and schedule a UCO pickup | `AD-UC-03.md` | S-F01-03 |
 | 4 | UC-04 Manage and track an existing pickup status | `AD-UC-04.md` | S-F01-04, S-F01-05 (modal "Cancel this pickup request?"), S-F01-03 (edit mode, reschedule) |
-| 5 | UC-08 Confirm and sign a UCO transaction | `AD-UC-08.md` | S-F03-01 (modal "Confirm and e-sign") |
+| 5 | UC-08 Confirm and sign a UCO transaction | [AD-UC-08](../activity/AD-UC-08.md) | S-F03-01 (modal "Confirm and e-sign"); interactions in [SD-UC-08](../use-case/SD-UC-08.md) |
 | 6 | UC-09 View or download transaction receipt | not needed | S-F03-02 |
 | 7 | UC-12 Manage loyalty status and accumulated payout balance | `AD-UC-12.md` | S-F05-01 |
 | (alt) | UC-13 Withdraw accumulated payout balance | `AD-UC-13.md` | S-F05-02 (modal "Confirm withdrawal") |
