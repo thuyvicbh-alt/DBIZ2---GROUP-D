@@ -46,7 +46,7 @@ docs/
 | 3 | Use cases | [use-case-diagram.md](docs/use-case/use-case-diagram.md), [SD-UC-*.md](docs/use-case/) | Use-case inventory and interaction sequences |
 | 4 | Architecture | [architecture.md](docs/architecture/architecture.md), [adr/](docs/architecture/adr/) | System requirements, layers, integrations, and architecture decisions |
 | 5 | Function list | [w0-scope.md](docs/function-list/w0-scope.md), [w1-function-list.md](docs/function-list/w1-function-list.md) | Features, FRs, BRs, EARS criteria, and work items |
-| 6 | Priorities and appraisal | [w2-cost.md](docs/function-list/w2-cost.md), [w4-priorities.md](docs/function-list/w4-priorities.md), [w5-handover.md](docs/function-list/w5-handover.md), [w6-cash-flow.md](docs/function-list/w6-cash-flow.md) | Cost, priority, handover scope, and financial appraisal |
+| 6 | Priorities and appraisal | [w2-cost.md](docs/function-list/w2-cost.md), [w3-cross-review.md](docs/function-list/w3-cross-review.md), [w4-priorities.md](docs/function-list/w4-priorities.md), [w5-handover.md](docs/function-list/w5-handover.md), [w6-cash-flow.md](docs/function-list/w6-cash-flow.md) | Cost, priority, handover scope, and financial appraisal |
 | 7 | Activities | [activity-index.md](docs/activity/activity-index.md), [AD-UC-*.md](docs/activity/) | Actor/system actions and FR coverage |
 | 8 | External design | [usage-flow.md](docs/external-design/usage-flow.md) | One operational flow for each actor |
 | 9 | External design | [screen-list.md](docs/external-design/screen-list.md), [screen-transition.md](docs/external-design/screen-transition.md), [ui-conventions.md](docs/external-design/ui-conventions.md) | Screen inventory, navigation, shared components, messages, accessibility, and tokens |

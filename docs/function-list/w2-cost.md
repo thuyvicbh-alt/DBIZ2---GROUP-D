@@ -1,93 +1,198 @@
-# W2 Costing and roll-up
+# W2 Costing and roll-up: ReFeed
 
-Lesson 5 (block W2). Fully derived from [W1](w1-function-list.md), the effective priorities in [W4](w4-priorities.md) and the class Parameters:
+Lesson 5 (block W2). Derived from every L3 row in [W1](w1-function-list.md), its EARS-precision flag, and the effective priority in [W4](w4-priorities.md).
 
-- Person-hours = base hours x AI leverage factor + base hours x verification factor.
-- AI leverage: FE 0.35, BE 0.7, INT 1.0. Verification factor: 0.15 when the EARS criterion is precise, 0.4 when it is vague.
-- Rate: FE Junior 200.000 VND/h; BE and INT Senior 300.000 VND/h.
+- Person-hours = base hours × AI leverage factor + base hours × verification factor.
+- AI leverage: FE 0.35, BE 0.70, INT 1.00. Verification: precise 0.15; imprecise 0.40.
+- Rates: FE Junior 200.000 VND/h; BE and INT Senior 300.000 VND/h. Cost = person-hours × rate.
+- Parameters come from the Group D Cost Workshop, `Parameters!B9:B11`, `B15:C17`, `B21:B23`, `B27:B28`, `B38`, `B42:B54`. Calculations use unrounded values; hours display one decimal and VND displays whole units.
+- All-task totals include the deferred trace query. Release totals and scenario shares exclude Won't rows. Splitting functions changes the task estimates; the previous 43-row totals are superseded.
 
 ## Cost per L3 work item
 
 | L3 ID | Feature | Layer | Base h | AI-adj. h | Verif. h | Person-hours | Band | Cost (VND) | Effective priority |
 |---|---|---|---|---|---|---|---|---|---|
-| FR-01-01-FE | F-01 | FE | 8 | 2.8 | 1.2 | 4.0 | Junior | 800.000 | Must |
-| FR-01-01-BE | F-01 | BE | 8 | 5.6 | 1.2 | 6.8 | Senior | 2.040.000 | Must |
-| FR-01-02-FE | F-01 | FE | 8 | 2.8 | 1.2 | 4.0 | Junior | 800.000 | Must |
-| FR-01-02-BE | F-01 | BE | 8 | 5.6 | 1.2 | 6.8 | Senior | 2.040.000 | Must |
-| FR-01-03-FE | F-01 | FE | 8 | 2.8 | 1.2 | 4.0 | Junior | 800.000 | Must |
-| FR-01-03-BE | F-01 | BE | 8 | 5.6 | 1.2 | 6.8 | Senior | 2.040.000 | Must |
-| FR-01-04-FE | F-01 | FE | 8 | 2.8 | 1.2 | 4.0 | Junior | 800.000 | Should |
-| FR-01-04-BE | F-01 | BE | 8 | 5.6 | 1.2 | 6.8 | Senior | 2.040.000 | Should |
-| FR-01-05-FE | F-01 | FE | 4 | 1.4 | 0.6 | 2.0 | Junior | 400.000 | Could |
-| FR-01-05-BE | F-01 | BE | 4 | 2.8 | 0.6 | 3.4 | Senior | 1.020.000 | Could |
-| FR-02-01-FE | F-02 | FE | 8 | 2.8 | 1.2 | 4.0 | Junior | 800.000 | Must |
-| FR-02-01-BE | F-02 | BE | 16 | 11.2 | 2.4 | 13.6 | Senior | 4.080.000 | Must |
-| FR-02-01-INT | F-02 | INT | 8 | 8.0 | 1.2 | 9.2 | Senior | 2.760.000 | Must |
-| FR-02-02-FE | F-02 | FE | 8 | 2.8 | 1.2 | 4.0 | Junior | 800.000 | Must |
-| FR-02-02-BE | F-02 | BE | 8 | 5.6 | 1.2 | 6.8 | Senior | 2.040.000 | Must |
+| FR-01-01-FE | F-01 | FE | 8 | 2.8 | 3.2 | 6.0 | Junior | 1.200.000 | Must |
+| FR-01-01-BE | F-01 | BE | 8 | 5.6 | 3.2 | 8.8 | Senior | 2.640.000 | Must |
+| FR-01-02-BE | F-01 | BE | 4 | 2.8 | 0.6 | 3.4 | Senior | 1.020.000 | Must |
+| FR-01-03-FE | F-01 | FE | 4 | 1.4 | 0.6 | 2.0 | Junior | 400.000 | Must |
+| FR-01-04-FE | F-01 | FE | 4 | 1.4 | 0.6 | 2.0 | Junior | 400.000 | Must |
+| FR-01-05-FE | F-01 | FE | 4 | 1.4 | 0.6 | 2.0 | Junior | 400.000 | Must |
+| FR-01-06-BE | F-01 | BE | 8 | 5.6 | 1.2 | 6.8 | Senior | 2.040.000 | Must |
+| FR-01-07-FE | F-01 | FE | 8 | 2.8 | 3.2 | 6.0 | Junior | 1.200.000 | Must |
+| FR-01-07-BE | F-01 | BE | 4 | 2.8 | 1.6 | 4.4 | Senior | 1.320.000 | Must |
+| FR-01-08-BE | F-01 | BE | 4 | 2.8 | 0.6 | 3.4 | Senior | 1.020.000 | Must |
+| FR-01-09-FE | F-01 | FE | 4 | 1.4 | 0.6 | 2.0 | Junior | 400.000 | Must |
+| FR-01-09-BE | F-01 | BE | 4 | 2.8 | 0.6 | 3.4 | Senior | 1.020.000 | Must |
+| FR-01-10-FE | F-01 | FE | 4 | 1.4 | 0.6 | 2.0 | Junior | 400.000 | Must |
+| FR-01-10-BE | F-01 | BE | 4 | 2.8 | 0.6 | 3.4 | Senior | 1.020.000 | Must |
+| FR-01-11-FE | F-01 | FE | 8 | 2.8 | 3.2 | 6.0 | Junior | 1.200.000 | Must |
+| FR-01-11-BE | F-01 | BE | 4 | 2.8 | 1.6 | 4.4 | Senior | 1.320.000 | Must |
+| FR-01-12-FE | F-01 | FE | 4 | 1.4 | 0.6 | 2.0 | Junior | 400.000 | Must |
+| FR-01-12-BE | F-01 | BE | 4 | 2.8 | 0.6 | 3.4 | Senior | 1.020.000 | Must |
+| FR-01-13-BE | F-01 | BE | 4 | 2.8 | 0.6 | 3.4 | Senior | 1.020.000 | Must |
+| FR-01-14-FE | F-01 | FE | 4 | 1.4 | 0.6 | 2.0 | Junior | 400.000 | Must |
+| FR-01-14-BE | F-01 | BE | 4 | 2.8 | 0.6 | 3.4 | Senior | 1.020.000 | Must |
+| FR-01-15-FE | F-01 | FE | 4 | 1.4 | 0.6 | 2.0 | Junior | 400.000 | Should |
+| FR-01-15-BE | F-01 | BE | 4 | 2.8 | 0.6 | 3.4 | Senior | 1.020.000 | Should |
+| FR-01-16-FE | F-01 | FE | 4 | 1.4 | 0.6 | 2.0 | Junior | 400.000 | Should |
+| FR-01-17-FE | F-01 | FE | 8 | 2.8 | 1.2 | 4.0 | Junior | 800.000 | Should |
+| FR-01-17-BE | F-01 | BE | 8 | 5.6 | 1.2 | 6.8 | Senior | 2.040.000 | Should |
+| FR-01-18-BE | F-01 | BE | 4 | 2.8 | 0.6 | 3.4 | Senior | 1.020.000 | Should |
+| FR-01-19-BE | F-01 | BE | 4 | 2.8 | 0.6 | 3.4 | Senior | 1.020.000 | Should |
+| FR-01-20-FE | F-01 | FE | 4 | 1.4 | 0.6 | 2.0 | Junior | 400.000 | Could |
+| FR-01-20-BE | F-01 | BE | 8 | 5.6 | 1.2 | 6.8 | Senior | 2.040.000 | Could |
+| FR-02-01-FE | F-02 | FE | 4 | 1.4 | 1.6 | 3.0 | Junior | 600.000 | Must |
+| FR-02-01-BE | F-02 | BE | 8 | 5.6 | 3.2 | 8.8 | Senior | 2.640.000 | Must |
+| FR-02-02-INT | F-02 | INT | 8 | 8.0 | 3.2 | 11.2 | Senior | 3.360.000 | Must |
 | FR-02-03-FE | F-02 | FE | 8 | 2.8 | 1.2 | 4.0 | Junior | 800.000 | Must |
-| FR-02-03-BE | F-02 | BE | 8 | 5.6 | 1.2 | 6.8 | Senior | 2.040.000 | Must |
-| FR-03-01-FE | F-03 | FE | 8 | 2.8 | 1.2 | 4.0 | Junior | 800.000 | Must |
-| FR-03-01-BE | F-03 | BE | 8 | 5.6 | 1.2 | 6.8 | Senior | 2.040.000 | Must |
+| FR-02-04-FE | F-02 | FE | 4 | 1.4 | 0.6 | 2.0 | Junior | 400.000 | Must |
+| FR-02-04-BE | F-02 | BE | 4 | 2.8 | 0.6 | 3.4 | Senior | 1.020.000 | Must |
+| FR-02-05-BE | F-02 | BE | 8 | 5.6 | 1.2 | 6.8 | Senior | 2.040.000 | Must |
+| FR-02-06-BE | F-02 | BE | 4 | 2.8 | 0.6 | 3.4 | Senior | 1.020.000 | Must |
+| FR-02-07-BE | F-02 | BE | 4 | 2.8 | 0.6 | 3.4 | Senior | 1.020.000 | Must |
+| FR-02-08-FE | F-02 | FE | 8 | 2.8 | 1.2 | 4.0 | Junior | 800.000 | Must |
+| FR-02-08-BE | F-02 | BE | 4 | 2.8 | 0.6 | 3.4 | Senior | 1.020.000 | Must |
+| FR-02-09-FE | F-02 | FE | 4 | 1.4 | 0.6 | 2.0 | Junior | 400.000 | Must |
+| FR-02-09-BE | F-02 | BE | 4 | 2.8 | 0.6 | 3.4 | Senior | 1.020.000 | Must |
+| FR-02-10-FE | F-02 | FE | 8 | 2.8 | 3.2 | 6.0 | Junior | 1.200.000 | Must |
+| FR-02-10-BE | F-02 | BE | 8 | 5.6 | 3.2 | 8.8 | Senior | 2.640.000 | Must |
+| FR-02-11-FE | F-02 | FE | 4 | 1.4 | 0.6 | 2.0 | Junior | 400.000 | Must |
+| FR-02-11-BE | F-02 | BE | 4 | 2.8 | 0.6 | 3.4 | Senior | 1.020.000 | Must |
+| FR-02-12-BE | F-02 | BE | 8 | 5.6 | 1.2 | 6.8 | Senior | 2.040.000 | Must |
+| FR-02-13-FE | F-02 | FE | 4 | 1.4 | 0.6 | 2.0 | Junior | 400.000 | Must |
+| FR-02-13-BE | F-02 | BE | 4 | 2.8 | 0.6 | 3.4 | Senior | 1.020.000 | Must |
+| FR-02-14-FE | F-02 | FE | 8 | 2.8 | 3.2 | 6.0 | Junior | 1.200.000 | Must |
+| FR-02-14-BE | F-02 | BE | 4 | 2.8 | 1.6 | 4.4 | Senior | 1.320.000 | Must |
+| FR-02-15-BE | F-02 | BE | 8 | 5.6 | 1.2 | 6.8 | Senior | 2.040.000 | Must |
+| FR-02-16-BE | F-02 | BE | 8 | 5.6 | 1.2 | 6.8 | Senior | 2.040.000 | Must |
+| FR-02-17-FE | F-02 | FE | 4 | 1.4 | 0.6 | 2.0 | Junior | 400.000 | Must |
+| FR-02-17-BE | F-02 | BE | 8 | 5.6 | 1.2 | 6.8 | Senior | 2.040.000 | Must |
+| FR-02-18-FE | F-02 | FE | 4 | 1.4 | 0.6 | 2.0 | Junior | 400.000 | Must |
+| FR-02-18-BE | F-02 | BE | 4 | 2.8 | 0.6 | 3.4 | Senior | 1.020.000 | Must |
+| FR-03-01-FE | F-03 | FE | 4 | 1.4 | 0.6 | 2.0 | Junior | 400.000 | Must |
+| FR-03-01-BE | F-03 | BE | 4 | 2.8 | 0.6 | 3.4 | Senior | 1.020.000 | Must |
 | FR-03-02-FE | F-03 | FE | 4 | 1.4 | 0.6 | 2.0 | Junior | 400.000 | Must |
-| FR-03-02-BE | F-03 | BE | 4 | 2.8 | 0.6 | 3.4 | Senior | 1.020.000 | Must |
-| FR-04-01-FE | F-04 | FE | 8 | 2.8 | 1.2 | 4.0 | Junior | 800.000 | Must |
-| FR-04-01-BE | F-04 | BE | 8 | 5.6 | 1.2 | 6.8 | Senior | 2.040.000 | Must |
-| FR-04-02-FE | F-04 | FE | 8 | 2.8 | 1.2 | 4.0 | Junior | 800.000 | Should |
-| FR-04-02-BE | F-04 | BE | 16 | 11.2 | 2.4 | 13.6 | Senior | 4.080.000 | Should |
-| FR-04-03-FE | F-04 | FE | 8 | 2.8 | 1.2 | 4.0 | Junior | 800.000 | Won't |
-| FR-04-03-BE | F-04 | BE | 16 | 11.2 | 2.4 | 13.6 | Senior | 4.080.000 | Won't |
-| FR-05-01-FE | F-05 | FE | 8 | 2.8 | 1.2 | 4.0 | Junior | 800.000 | Must |
-| FR-05-01-BE | F-05 | BE | 8 | 5.6 | 1.2 | 6.8 | Senior | 2.040.000 | Must |
-| FR-05-02-FE | F-05 | FE | 8 | 2.8 | 1.2 | 4.0 | Junior | 800.000 | Should |
-| FR-05-02-BE | F-05 | BE | 8 | 5.6 | 1.2 | 6.8 | Senior | 2.040.000 | Should |
-| FR-05-03-FE | F-05 | FE | 4 | 1.4 | 0.6 | 2.0 | Junior | 400.000 | Could |
-| FR-05-03-BE | F-05 | BE | 4 | 2.8 | 0.6 | 3.4 | Senior | 1.020.000 | Could |
-| FR-05-04-FE | F-05 | FE | 8 | 2.8 | 1.2 | 4.0 | Junior | 800.000 | Should |
-| FR-05-04-BE | F-05 | BE | 8 | 5.6 | 1.2 | 6.8 | Senior | 2.040.000 | Should |
-| FR-06-01-FE | F-06 | FE | 8 | 2.8 | 1.2 | 4.0 | Junior | 800.000 | Should |
-| FR-06-01-BE | F-06 | BE | 8 | 5.6 | 1.2 | 6.8 | Senior | 2.040.000 | Should |
-| FR-06-02-FE | F-06 | FE | 8 | 2.8 | 1.2 | 4.0 | Junior | 800.000 | Must |
-| FR-06-02-BE | F-06 | BE | 16 | 11.2 | 2.4 | 13.6 | Senior | 4.080.000 | Must |
-| FR-06-03-BE | F-06 | BE | 8 | 5.6 | 1.2 | 6.8 | Senior | 2.040.000 | Must |
+| FR-03-03-FE | F-03 | FE | 4 | 1.4 | 0.6 | 2.0 | Junior | 400.000 | Must |
+| FR-03-04-FE | F-03 | FE | 8 | 2.8 | 1.2 | 4.0 | Junior | 800.000 | Must |
+| FR-03-04-BE | F-03 | BE | 4 | 2.8 | 0.6 | 3.4 | Senior | 1.020.000 | Must |
+| FR-03-05-FE | F-03 | FE | 4 | 1.4 | 0.6 | 2.0 | Junior | 400.000 | Must |
+| FR-03-05-BE | F-03 | BE | 4 | 2.8 | 0.6 | 3.4 | Senior | 1.020.000 | Must |
+| FR-03-06-BE | F-03 | BE | 8 | 5.6 | 1.2 | 6.8 | Senior | 2.040.000 | Must |
+| FR-03-07-BE | F-03 | BE | 8 | 5.6 | 1.2 | 6.8 | Senior | 2.040.000 | Must |
+| FR-03-08-BE | F-03 | BE | 4 | 2.8 | 0.6 | 3.4 | Senior | 1.020.000 | Must |
+| FR-03-09-FE | F-03 | FE | 4 | 1.4 | 0.6 | 2.0 | Junior | 400.000 | Must |
+| FR-03-09-BE | F-03 | BE | 8 | 5.6 | 1.2 | 6.8 | Senior | 2.040.000 | Must |
+| FR-03-10-FE | F-03 | FE | 4 | 1.4 | 0.6 | 2.0 | Junior | 400.000 | Must |
+| FR-03-11-FE | F-03 | FE | 4 | 1.4 | 0.6 | 2.0 | Junior | 400.000 | Must |
+| FR-03-11-BE | F-03 | BE | 4 | 2.8 | 0.6 | 3.4 | Senior | 1.020.000 | Must |
+| FR-03-12-BE | F-03 | BE | 4 | 2.8 | 0.6 | 3.4 | Senior | 1.020.000 | Must |
+| FR-03-13-FE | F-03 | FE | 4 | 1.4 | 0.6 | 2.0 | Junior | 400.000 | Must |
+| FR-03-13-BE | F-03 | BE | 8 | 5.6 | 1.2 | 6.8 | Senior | 2.040.000 | Must |
+| FR-03-14-FE | F-03 | FE | 4 | 1.4 | 0.6 | 2.0 | Junior | 400.000 | Must |
+| FR-04-01-FE | F-04 | FE | 4 | 1.4 | 0.6 | 2.0 | Junior | 400.000 | Must |
+| FR-04-01-BE | F-04 | BE | 4 | 2.8 | 0.6 | 3.4 | Senior | 1.020.000 | Must |
+| FR-04-02-FE | F-04 | FE | 4 | 1.4 | 0.6 | 2.0 | Junior | 400.000 | Must |
+| FR-04-02-BE | F-04 | BE | 4 | 2.8 | 0.6 | 3.4 | Senior | 1.020.000 | Must |
+| FR-04-03-FE | F-04 | FE | 4 | 1.4 | 0.6 | 2.0 | Junior | 400.000 | Must |
+| FR-04-03-BE | F-04 | BE | 4 | 2.8 | 0.6 | 3.4 | Senior | 1.020.000 | Must |
+| FR-04-04-BE | F-04 | BE | 4 | 2.8 | 0.6 | 3.4 | Senior | 1.020.000 | Must |
+| FR-04-05-FE | F-04 | FE | 4 | 1.4 | 0.6 | 2.0 | Junior | 400.000 | Must |
+| FR-04-05-BE | F-04 | BE | 4 | 2.8 | 0.6 | 3.4 | Senior | 1.020.000 | Must |
+| FR-04-06-FE | F-04 | FE | 4 | 1.4 | 1.6 | 3.0 | Junior | 600.000 | Should |
+| FR-04-06-BE | F-04 | BE | 4 | 2.8 | 1.6 | 4.4 | Senior | 1.320.000 | Should |
+| FR-04-07-FE | F-04 | FE | 4 | 1.4 | 0.6 | 2.0 | Junior | 400.000 | Should |
+| FR-04-08-BE | F-04 | BE | 8 | 5.6 | 3.2 | 8.8 | Senior | 2.640.000 | Should |
+| FR-04-09-FE | F-04 | FE | 4 | 1.4 | 1.6 | 3.0 | Junior | 600.000 | Should |
+| FR-04-09-BE | F-04 | BE | 8 | 5.6 | 3.2 | 8.8 | Senior | 2.640.000 | Should |
+| FR-04-10-INT | F-04 | INT | 8 | 8.0 | 3.2 | 11.2 | Senior | 3.360.000 | Should |
+| FR-04-11-FE | F-04 | FE | 8 | 2.8 | 1.2 | 4.0 | Junior | 800.000 | Won't |
+| FR-04-11-BE | F-04 | BE | 16 | 11.2 | 2.4 | 13.6 | Senior | 4.080.000 | Won't |
+| FR-05-01-FE | F-05 | FE | 4 | 1.4 | 0.6 | 2.0 | Junior | 400.000 | Must |
+| FR-05-01-BE | F-05 | BE | 4 | 2.8 | 0.6 | 3.4 | Senior | 1.020.000 | Must |
+| FR-05-02-FE | F-05 | FE | 4 | 1.4 | 0.6 | 2.0 | Junior | 400.000 | Must |
+| FR-05-02-BE | F-05 | BE | 4 | 2.8 | 0.6 | 3.4 | Senior | 1.020.000 | Must |
+| FR-05-03-BE | F-05 | BE | 8 | 5.6 | 1.2 | 6.8 | Senior | 2.040.000 | Must |
+| FR-05-04-BE | F-05 | BE | 4 | 2.8 | 0.6 | 3.4 | Senior | 1.020.000 | Must |
+| FR-05-05-BE | F-05 | BE | 4 | 2.8 | 0.6 | 3.4 | Senior | 1.020.000 | Must |
+| FR-05-06-BE | F-05 | BE | 8 | 5.6 | 1.2 | 6.8 | Senior | 2.040.000 | Must |
+| FR-05-07-FE | F-05 | FE | 4 | 1.4 | 1.6 | 3.0 | Junior | 600.000 | Should |
+| FR-05-07-BE | F-05 | BE | 4 | 2.8 | 1.6 | 4.4 | Senior | 1.320.000 | Should |
+| FR-05-08-FE | F-05 | FE | 4 | 1.4 | 0.6 | 2.0 | Junior | 400.000 | Should |
+| FR-05-08-BE | F-05 | BE | 4 | 2.8 | 0.6 | 3.4 | Senior | 1.020.000 | Should |
+| FR-05-09-BE | F-05 | BE | 8 | 5.6 | 1.2 | 6.8 | Senior | 2.040.000 | Should |
+| FR-05-10-BE | F-05 | BE | 8 | 5.6 | 1.2 | 6.8 | Senior | 2.040.000 | Should |
+| FR-05-11-FE | F-05 | FE | 4 | 1.4 | 0.6 | 2.0 | Junior | 400.000 | Should |
+| FR-05-12-FE | F-05 | FE | 4 | 1.4 | 0.6 | 2.0 | Junior | 400.000 | Could |
+| FR-05-12-BE | F-05 | BE | 4 | 2.8 | 0.6 | 3.4 | Senior | 1.020.000 | Could |
+| FR-05-13-BE | F-05 | BE | 8 | 5.6 | 3.2 | 8.8 | Senior | 2.640.000 | Should |
+| FR-05-14-FE | F-05 | FE | 4 | 1.4 | 0.6 | 2.0 | Junior | 400.000 | Should |
+| FR-06-01-FE | F-06 | FE | 8 | 2.8 | 3.2 | 6.0 | Junior | 1.200.000 | Should |
+| FR-06-01-BE | F-06 | BE | 8 | 5.6 | 3.2 | 8.8 | Senior | 2.640.000 | Should |
+| FR-06-02-FE | F-06 | FE | 4 | 1.4 | 1.6 | 3.0 | Junior | 600.000 | Must |
+| FR-06-02-BE | F-06 | BE | 8 | 5.6 | 3.2 | 8.8 | Senior | 2.640.000 | Must |
+| FR-06-03-FE | F-06 | FE | 4 | 1.4 | 1.6 | 3.0 | Junior | 600.000 | Must |
+| FR-06-03-BE | F-06 | BE | 8 | 5.6 | 3.2 | 8.8 | Senior | 2.640.000 | Must |
 | FR-06-04-BE | F-06 | BE | 8 | 5.6 | 1.2 | 6.8 | Senior | 2.040.000 | Must |
-| FR-06-05-INT | F-06 | INT | 8 | 8.0 | 1.2 | 9.2 | Senior | 2.760.000 | Must |
-| FR-06-06-BE | F-06 | BE | 4 | 2.8 | 0.6 | 3.4 | Senior | 1.020.000 | Must |
+| FR-06-05-BE | F-06 | BE | 4 | 2.8 | 0.6 | 3.4 | Senior | 1.020.000 | Must |
+| FR-06-06-BE | F-06 | BE | 8 | 5.6 | 1.2 | 6.8 | Senior | 2.040.000 | Must |
+| FR-06-07-BE | F-06 | BE | 8 | 5.6 | 1.2 | 6.8 | Senior | 2.040.000 | Must |
+| FR-06-08-BE | F-06 | BE | 8 | 5.6 | 1.2 | 6.8 | Senior | 2.040.000 | Must |
+| FR-06-09-BE | F-06 | BE | 4 | 2.8 | 0.6 | 3.4 | Senior | 1.020.000 | Must |
+| FR-06-10-INT | F-06 | INT | 8 | 8.0 | 1.2 | 9.2 | Senior | 2.760.000 | Must |
+| FR-06-11-INT | F-06 | INT | 8 | 8.0 | 1.2 | 9.2 | Senior | 2.760.000 | Must |
+| FR-06-12-BE | F-06 | BE | 8 | 5.6 | 1.2 | 6.8 | Senior | 2.040.000 | Must |
+| FR-06-13-BE | F-06 | BE | 4 | 2.8 | 0.6 | 3.4 | Senior | 1.020.000 | Must |
+| FR-06-14-BE | F-06 | BE | 8 | 5.6 | 1.2 | 6.8 | Senior | 2.040.000 | Must |
+
+All 132 tasks: **724 base h; 580.4 person-hours; 159.520.000 VND**. Won't: **17.6 person-hours; 4.880.000 VND**. In scope: **562.8 person-hours; 154.640.000 VND**.
 
 ## Roll-up per feature
 
-| Feature | Name | L2 | L3 | Base h | Must p-h | Should p-h | Could p-h | In-scope p-h | In-scope cost (VND) | Must share | Transactional FP | Base h per FP |
+| Feature | Name | L2 | L3 | All base h | Must p-h | Should p-h | Could p-h | Won't p-h | In-scope p-h | In-scope cost (VND) | Must share | Transactional FP (all) |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
-| F-01 | Supplier Onboarding & Pickup Management | 5 | 10 | 72 | 32.4 | 10.8 | 5.4 | 48.6 | 12.780.000 | 67% | 20 | 3.6 |
-| F-02 | Collection Operations & Handover | 3 | 7 | 64 | 48.4 | 0 | 0 | 48.4 | 13.320.000 | 100% | 13 | 4.9 |
-| F-03 | UCO Transaction | 2 | 4 | 24 | 16.2 | 0 | 0 | 16.2 | 4.260.000 | 100% | 8 | 3.0 |
-| F-04 | Warehouse & Traceability | 3 | 6 | 64 | 10.8 | 17.6 | 0 | 28.4 | 7.720.000 | 38% | 12 | 5.3 |
-| F-05 | Supplier Value & ESG / Green Profile | 4 | 8 | 56 | 10.8 | 21.6 | 5.4 | 37.8 | 9.940.000 | 29% | 17 | 3.3 |
-| F-06 | Operations, Audit & Compliance | 6 | 8 | 68 | 43.8 | 10.8 | 0 | 54.6 | 15.580.000 | 80% | 9 | 7.6 |
-| **Project** |  | **23** | **43** | **348** | **162.4** | **60.8** | **10.8** | **234** | **63.600.000** | **69%** | **79** | **4.4** |
+| F-01 | Supplier Onboarding & Pickup Management | 20 | 30 | 152 | 80.2 | 25.0 | 8.8 | 0.0 | 114.0 | 30.000.000 | 70.4% | 34 |
+| F-02 | Collection Operations & Handover | 18 | 28 | 160 | 129.4 | 0.0 | 0.0 | 0.0 | 129.4 | 35.320.000 | 100.0% | 39 |
+| F-03 | UCO Transaction | 14 | 20 | 100 | 69.6 | 0.0 | 0.0 | 0.0 | 69.6 | 18.680.000 | 100.0% | 12 |
+| F-04 | Warehouse & Traceability | 11 | 18 | 100 | 25.0 | 41.2 | 0.0 | 17.6 | 66.2 | 18.260.000 | 37.8% | 17 |
+| F-05 | Supplier Value & ESG / Green Profile | 14 | 19 | 96 | 31.2 | 39.2 | 5.4 | 0.0 | 75.8 | 21.240.000 | 41.2% | 21 |
+| F-06 | Operations, Audit & Compliance | 14 | 17 | 116 | 93.0 | 14.8 | 0.0 | 0.0 | 107.8 | 31.140.000 | 86.3% | 13 |
+| **Project** |  | **91** | **132** | **724** | 428.4 | 120.2 | 14.2 | 17.6 | 562.8 | 154.640.000 | 76.1% | 136 |
 
 ## The three headline figures
 
 | Scenario | Scope | Person-hours | Cost (VND) | Meaning |
 |---|---|---|---|---|
-| Committed | Must only | 162.4 | 44.520.000 | What the team guarantees to deliver — the Minimum Usable SubseT |
-| Expected | Must + Should | 223.2 | 60.760.000 | The figure given to the client; the base cash flow for Session 8 |
-| Ceiling | Must + Should + Could | 234 | 63.600.000 | If the Could contingency pool is never consumed |
+| Committed scope | Must only | 428.4 | 117.820.000 | Minimum usable subset; feasibility and open blockers below still apply |
+| Expected scope | Must + Should | 548.6 | 150.780.000 | Planning case to review with the client |
+| Ceiling | Must + Should + Could | 562.8 | 154.640.000 | All in-scope work; excludes the deferred trace query |
 
 ## Threshold check (after W4)
 
 | Indicator | Value | Threshold | Verdict |
 |---|---|---|---|
-| Must share of in-scope effort | 69.4% | at most 60% | ABOVE CEILING - demote some Must rows |
-| Could share (contingency pool) | 4.6% | target 20% | POOL TOO THIN - nothing left to drop when late |
-| In-scope effort vs team capacity | 234 p-h | at most 360 p-h | PASS |
-| Hidden technical work, share of effort | 10.4% | at least 10% | PASS |
-| L3 rows above 16 hours | 0 | 0 | PASS |
+| Must share of in-scope effort | 76.1% | at most 60% | ABOVE CEILING |
+| Could share (scope contingency) | 2.5% | target 20% | POOL TOO THIN |
+| In-scope effort vs team capacity | 562.8 p-h | at most 360 p-h | OVER CAPACITY |
+| Hidden technical work, share of in-scope effort | 12.3% | at least 10% | PASS |
+| L3 rows outside 4–16 base h | 0 | 0 | PASS |
 | Feature count | 6 | 3 to 6 | PASS |
-| Function-point cross-check: 156 unadjusted FP (79 transactional + 77 data) x 3 h = 468 h, + 28 h non-functional (NC) = 496 h vs 348 bottom-up base h | 29.8% apart | at most 30% | Within tolerance - the two methods agree |
+| FP cross-check variance (same all-task boundary) | 1.2% | at most 30% | PASS |
 
-Three observations the team carries into W4:
+At the unchanged 360 p-h capacity, the Must set exceeds capacity by 68.4 p-h. Expected scope exceeds capacity by 188.6 p-h; full scope exceeds capacity by 202.8 p-h. W4 retains the team's existing priority decisions. It does not lower estimates or invent demotions to force a pass. W5 carries these constraints into handover.
 
-1. All six workbook thresholds now pass: 5 features; Must 56.6%; Could 21.0%; 230.0 person-hours within the 240-hour capacity; hidden work 10.4%.
-2. The client-facing Expected scenario is 181.6 person-hours and 49,480,000 VND; the full in-scope ceiling is 230.0 person-hours and 62,800,000 VND.
-3. The function-point cross-check is 487 hours versus 348 bottom-up hours (−28.5%), now within tolerance; F-05 is intentionally high in hours per FP because it carries NC technical work.
+## Function-point cross-check
+
+Use the workshop's average weights: EI 4, EO 5, EQ 4, NC 0. W1 marks one representative row per boundary transaction; internal steps are NC and do not multiply transactional FP. The data groups remain counted once in [W0 Table 4](w0-scope.md#table-4-data-functions).
+
+| Component | Calculation | Result |
+|---|---|---|
+| Transactional FP, all W1 L2 rows | 13 EI × 4 + 8 EO × 5 + 11 EQ × 4 | 136 FP |
+| Data-function FP | W0 Table 4; source total retained | 77 FP |
+| Gross functional estimate | (136 + 77) × 3 h/FP | 639.0 base h |
+| Non-functional platform effort | W1 hidden-work tasks FR-06-04 through FR-06-14, counted once | 76.0 base h |
+| Comparable FP estimate | gross functional estimate + platform effort | 715.0 base h |
+| Bottom-up estimate | all 132 W1 tasks, including Won't | 724.0 base h |
+| Absolute variance | absolute(FP estimate − bottom-up) ÷ bottom-up | 1.2% |
+
+Only hidden non-functional platform work is added to the functional estimate. Other NC rows are internal steps of the counted business transactions and are not added again. This comparison uses pre-AI base hours, not AI-adjusted person-hours. The map data group in W0 has weight 10 although Parameters specifies EIF 7; W3 D-07 records the discrepancy for the owning team rather than silently changing W0.

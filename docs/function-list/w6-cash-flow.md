@@ -1,5 +1,7 @@
 # W6 Cash flow and investment decision: ReFeed
 
+> Historical appraisal: the tables below use the W5 baseline before the 2026-11-26 task-level revision. Current build inputs are in [W5](w5-handover.md); these cash flows and return metrics have not been recalculated for that revision and must not be presented as its appraisal.
+
 Lesson 6 (Capital Budgeting). Compares the three scope scenarios from [W5](w5-handover.md) against business as usual (BAU), where ReFeed continues coordinating pickups manually. Monetary values are in constant 2026 VND. This is a pre-tax planning appraisal built from workshop cost estimates and operating assumptions.
 
 ## 1. Assumptions
