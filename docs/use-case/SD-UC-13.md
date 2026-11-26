@@ -4,38 +4,41 @@ Lesson 4, analysis level: how the parts of ReFeed talk to each other when a supp
 
 | Field | Value |
 |---|---|
-| Use case | UC-10 Receive and verify collected UCO at warehouse |
-| Feature | F-04 Warehouse & Traceability |
-| Version | v1.0 (from AD-UC-10 v0.1) |
-| FRs | FR-04-01, FR-04-02, FR-04-03, FR-04-04, FR-04-05 |
-| Business Rules | BR-04-01 |
+| Use case | UC-13 Withdraw accumulated payout balance |
+| Feature | F-05 Supplier Value & ESG / Green Profile |
+| Version | v1.0 (from AD-UC-13 v0.1) |
+| FRs | FR-05-07, FR-05-08, FR-05-09, FR-05-10 |
+| Business Rules | BR-PAY-01, BR-PAY-02 |
 
 ```mermaid
 sequenceDiagram
-  actor W as Warehouse Staff
+  actor S as Supplier
   participant P as Web/Mobile portal
-  participant WService as Warehouse service
+  participant PService as Payout service
   participant D as ReFeed database
+  participant G as External Payment Gateway / Bank
 
-  W->>P: Submit received UCO quantity (Batch_ID, Received_Volume)
-  P->>WService: receiveAndVerifyUCO(Batch_ID, Received_Volume)
-  WService->>D: Record received quantity & fetch collection record by Batch_ID (FR-04-01)
-  D-->>WService: Collection record (Collected_Volume, Signed_Amount, Tolerance_Threshold)
-  
-  WService->>WService: Compare received quantity with collection record & check tolerance (FR-04-02, BR-04-01)
+  S->>P: Submit withdrawal request (Amount, Bank_Account_Details)
+  P->>PService: submitWithdrawalRequest(Supplier_ID, Amount, Bank_Account_Details)
+  PService->>D: Fetch supplier balance & verification status (FR-05-07)
+  D-->>PService: Supplier profile (Accumulated_Balance, Verification_Status)
 
-  alt difference exceeds tolerance limit (BR-04-01)
-    WService->>D: Log discrepancy alert for internal reconciliation (FR-04-03)
-    D-->>WService: Discrepancy alert logged
-    WService->>D: Keep signed transaction amount unchanged (FR-04-04) & update status to [Received] (FR-04-05)
-    D-->>WService: Record updated
-    WService-->>P: Success with discrepancy alert notification (FR-04-03, FR-04-05)
-    P-->>W: Display receiving confirmation & discrepancy alert
-  else difference within tolerance limit
-    WService->>D: Keep signed transaction amount unchanged (FR-04-04) & update status to [Received] (FR-04-05)
-    D-->>WService: Record updated
-    WService-->>P: Success confirmation (FR-04-05)
-    P-->>W: Display receiving verification success result
+  PService->>PService: Validate eligibility (Amount >= Threshold & Status == Verified) (FR-05-07, BR-PAY-01, BR-PAY-02)
+
+  alt ineligible request (insufficient balance or unverified profile)
+    PService->>D: Log rejected withdrawal attempt & retain existing balance (FR-05-08, FR-05-10)
+    D-->>PService: Audit record saved
+    PService-->>P: Rejection response with existing balance & error reason (FR-05-08, BR-PAY-01, BR-PAY-02)
+    P-->>S: Display existing balance & rejection reason (e.g., Insufficient balance / Verification required)
+  else valid withdrawal request
+    PService->>D: Create Withdrawal Transaction [Created] (FR-05-09)
+    D-->>PService: Transaction_ID
+    PService->>D: Update Payout Status to [Requested/Processing] & deduct available balance (FR-05-10)
+    D-->>PService: Status updated
+    PService->>G: Queue payout transfer request (out-of-scope / manual gateway transfer)
+    G-->>PService: Queue confirmation received
+    PService-->>P: Success response with updated payout status & balance (FR-05-10)
+    P-->>S: Display withdrawal request submitted successfully
   end
 ```
 
