@@ -13,7 +13,7 @@ Lesson 4, analysis level: how the parts of ReFeed talk to each other when wareho
 ```mermaid
 sequenceDiagram
   actor W as Warehouse Staff
-  participant P as Web/Mobile portal
+  participant P as Mobile portal
   participant WService as Warehouse service
   participant D as ReFeed database
 
