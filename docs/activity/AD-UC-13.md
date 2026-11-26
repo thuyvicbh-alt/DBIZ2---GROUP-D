@@ -7,12 +7,12 @@
 | Feature | `F-05 Supplier Value & ESG / Green Profile` |
 | Primary actor | Supplier |
 | Lanes | Supplier · ReFeed System · External Banking/Payment Gateway |
-| Inputs (L3-L5) | Context Diagram v1 · Use Case Diagram v1 · Sequence: `SD-UC-13` · Architecture/ADR used · W1 rows |
+| Inputs (L3-L5) | Context Diagram v1 · Use Case Diagram v1 · Sequence: `SD-UC-13` · Architecture/ADR used · W1 rows (FR-05-07 to FR-05-10) |
 | Trigger | Supplier requests to withdraw their accumulated payout balance from their account dashboard. |
 | Preconditions | Supplier is logged in, profile is verified, and the accumulated payout balance is greater than the minimum withdrawal threshold. |
 | Success end state | Withdrawal request is successfully created, status is updated, and the payout transaction is queued for external bank transfer. |
 | Failure end state(s) | Withdrawal request is rejected due to insufficient balance, incomplete profile, or payment gateway validation error. |
-| FRs covered | `FR-05-02` |
+| FRs covered | `FR-05-07`, `FR-05-08`, `FR-05-09`, `FR-05-10` |
 | Business rules applied | `BR-PAY-01`, `BR-PAY-02` |
 | Version / status | v0.1 · Draft / Reviewed |
 | Author | Vu Quynh Tho - 2411560045/ Group D - K63DB |
@@ -26,11 +26,11 @@ swimlane-beta LR
     a1("Submit withdrawal request")
   end
   subgraph SYS["ReFeed System"]
-    s1("Validate withdrawal eligibility (FR-05-02)")
+    s1("Validate withdrawal eligibility (FR-05-07)")
     d1{" "}
-    s2("Create withdrawal transaction (FR-05-02)")
-    s3("Define the handling of an ineligible withdrawal request")
-    s4("Update payout status (FR-05-02)")
+    s2("Create withdrawal transaction (FR-05-09)")
+    s3("Define the handling of an ineligible withdrawal request (FR-05-08)")
+    s4("Update payout status (FR-05-10)")
     m1{" "}
     stop1@{ shape: fr-circ }
   end
@@ -49,11 +49,11 @@ Reading notes:
 
 | Node | Kind | Text | Traces to |
 |---|---|---|---|
-| s1 | Action | Validate withdrawal eligibility | FR-05-02 |
-| d1 | Decision | Eligibility check result ([yes] / [no]) | FR-05-02 |
-| s2 | Action | Create withdrawal transaction and update payout status | FR-05-02 |
-| s3 | Action | Define the handling of an ineligible withdrawal request | Open Question / BR |
-| s4 | Action | Update payout status | FR-05-02 |
+| s1 | Action | Validate withdrawal eligibility | FR-05-07 |
+| d1 | Decision | Eligibility check result ([yes] / [no]) | FR-05-07 |
+| s2 | Action | Create withdrawal transaction and update payout status | FR-05-09 |
+| s3 | Action | Define the handling of an ineligible withdrawal request | FR-05-08 |
+| s4 | Action | Update payout status | FR-05-10 |
 
 ## 3. Branches and acceptance tests
 
@@ -91,7 +91,7 @@ Reading notes:
 | No action has two incoming flows (merge used instead) | Pass | Group D | 2026-10-27 |
 | Every fork has a matching join | N/A | Group D | 2026-10-27 |
 | Every system action cites an FR | Pass | Group D | 2026-10-27 |
-| Every FR of this use case appears in the diagram | 1 of 1 (FR-05-02) | Group D | 2026-10-27 |
+| Every FR of this use case appears in the diagram | 4 of 4 (FR-05-07 to FR-05-10) | Group D | 2026-10-27 |
 | Lane names match the Context Diagram and the use case actors; no Web App, API or database lanes | Pass | Group D | 2026-10-27 |
 | Related sequence diagram uses the same names and FR IDs; its alt fragments appear here as decisions | Pass | Group D | 2026-10-27 |
 | AI critic prompt run, findings resolved or logged as open questions | Pass | Group D | 2026-10-27 |
