@@ -7,7 +7,7 @@ Lesson 4, analysis level: how the parts of ReFeed talk to each other when a supp
 | Use case | UC-13 Withdraw accumulated payout balance |
 | Feature | F-05 Supplier Value & ESG / Green Profile |
 | Version | v1.0 (from AD-UC-13 v0.1) |
-| FRs | FR-05-02 |
+| FRs | FR-05-07 to FR-05-10 |
 | Business Rules | BR-PAY-01, BR-PAY-02 |
 
 ```mermaid
