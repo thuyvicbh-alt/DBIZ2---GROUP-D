@@ -7,7 +7,7 @@ Lesson 4, analysis level: how the parts of ReFeed talk to each other when wareho
 | Use case | UC-10 Receive and verify collected UCO at warehouse |
 | Feature | F-04 Warehouse & Traceability |
 | Version | v1.0 (from AD-UC-10 v0.1) |
-| FRs | FR-04-01 |
+| FRs | FR-04-01, FR-04-02, FR-04-03, FR-04-04, FR-04-05 |
 | Business Rules | BR-04-01 |
 
 ```mermaid
@@ -19,22 +19,22 @@ sequenceDiagram
 
   W->>P: Submit received UCO quantity (Batch_ID, Received_Volume)
   P->>WService: receiveAndVerifyUCO(Batch_ID, Received_Volume)
-  WService->>D: Fetch collection record by Batch_ID (FR-04-01)
+  WService->>D: Record received quantity & fetch collection record by Batch_ID (FR-04-01)
   D-->>WService: Collection record (Collected_Volume, Signed_Amount, Tolerance_Threshold)
   
-  WService->>WService: Calculate volume difference & check tolerance (BR-04-01)
+  WService->>WService: Compare received quantity with collection record & check tolerance (FR-04-02, BR-04-01)
 
   alt difference exceeds tolerance limit (BR-04-01)
-    WService->>D: Log discrepancy alert for internal reconciliation (FR-04-01)
+    WService->>D: Log discrepancy alert for internal reconciliation (FR-04-03)
     D-->>WService: Discrepancy alert logged
-    WService->>D: Preserve signed transaction amount unchanged & update status to [Received] (FR-04-01)
+    WService->>D: Keep signed transaction amount unchanged (FR-04-04) & update status to [Received] (FR-04-05)
     D-->>WService: Record updated
-    WService-->>P: Success with discrepancy alert notification (FR-04-01)
+    WService-->>P: Success with discrepancy alert notification (FR-04-03, FR-04-05)
     P-->>W: Display receiving confirmation & discrepancy alert
   else difference within tolerance limit
-    WService->>D: Preserve signed transaction amount unchanged & update status to [Received] (FR-04-01)
+    WService->>D: Keep signed transaction amount unchanged (FR-04-04) & update status to [Received] (FR-04-05)
     D-->>WService: Record updated
-    WService-->>P: Success confirmation (FR-04-01)
+    WService-->>P: Success confirmation (FR-04-05)
     P-->>W: Display receiving verification success result
   end
 ```
