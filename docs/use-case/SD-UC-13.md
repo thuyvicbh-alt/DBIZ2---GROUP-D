@@ -13,7 +13,7 @@ Lesson 4, analysis level: how the parts of ReFeed talk to each other when a supp
 ```mermaid
 sequenceDiagram
   actor S as Supplier
-  participant P as Web/Mobile portal
+  participant P as Mobile portal
   participant PService as Payout service
   participant D as ReFeed database
   participant G as External Payment Gateway / Bank
