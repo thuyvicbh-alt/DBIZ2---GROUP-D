@@ -17,9 +17,8 @@ flowchart LR
   S03_01["S-F03-01<br>Transaction review and e-signature"]
   S03_02["S-F03-02<br>Transaction receipt"]
   S05_01["S-F05-01<br>Loyalty and payout balance"]
-  S05_02["S-F05-02<br>Payout withdrawal"]
-  S05_03["S-F05-03<br>Green Profile"]
-  S05_04["S-F05-04<br>ESG contribution reports"]
+  S05_02["S-F05-02<br>Green Profile"]
+  S05_03["S-F05-03<br>ESG contribution reports"]
   entry --> S00_01
   notif --> S03_01
   S00_01 -->|"Register"| S01_01
@@ -32,7 +31,7 @@ flowchart LR
   S00_02 -->|"awaiting-signature banner"| S03_01
   S00_02 -->|"latest-receipt shortcut"| S03_02
   S00_02 -->|"My wallet"| S05_01
-  S00_02 -->|"Green Profile / UCO-delivered shortcut"| S05_03
+  S00_02 -->|"Green Profile / UCO-delivered shortcut"| S05_02
   S01_06 -->|"Point-of-Origin profile"| S01_02
   S01_06 -->|"Sign out"| S00_01
   S01_06 -->|"Home"| S00_02
@@ -47,16 +46,14 @@ flowchart LR
   S01_05 -->|"back"| S01_04
   S05_01 -->|"Transaction awaiting signature"| S03_01
   S05_01 -->|"History: View receipt"| S03_02
-  S05_01 -->|"Withdraw"| S05_02
-  S05_01 -->|"Green Profile"| S05_03
+  S05_01 -->|"Green Profile"| S05_02
   S05_01 -->|"Home / back"| S00_02
   S03_01 -->|"[signed] View receipt"| S03_02
   S03_01 -->|"Back to home / back"| S00_02
   S03_02 -->|"back"| S05_01
-  S05_02 -->|"back"| S05_01
-  S05_03 -->|"Reports"| S05_04
-  S05_03 -->|"Home / back"| S00_02
-  S05_04 -->|"back"| S05_03
+  S05_02 -->|"Reports"| S05_03
+  S05_02 -->|"Home / back"| S00_02
+  S05_03 -->|"back"| S05_02
 ```
 
 Main task "request a pickup": S-F00-02 (Supplier home) → S-F01-03 → success state (request ID shown). One screen from the supplier home.
@@ -131,7 +128,7 @@ Main task "dispatch a route": S-F06-01 (staff home) → S-F02-01 → S-F02-02 �
 
 ## Checks
 
-* Every screen in the Screen List appears: yes (24 of 24). S-F00-01 appears in all four diagrams and is counted once (14 + 3 + 3 + 4 = 24 distinct screens).
+* Every screen in the Screen List appears: yes (23 of 23). S-F00-01 appears in all four diagrams and is counted once (13 + 3 + 3 + 4 = 23 distinct screens).
 
 * Every screen reachable from an entry point: yes.
 
@@ -139,7 +136,7 @@ Main task "dispatch a route": S-F06-01 (staff home) → S-F02-01 → S-F02-02 �
 
 * Entry points of the Screen List are all drawn: system launch, sign out, session expired, the four role homes (S-F00-02, S-F02-03, S-F00-03, S-F06-01), the dispatch notification, the draft-agreement notification, and each screen-to-screen entry.
 
-* Modals are not nodes (5 of 5 listed in the Screen List stay on their screen): "Cancel this pickup request?" on S-F01-05, "Confirm route and dispatch?" on S-F02-02, "UCO not ready: cancel this pickup?" on S-F02-04, "Confirm and e-sign" on S-F03-01, "Confirm withdrawal" on S-F05-02.
+* Modals are not nodes (4 of 4 listed in the Screen List stay on their screen): "Cancel this pickup request?" on S-F01-05, "Confirm route and dispatch?" on S-F02-02, "UCO not ready: cancel this pickup?" on S-F02-04, "Confirm and e-sign" on S-F03-01.
 
 * Usage-flow paths: every arrow of [usage-flow.md](usage-flow.md) has a path (table below).
 
@@ -159,19 +156,18 @@ Main task "dispatch a route": S-F06-01 (staff home) → S-F02-01 → S-F02-02 �
 | Supplier | UC-08 to UC-09 | S-F03-01 → S-F03-02 Transaction receipt ("[signed] View receipt") | 
 | Supplier | UC-09 to UC-12 | S-F03-02 → S-F05-01 Loyalty and payout balance ("back") | 
 | Supplier | UC-12 to UC-08 | S-F05-01 → S-F03-01 ("Transaction awaiting signature") | 
-| Supplier | UC-12 to UC-13 | S-F05-01 → S-F05-02 Payout withdrawal ("Withdraw") | 
-| Supplier | UC-12 to UC-14 | S-F05-01 → S-F05-03 Green Profile ("Green Profile") | 
-| Supplier | UC-14 to UC-15 | S-F05-03 → S-F05-04 ESG contribution reports ("Reports") | 
+| Supplier | UC-12 to UC-13 | S-F05-01 → S-F05-02 Green Profile ("Green Profile") | 
+| Supplier | UC-13 to UC-14 | S-F05-02 → S-F05-03 ESG contribution reports ("Reports") | 
 | Driver / Collector | UC-06 to UC-07 | S-F02-04 → S-F02-05 ("[collection saved] Record handover") | 
 | Driver / Collector | UC-07 to UC-06 | S-F02-05 → S-F02-03 ("[handover recorded] Back to route") | 
 | Driver / Collector | UC-06 to UC-06 (next point) | S-F02-04 → S-F02-03 → S-F02-04 | 
 | Warehouse Staff | UC-10 to UC-11 | S-F04-01 → S-F04-02 ("[received quantity saved] Manage batch") | 
-| ReFeed Staff | UC-16 to UC-05 | S-F06-01 → S-F02-01 Dispatch queue ("pending-pickup drill-down") | 
-| ReFeed Staff | UC-16 to UC-17 | S-F06-01 → S-F06-02 Audit trail and compliance reports ("drill-down") | 
+| ReFeed Staff | UC-15 to UC-05 | S-F06-01 → S-F02-01 Dispatch queue ("pending-pickup drill-down") | 
+| ReFeed Staff | UC-15 to UC-16 | S-F06-01 → S-F06-02 Audit trail and compliance reports ("drill-down") | 
 | ReFeed Staff | UC-05 (plan to dispatch) | S-F02-01 → S-F02-02 ("Plan route"), modal "Confirm route and dispatch?" | 
 | Supplier to Staff | UC-03 to UC-05 | Actor changes; the request created on S-F01-03 appears in the staff dispatch queue S-F02-01 | 
 | Staff to Driver | UC-05 to UC-06 | Actor changes; entry point "Dispatch notification" → S-F02-03 | 
 | Driver to Supplier | UC-07 to UC-08 | Actor changes; entry point "Notification: draft agreement ready" → S-F03-01 | 
 | Driver to Warehouse | UC-06 to UC-10 | The driver delivers the UCO to the warehouse; the warehouse staff opens S-F04-01 from S-F00-03 Warehouse home | 
 
-ReFeed has 24 screens, so a single diagram would be crowded; it keeps one per actor because the four actors share only the sign-in screen.
+ReFeed has 23 screens, so a single diagram would be crowded; it keeps one per actor because the four actors share only the sign-in screen.
