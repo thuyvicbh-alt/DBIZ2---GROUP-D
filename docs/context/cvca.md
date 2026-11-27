@@ -13,6 +13,7 @@ problems and opportunities.
 ## 1. Value chain (with the new system)
 
 ```mermaid
+
 flowchart LR
 
     %% UCO SUPPLIERS
@@ -59,7 +60,8 @@ flowchart LR
     %% SUPPLIER FLOWS
     S -->|"UCO"| C
     S -->|"!: Pickup Request"| A
-    A -->|"$: Payment"| S
+    A -->|"!: Information"| S
+    O -->|"$: Payment"| S
 
     %% WAREHOUSE - ECO OIL
     W -->|"UCO"| E
