@@ -17,13 +17,12 @@
 | UC-10 | Receive and verify collected UCO at warehouse | Warehouse Staff | F-04 | Needed |  |
 | UC-11 | Manage UCO batch and mass-balance records | Warehouse Staff | F-04 | Needed | |
 | UC-12 | Manage loyalty status and accumulated payout balance | Supplier | F-05 | Needed |  |
-| UC-13 | Withdraw accumulated payout balance | Supplier | F-05 | Needed | |
-| UC-14 | View Green Profile and UCO contribution history | Supplier | F-05 | Not needed | Read-only/Query export |
-| UC-15 | Access ESG / environmental contribution reports | Supplier | F-05 | Not needed | |
-| UC-16 | Monitor operations, compliance status, trace UCO through supply chain | Refeed Staff | F-06 | Not needed | |
-| UC-17 | Review audit trail and generate compliance reports | Refeed Staff | F-06 | Not needed | |
+| UC-13 | View Green Profile and UCO contribution history | Supplier | F-05 | Not needed | Read-only/Query export |
+| UC-14 | Access ESG / environmental contribution reports | Supplier | F-05 | Not needed | |
+| UC-15 | Monitor operations, compliance status, trace UCO through supply chain | Refeed Staff | F-06 | Not needed | |
+| UC-16 | Review audit trail and generate compliance reports | Refeed Staff | F-06 | Not needed | |
 
-Use cases listed: 17. All assigned.
+Use cases listed: 16. All assigned.
 
 ## Table 2. Feature list
 
@@ -33,8 +32,8 @@ Use cases listed: 17. All assigned.
 | F-02 | Collection Operations & Handover | Plan collection routes and support drivers in completing and handover | Refeed Staff; Driver / Collector | Linh | UC-05, UC-06, UC-07 |
 | F-03 | UCO Transaction | Manage UCO transactions | Supplier | Vi | UC-08, UC-09 |
 | F-04 | Warehouse & Traceability | Manage warehouse | Warehouse Staff | Thơ | UC-10, UC-11 |
-| F-05 | Supplier Value & ESG / Green Profile | Manage loyalty and payout information and provide Green Profile and ESG reporting capabilities. | Supplier | Quang Minh | UC-12, UC-13, UC-14, UC-15 |
-| F-06 | Operations, Audit & Compliance | Monitor operations, provide audit and compliance capabilities, and own cross-cutting platform controls. | Refeed Staff | Đức Minh | UC-16, UC-17; ARCH/ADR controls |
+| F-05 | Supplier Value & ESG / Green Profile | Manage loyalty and payout information and provide Green Profile and ESG reporting capabilities. | Supplier | Quang Minh | UC-12, UC-13, UC-14 |
+| F-06 | Operations, Audit & Compliance | Monitor operations, provide audit and compliance capabilities, and own cross-cutting platform controls. | Refeed Staff | Đức Minh | UC-15, UC-16; ARCH/ADR controls |
 
 Feature count: 6. PASS. 
 
@@ -42,12 +41,11 @@ Feature count: 6. PASS.
 
 | Excluded from scope | How it surfaced | Reason for exclusion |
 |---|---|---|
-| In-app direct payment/transfer | Initially suggested by business team | Out of scope for Release 1. The system only manages "accumulated payout balance" (UC-12, UC-13); actual financial transfers are executed externally via manual bank transfers. |
+| In-app direct payment/transfer | Initially suggested by business team | Out of scope for Release 1. The system only manages "accumulated payout balance" (UC-12); actual financial transfers are executed externally via manual bank transfers. |
 | Real-time chat between Driver and Supplier | Surfaced from actual collection flow needs (UC-07) | High technical complexity and unnecessary server cost for Release 1. Direct phone contact is sufficient for the current operational scale. |
 
 ## Table 4. Data functions
 
-| Data group | ILF / EIF | Why | Function points |
 | Data group | ILF / EIF | Why | Function points |
 |---|---|---|---|
 | Supplier Profile & Compliance | ILF | Created and maintained internally by Suppliers within the ReFeed system (UC-01, UC-02) | 10 |
@@ -55,7 +53,7 @@ Feature count: 6. PASS.
 | Collection Route & Dispatch | ILF | Scheduled and managed internally by Refeed Staff (UC-05) | 10 |
 | UCO Transaction & Handover Record | ILF | Recorded at the collection points (UC-07) and verified by the Supplier (UC-08) | 10 |
 | Warehouse UCO Batch Data | ILF | Created and updated by Warehouse Staff upon receiving UCO (UC-10, UC-11) | 10 |
-| Loyalty Tier & Payout Balance | ILF | Automatically calculated and maintained by the system based on transaction history (UC-12, UC-13). | 10 |
+| Loyalty Tier & Payout Balance | ILF | Automatically calculated and maintained by the system based on transaction history (UC-12). | 10 |
 | Map & Optimized Route Data (Google Maps API) | EIF | Read from the external map provider's API for distance calculation and routing. Never written or modified by the system. | 10 |
-| External Compliance/Audit Standards | EIF | Read from governmental/environmental agency documents for Standard Compliance (UC-17). The system does not alter this original data. | 7 |
+| External Compliance/Audit Standards | EIF | Read from governmental/environmental agency documents for Standard Compliance (UC-16). The system does not alter this original data. | 7 |
 | **Total data-function points** | | | **77** |
