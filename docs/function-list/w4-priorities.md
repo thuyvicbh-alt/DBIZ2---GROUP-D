@@ -1,8 +1,10 @@
 # W4 Priorities: ReFeed
 
-> ReFeed Group D, K63DB, DBIZ II.
+> ReFeed Group D, K63DB, DBIZ II. Updated 2026-11-27 against W0/W1 at `08e751f`.
 
-Lesson 5 (block W4). Cut by lowering priority, never by lowering estimates. Each row uses its current W1 ID and sums only the L3 work belonging to that function in W2. The team's previous effective priorities are carried to their decomposed functions. No additional demotion or release agreement is assumed.
+Lesson 5 (block W4). Cut by lowering priority, never by lowering estimates. Every row uses a current W1 L2 ID and sums only its own L3 rows from [W2](w2-cost.md). Initial priority comes directly from W1. Surviving effective priorities are retained by function meaning; this revision makes no new release commitment.
+
+Withdrawal is removed from W0/W1, rather than retained as Should or Won't. FR-05-07 now means Green Profile (previously FR-05-12); FR-05-08/09 mean ESG report generation/provision (previously FR-05-13/14). Their effective priorities follow those behaviours: Could, Should, Should. Actual bank transfers remain external under W0 and ADR-003.
 
 | Rule | MoSCoW meaning | Test question |
 |---|---|---|
@@ -84,14 +86,9 @@ Lesson 5 (block W4). Cut by lowering priority, never by lowering estimates. Each
 | F-05 | FR-05-04 | Add signed transaction quantity to verified UCO volume | Must | Must |  | 3.4 | 1.020.000 |
 | F-05 | FR-05-05 | Upgrade loyalty tier | Must | Must |  | 3.4 | 1.020.000 |
 | F-05 | FR-05-06 | Award tier upgrade bonus | Must | Must |  | 6.8 | 2.040.000 |
-| F-05 | FR-05-07 | Validate Withdrawal Request | Must | Should | R2: Manual external payout remains available. Retain Should for request/status tracking; the previous Release 2 wording conflicts with this priority and needs client confirmation (W3 D-05). Actual transfers remain outside the app. | 7.4 | 1.920.000 |
-| F-05 | FR-05-08 | Display Existing Balance & Withdrawal Rejection Reason | Must | Should | R2: Manual external payout remains available. Retain Should for request/status tracking; the previous Release 2 wording conflicts with this priority and needs client confirmation (W3 D-05). Actual transfers remain outside the app. | 5.4 | 1.420.000 |
-| F-05 | FR-05-09 | Create Withdrawal Transaction | Must | Should | R2: Manual external payout remains available. Retain Should for request/status tracking; the previous Release 2 wording conflicts with this priority and needs client confirmation (W3 D-05). Actual transfers remain outside the app. | 6.8 | 2.040.000 |
-| F-05 | FR-05-10 | Update Payout Status | Must | Should | R2: Manual external payout remains available. Retain Should for request/status tracking; the previous Release 2 wording conflicts with this priority and needs client confirmation (W3 D-05). Actual transfers remain outside the app. | 6.8 | 2.040.000 |
-| F-05 | FR-05-11 | Display Withdrawal Result & Updated Payout Status and Balance | Must | Should | R2: Manual external payout remains available. Retain Should for request/status tracking; the previous Release 2 wording conflicts with this priority and needs client confirmation (W3 D-05). Actual transfers remain outside the app. | 2.0 | 400.000 |
-| F-05 | FR-05-12 | View Green Profile and UCO contribution history | Should | Could | R3: Contribution history supports supplier value but is not required to operate the collection chain. | 5.4 | 1.420.000 |
-| F-05 | FR-05-13 | Generate ESG / environmental contribution report | Should | Should |  | 8.8 | 2.640.000 |
-| F-05 | FR-05-14 | Provide ESG / environmental contribution report | Should | Should |  | 2.0 | 400.000 |
+| F-05 | FR-05-07 | View Green Profile and UCO contribution history | Should | Could | R3: Contribution history supports supplier value but is not required to operate the collection chain. | 5.4 | 1.420.000 |
+| F-05 | FR-05-08 | Generate ESG / environmental contribution report | Should | Should |  | 8.8 | 2.640.000 |
+| F-05 | FR-05-09 | Provide ESG / environmental contribution report | Should | Should |  | 2.0 | 400.000 |
 | F-06 | FR-06-01 | Monitor operations and compliance status | Must | Should | R2: Staff can inspect operational records manually while the consolidated monitoring view is deferred; retain the existing Should priority. | 14.8 | 3.840.000 |
 | F-06 | FR-06-02 | Retrieve and display audit history | Must | Must |  | 11.8 | 3.240.000 |
 | F-06 | FR-06-03 | Generate compliance report | Must | Must |  | 11.8 | 3.240.000 |
@@ -111,15 +108,16 @@ Lesson 5 (block W4). Cut by lowering priority, never by lowering estimates. Each
 
 | Effective priority | L2 functions | L3 tasks | Person-hours | Cost (VND) | Share of in-scope effort |
 |---|---|---|---|---|---|
-| Must | 70 | 101 | 428.4 | 117.820.000 | 76.1% |
-| Should | 18 | 25 | 120.2 | 32.960.000 | 21.4% |
-| Could | 2 | 4 | 14.2 | 3.860.000 | 2.5% |
+| Must | 70 | 101 | 428.4 | 117.820.000 | 80.2% |
+| Should | 13 | 18 | 91.8 | 25.140.000 | 17.2% |
+| Could | 2 | 4 | 14.2 | 3.860.000 | 2.7% |
 | Won't | 1 | 2 | 17.6 | 4.880.000 | Excluded |
 
 ## Review decisions and unresolved constraints
 
-- W3 D-01/D-02: align costs, priorities and the Must task seed to the 91 L2 / 132 L3 list. No old aggregate row is used as a current function.
-- W3 D-03/D-04: the full scope needs 562.8 p-h against 360 p-h, Must is 76.1%, and Could is 2.5%. These constraints require a team/client scope or capacity decision. The tables are a planning revision, not a claim that the existing release is feasible.
-- W3 D-05: FR-05-07 through FR-05-11 retain Should for withdrawal request/status tracking. The earlier rationale also said Release 2, so release timing remains unconfirmed. In-app money transfer remains excluded by W0 and ADR-003.
-- W3 D-06/D-08/D-09: source FR labels, warehouse lifecycle and imprecise criteria need reconciliation in their owning diagrams/rules. Their effort is already counted; do not create duplicate functions to resolve reference or wording defects.
-- FR-04-11 remains Won't for Release 1. Its 17.6 p-h and 4.880.000 VND are shown for traceability and excluded from all three scenarios.
+- W3 D-01/D-02: W2 has exactly 125 current task rows and W4 exactly 86 current function rows. W5 seeds all 101 effective-Must tasks, including the literal W1 task ID `F-05-02-FE`. Its naming inconsistency is logged for the W1 owner.
+- W3 D-03/D-04: full scope needs 534.4 p-h against 360 p-h, Must is 80.2%, and Could is 2.7%. A team/client scope or capacity decision is required before a delivery commitment. Estimates are not reduced to force the thresholds to pass.
+- W3 D-05: no withdrawal request, eligibility, deduction, result or banking integration is included. The obsolete withdrawal branch in AD-UC-12 is a source-reconciliation issue; it does not recreate removed W1 work. UC-13 now denotes Green Profile, UC-14 ESG, UC-15 monitoring and UC-16 audit/compliance.
+- W3 D-06/D-08/D-09/D-10: remaining reference, warehouse-lifecycle, acceptance-rule and dependency gaps require their owners' decisions. Resolving a reference gap does not create a duplicate function.
+- FR-04-11 remains Won't for Release 1. Its 17.6 p-h and 4.880.000 VND are visible in all-task totals and excluded from the three release scenarios.
+- The Must-only seed is a costed subset for planning. W3 D-10 records that compliance outputs may need batch/traceability work currently classified Should; dependency closure remains required before calling it an executable release backlog.
