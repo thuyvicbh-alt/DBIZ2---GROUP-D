@@ -119,8 +119,7 @@ The state spelling `Requested` is taken from the W1 `FR-01-13` requirement.
 | 2 | The app description offers `Pickup Now` or `Schedule Pickup`, but `FR-01-11` and `FR-01-13` only mention a preferred time window. Is `Pickup Now` part of Release 1? | No for this draft | Only a preferred time window is captured; `Pickup Now` is not drawn. |
 | 3 | What are the exact validation rules for the request details (required fields, minimum estimated volume, earliest allowed time window, whether the location must match the registered Point of Origin)? W1 marks `FR-01-11` as not EARS-precise for the same reason. | Yes for detailed acceptance tests | Location, estimated volume and preferred time window are required; the time window cannot be in the past; notes are optional. |
 | 4 | After a request is rejected for an incomplete profile (`FR-01-10`), are the entered request details kept so the supplier can resubmit after updating the profile? | No for this draft | Details are not kept; the supplier updates the profile (UC-02, `FR-01-07`, `FR-01-08`) and submits a new request. |
-| 5 | The W1 source trace for `FR-01-09` to `FR-01-14` cites W0 (UC-03), CVCA and Architecture, and lists no sequence diagram. Does a sequence such as `SD-UC-03` exist or need to be created? | No for this draft; resolve before integrated review | Verified against the use case, the Context Diagram and W1 only. |
-| 6 | May a supplier submit a new pickup request while another of their requests is still `Requested`? `FR-01-13` does not say. | No for this draft | Allowed; no duplicate check is drawn. |
+| 5 | May a supplier submit a new pickup request while another of their requests is still `Requested`? `FR-01-13` does not say. | No for this draft | Allowed; no duplicate check is drawn. |
 
 ## 7. Verification log
 
