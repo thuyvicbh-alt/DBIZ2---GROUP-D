@@ -15,9 +15,9 @@
 
 ## 1. Purpose
 
-**Shown when:** the warehouse staff opens batch management from the warehouse home screen or taps "Quản lý lô hàng" after saving a received collection on S-F04-01.
+**Shown when:** the warehouse staff opens batch management from `S-F00-03` (Warehouse home) or taps "Quản lý lô hàng" after saving a received collection on `S-F04-01` (Warehouse receiving).
 
-**The user leaves this screen when:** the batch update or creation succeeds (success state, then "Về trang chủ" or "Tiếp tục nhập kho" to go to S-F04-01), or the staff taps Back to return to the warehouse home screen.
+**The user leaves this screen when:** the batch update or creation succeeds (success state, then "Về trang chủ" to go to `S-F00-03` or "Tiếp tục nhập kho" to go to `S-F04-01`), or the staff taps Back to return to `S-F00-03` (Warehouse home).
 
 ## 2. Mockup
 
@@ -72,41 +72,44 @@ All colours, fonts and corners come from the design tokens in
 
 | State | What the user sees | Trigger |
 |---|---|---|
-| Default | Header "Quản lý lô hàng", "Kho Gia Lâm · WH-01"; green card "LÔ HIỆN TẠI · B001" (`232,3 kg`, "Sức chứa 500 kg") beside "LẦN THU GOM" (`3`, "trong lô"); "Đối soát số lượng" card (Tổng nhập kho `232,3 kg`, Đã xuất / xử lý `0,0 kg`, Khối lượng tồn `232,3 kg`, badge "✓ Khớp số liệu"); "Danh sách lượt thu gom" card (`COL-00891 · 25/09` `32,3 kg`, `COL-00890 · 24/09` `48,0 kg`, `COL-00889 · 23/09` `152,0 kg`); enabled "Cập nhật" and "Tạo mới" buttons. The mockup shows this state. | Active batch exists and mass balance is reconciled (`FR-04-03`) |
+| Default | Header "Quản lý lô hàng", "Kho Gia Lâm · WH-01"; green card "LÔ HIỆN TẠI · B001" (`232,3 kg`, "Sức chứa 500 kg") beside "LẦN THU GOM" (`3`, "trong lô"); "Đối soát số lượng" card (Tổng nhập kho `232,3 kg`, Đã xuất / xử lý `0,0 kg`, Khối lượng tồn `232,3 kg`, badge "✓ Khớp số liệu"); "Danh sách lượt thu gom" card (`COL-00891 · 25/09` `32,3 kg`, `COL-00890 · 24/09` `48,0 kg`, `COL-00889 · 23/09` `152,0 kg`); enabled "Cập nhật" and "Tạo mới" buttons. The mockup shows this state. | Active batch exists and mass balance is reconciled (`FR-04-08`, `FR-04-09`) |
 | Empty (no data) | Header (`#1`–`#3`); empty card with batch icon "Chưa có lô hàng" - "Lô được tạo từ các lượt thu gom đã nhận tại kho." and primary button "Tạo mới"; disabled "Cập nhật" button in footer | No active batch exists yet for this warehouse |
 | Loading | Header (`#1`-`#3`); two top skeleton metric cards, two lower skeleton list cards, caption "Đang tải dữ liệu lô hàng...", and disabled "Cập nhật" button in footer | Batch and mass-balance records are being fetched |
-| Error | Red banner "Không lưu được lô hàng - Mất kết nối mạng, dữ liệu lô hàng chưa được lưu."; active batch card (`B001`, `232,3 kg`), collection count (`3`, "trong lô này"), mass-balance card, and collection list preserved; primary button relabeled "Thử lại" and secondary button "Hủy thay đổi" | Saving or updating the batch failed due to network disconnection |
-| Success / confirmation | Time 10:31; check mark, "Đã cập nhật lô B001" - "COL-00891 - +32,3 kg đã được thêm vào lô."; summary card (Tổng lô B001 `232,3 kg`, Đối soát khối lượng "✓ Khớp số liệu", Cập nhật lúc `11:07 · 25/09/2026`); buttons "Về trang chủ" and "Tiếp tục nhập kho" | Batch changes saved and mass balance verified (`FR-04-03`) |
+| Error | Red banner "Không lưu được lô hàng - Mất kết nối mạng, dữ liệu lô hàng chưa được lưu."; active batch card (`B001`, `232,3 kg`), collection count (`3`, "trong lô này"), mass-balance card, and collection list preserved; primary button relabeled "Thử lại" and secondary button "Hủy thay đổi" | Saving/updating the batch failed due to network disconnection, or collection inputs/batch parameters are invalid (`FR-04-07`) |
+| Success / confirmation | Time 10:31; check mark, "Đã cập nhật lô B001" - "COL-00891 - +32,3 kg đã được thêm vào lô."; summary card (Tổng lô B001 `232,3 kg`, Đối soát khối lượng "✓ Khớp số liệu", Cập nhật lúc `11:07 · 25/09/2026`); buttons "Về trang chủ" and "Tiếp tục nhập kho" | Batch changes saved, mass-balance metrics computed and updated (`FR-04-08`, `FR-04-09`) |
 
 ## 5. Interactions and navigation
 
 | # | Element | User action | System response | Goes to screen |
 |---|---|---|---|---|
-| 1 | Cập nhật (`#13`, default) | tap | Saves pending batch assignment and mass-balance updates (`FR-04-03`), or shows the error state | stays (loading, then success or error state) |
-| 2 | Tạo mới (`#14`, default or empty) | tap | Initializes a new UCO batch record for the warehouse (`FR-04-03`) | stays (active batch view for the newly created batch) |
-| 3 | Thử lại (`#13`, error) | tap | Retries saving the batch update | stays (loading, then success or error state) |
+| 1 | Cập nhật (`#13`, default) | tap | Validates inputs (`FR-04-06`), links collections, computes mass-balance metrics (`FR-04-08`), and updates batch balance (`FR-04-09`), or shows the error state (`FR-04-07`) | stays (loading, then success or error state) |
+| 2 | Tạo mới (`#14`, default or empty) | tap | Validates batch parameters (`FR-04-06`), initializes a new UCO batch record, and computes initial mass-balance metrics (`FR-04-08`) | stays (active batch view for the newly created batch) |
+| 3 | Thử lại (`#13`, error) | tap | Retries saving the batch update (`FR-04-08`, `FR-04-09`) | stays (loading, then success or error state) |
 | 4 | Hủy thay đổi (`#18`, error) | tap | Discards unsaved batch changes and restores the last saved batch state | stays (default state) |
-| 5 | Về trang chủ (`#22`, success) | tap | Returns to the warehouse staff home screen | Warehouse main menu |
-| 6 | Tiếp tục nhập kho (`#23`, success) | tap | Opens warehouse receiving to scan or enter the next collection | S-F04-01 |
-| 7 | Back (`#1`) | tap | Returns to the previous screen without saving pending changes | S-F04-01 (or Warehouse main menu) |
+| 5 | Về trang chủ (`#22`, success) | tap | Returns to the warehouse staff home screen | `S-F00-03` |
+| 6 | Tiếp tục nhập kho (`#23`, success) | tap | Opens warehouse receiving to scan or enter the next collection | `S-F04-01` |
+| 7 | Back (`#1`) | tap | Returns to the warehouse home screen without saving pending changes | `S-F00-03` |
 
 ## 6. Screen-level rules
 
 | Rule ID | Rule | Source |
 |---|---|---|
-| SR-001 | Warehouse staff can manage batches and mass balance only for their assigned `warehouse.id` (`WH-xx`). | FR-06-03 |
-| SR-002 | Mass balance follows `remaining_stock_kg = total_inbound_kg - total_outbound_kg`; the status badge "✓ Khớp số liệu" reflects consistency between recorded collections, batch totals, and remaining stock. | FR-04-03; BR-04-03 |
-| SR-003 | Active batch weight (`#4`) should not exceed the batch capacity (`500 kg` in the mockup) without batch closure/rollover or capacity check. | BR-04-04 |
-| SR-004 | "Cập nhật" (`#13`) is disabled in Empty and Loading states. | ui-conventions §4 |
-| SR-005 | If saving fails (Error state), the batch metrics, mass-balance figures, and collection list stay visible so unsaved state is not lost before retrying or cancelling. | FR-04-03 (error state) |
-| SR-006 | Statuses ("✓ Khớp số liệu") and alerts ("Không lưu được lô hàng") use text and icon, never colour alone. | ui-conventions §5 |
+| SR-001 | Warehouse staff can manage batches and mass balance only for their assigned `warehouse.id` (`WH-xx`) when permitted by their role. | `FR-06-04` |
+| SR-002 | Mass balance follows `remaining_stock_kg = total_inbound_kg - total_outbound_kg`; the status badge "✓ Khớp số liệu" reflects consistency between recorded collections, batch totals, and remaining stock. | `FR-04-08`, `FR-04-09` |
+| SR-003 | Active batch weight (`#4`) and collection inputs are validated against duplicates, invalid volume, and batch capacity (`500 kg` in the mockup) before saving. | `FR-04-06`, `FR-04-07` |
+| SR-004 | "Cập nhật" (`#13`) is disabled in Empty and Loading states. | `ui-conventions.md` §4 |
+| SR-005 | If saving or validation fails (Error state), the batch metrics, mass-balance figures, and collection list stay visible so unsaved state is not lost before retrying or cancelling. | `FR-04-07` (error state) |
+| SR-006 | Statuses ("✓ Khớp số liệu") and alerts ("Không lưu được lô hàng") use text and icon, never colour alone. | `ui-conventions.md` §5 |
 
 ## 7. Linked requirements
 
 | FR ID | What this screen does for it |
 |---|---|
-| FR-04-03 | Creates and updates UCO batches from received collections, lists constituent collections, and displays mass-balance reconciliation (inbound, outbound, and remaining stock) |
-| FR-06-03 | Restricts batch and mass-balance management to the signed-in warehouse staff's assigned warehouse (`WH-01`) |
+| `FR-04-06` | Validates selected verified UCO collections and entered batch parameters (checking for invalid volume, capacity overflow, or duplicate collection inputs) |
+| `FR-04-07` | Displays validation or save error feedback (`#17`) and prompts correction without losing current batch state |
+| `FR-04-08` | Links component collections and computes mass-balance metrics (inbound, outbound, and remaining stock) for the created UCO batch |
+| `FR-04-09` | Maintains linked collection inputs and updates the active batch balance upon confirmation |
+| `FR-06-04` | Restricts batch and mass-balance management to authenticated warehouse staff with permission for their assigned warehouse (`WH-01`) |
 
 ## 8. Responsive and accessibility notes
 
@@ -122,7 +125,6 @@ All colours, fonts and corners come from the design tokens in
 |---|---|---|---|
 | 1 | [NEEDS CLARIFICATION: in the mockups, "LẦN THU GOM" subtitle changes from "trong lô" in Default to "trong lô này" in Error, and "Đối soát số lượng" in Default becomes "Đối soát khối lượng" in Success. Unify these labels?] | No | Open. Default: use the Default state labels where applicable. |
 | 2 | [NEEDS CLARIFICATION: how does a warehouse staff member select which received collections are grouped into a batch or close a full batch (`500 kg`) to start a new batch ID?] | No | Open. Default: newly received collections in the warehouse are assigned to the active open batch until closed or a new batch is created. |
-| 3 | [NEEDS CLARIFICATION: the warehouse home ("Warehouse main menu") has no Screen ID in the Screen List. Add one?] | No | Open. Default: "Về trang chủ" and Back go to the Warehouse main menu node. |
 
 ---
 
@@ -131,10 +133,9 @@ All colours, fonts and corners come from the design tokens in
 - [x] The mockup is a separate cropped image file, named with the Screen ID, at the frame width.
 - [x] The numbered images exist, and their numbers match the # column of the element inventory.
 - [x] Every visible element in the mockup appears in the element inventory.
-- [ ] Every colour in the mockup is a design token from ui-conventions.md.
+- [ ] Every colour in the mockup is a design token from `ui-conventions.md`.
 - [x] Every input element has a validation rule or an explicit "none".
 - [x] All five states are filled in.
-- [ ] Every navigation target is a Screen ID that exists in the Screen List.
+- [x] Every navigation target is a Screen ID that exists in the Screen List (`S-F00-03`, `S-F04-01`).
 - [x] Every element that displays data names the field it displays.
-- [x] Every linked FR exists in the Function List, and every action of this screen in its activity diagram is
-      covered by an interaction row.
+- [x] Every linked FR exists in the Function List (`FR-04-06` to `FR-04-09`, `FR-06-04`), and every action of this screen is covered by an interaction row.
