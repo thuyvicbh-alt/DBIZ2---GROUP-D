@@ -117,10 +117,10 @@ The state spelling `Requested` is taken from the W1 `FR-01-13` requirement.
 |---|---|---|---|
 | 1 | W0 names the actor `Supplier`. Which exact label does the Context Diagram use, and is it the same across W0, the Use Case Diagram and all activity diagrams? | Yes for final cross-diagram consistency | The lane uses the W0 label `Supplier`. |
 | 2 | The app description offers `Pickup Now` or `Schedule Pickup`, but `FR-01-11` and `FR-01-13` only mention a preferred time window. Is `Pickup Now` part of Release 1? | No for this draft | Only a preferred time window is captured; `Pickup Now` is not drawn. |
-| 3 | What are the exact validation rules for the request details (required fields, minimum estimated volume, earliest allowed time window, whether the location must match the registered Point of Origin)? | Yes for detailed acceptance tests | Location, estimated volume and preferred time window are required; the time window cannot be in the past; notes are optional. |
-| 4 | After a request is rejected for an incomplete profile, are the entered request details kept so the supplier can resubmit after updating the profile? | No for this draft | Details are not kept; the supplier updates the profile (UC-02) and submits a new request. |
-| 5 | The W1 source trace for `FR-01-09` to `FR-01-14` lists no sequence diagram (only UC, CTX and CVCA). Does a sequence such as `SD-UC-03` exist or need to be created? | No for this draft; resolve before integrated review | Verified against the use case, the Context Diagram and W1 only. |
-| 6 | May a supplier submit a new pickup request while another of their requests is still `Requested`? | No for this draft | Allowed; no duplicate check is drawn. |
+| 3 | What are the exact validation rules for the request details (required fields, minimum estimated volume, earliest allowed time window, whether the location must match the registered Point of Origin)? W1 marks `FR-01-11` as not EARS-precise for the same reason. | Yes for detailed acceptance tests | Location, estimated volume and preferred time window are required; the time window cannot be in the past; notes are optional. |
+| 4 | After a request is rejected for an incomplete profile (`FR-01-10`), are the entered request details kept so the supplier can resubmit after updating the profile? | No for this draft | Details are not kept; the supplier updates the profile (UC-02, `FR-01-07`, `FR-01-08`) and submits a new request. |
+| 5 | The W1 source trace for `FR-01-09` to `FR-01-14` cites W0 (UC-03), CVCA and Architecture, and lists no sequence diagram. Does a sequence such as `SD-UC-03` exist or need to be created? | No for this draft; resolve before integrated review | Verified against the use case, the Context Diagram and W1 only. |
+| 6 | May a supplier submit a new pickup request while another of their requests is still `Requested`? `FR-01-13` does not say. | No for this draft | Allowed; no duplicate check is drawn. |
 
 ## 7. Verification log
 
@@ -130,8 +130,8 @@ The state spelling `Requested` is taken from the W1 `FR-01-13` requirement.
 | Every decision has guards on all outgoing flows, with no intended overlap or gap | Pass by inspection | | |
 | No action has two incoming flows; merge nodes are used for loops | Pass by inspection | | |
 | Every fork has a matching join | N/A — no fork used | | |
-| Every system action cites an FR | Pass — `FR-01-09` to `FR-01-14` | | |
-| Every FR of this use case appears in the diagram | Pass (6 of 6: `FR-01-09` to `FR-01-14`) | | |
+| Every system action cites an FR | Pass — `s1` to `s6` cite `FR-01-09` to `FR-01-14` | | |
+| Every FR of this use case appears in the diagram | Pass (6 of 6 UC-03 rows in W1: `FR-01-09`, `FR-01-10`, `FR-01-11`, `FR-01-12`, `FR-01-13`, `FR-01-14`) | | |
 | Lane names match the Context Diagram and use-case actors | Partial — system matches; supplier label to confirm (open question 1) | | |
-| Related sequence diagram uses the same names and FR IDs; its alternative fragments appear here as decisions | Not yet verified — no sequence listed for `FR-01-09` to `FR-01-14` (open question 5) | | |
+| Related sequence diagram uses the same names and FR IDs; its alternative fragments appear here as decisions | Not yet verified — W1 lists no sequence for `FR-01-09` to `FR-01-14` (open question 5) | | |
 | AI critic prompt run; findings resolved or logged | Not yet run | | |
