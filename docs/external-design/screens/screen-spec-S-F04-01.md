@@ -15,9 +15,9 @@
 
 ## 1. Purpose
 
-**Shown when:** the warehouse staff opens the receiving function from the warehouse home screen to weigh and check in an incoming UCO collection delivered by a driver.
+**Shown when:** the warehouse staff opens the receiving function from `S-F00-03` (Warehouse home) to weigh and check in an incoming UCO collection delivered by a driver.
 
-**The user leaves this screen when:** the received weight is saved (success state, then "Quản lý lô hàng" to go to `S-F04-02` or "Về trang chủ"), or the staff taps Back to return to the warehouse home screen without saving.
+**The user leaves this screen when:** the received weight is saved (success state, then "Quản lý lô hàng" to go to `S-F04-02` or "Về trang chủ" to go to `S-F00-03`), or the staff taps Back to return to `S-F00-03` (Warehouse home) without saving.
 
 ## 2. Mockup
 
@@ -75,11 +75,11 @@ All colours, fonts and corners come from the design tokens in
 
 | State | What the user sees | Trigger |
 |---|---|---|
-| Default | Header "Nhận hàng tại kho", "Kho Gia Lâm · WH-01"; lookup card with `COL-00891` and "Quét mã", green badge "✓ Đã tìm thấy", Nhà cung cấp `Quán Phở Hàng Bài · SUP-00125`, Tài xế `Tài xế D018 · 29C-123.45`, Khối lượng thu gom `32,5 kg`; green-tinted "Khối lượng nhận" card with input `32,3 kg`, status "✓ Khớp", Chênh lệch `-0,2 kg (0,6%)`, Dung sai cho phép `±2%`; enabled primary button "Xác nhận nhập kho" and note "Khối lượng được ghi vào lô sau khi lưu.". The mockup shows this state. | Collection ID found and entered received weight is within the ±2% tolerance (`FR-04-01`) |
+| Default | Header "Nhận hàng tại kho", "Kho Gia Lâm · WH-01"; lookup card with `COL-00891` and "Quét mã", green badge "✓ Đã tìm thấy", Nhà cung cấp `Quán Phở Hàng Bài · SUP-00125`, Tài xế `Tài xế D018 · 29C-123.45`, Khối lượng thu gom `32,5 kg`; green-tinted "Khối lượng nhận" card with input `32,3 kg`, status "✓ Khớp", Chênh lệch `-0,2 kg (0,6%)`, Dung sai cho phép `±2%`; enabled primary button "Xác nhận nhập kho" and note "Khối lượng được ghi vào lô sau khi lưu.". The mockup shows this state. | Collection ID found and entered received weight is within the ±2% tolerance (`FR-04-01`, `FR-04-02`) |
 | Empty (no data) | Header (`#1`–`#3`); card with QR icon "Chưa chọn mã thu gom" - "Quét mã QR hoặc nhập Collection_ID để bắt đầu nhận hàng." with primary button "Quét mã QR" and secondary button "Nhập mã"; disabled footer button "Xác nhận nhập kho" | Screen opened before scanning a QR code or entering a `Collection_ID` |
 | Loading | Header (`#1`-`#3`); lookup card showing `COL-00891` with grey skeleton lines below, second card with grey skeleton rows, caption "Đang tra cứu mã thu gom...", and disabled footer button "Xác nhận nhập kho" | Collection details are being queried from the server after scanning or entering `Collection_ID` |
-| Error / Warning | Red banner "Chênh lệch vượt mức cho phép - Nhận 28,0 kg, thấp hơn 32,5 kg đã thu. Kiểm tra lại cân hoặc ghi chú nguyên nhân."; lookup card kept; red-tinted "Khối lượng nhận" card with input `28,0 kg`, status "! Vượt mức chênh lệch cho phép", Chênh lệch `-4,5 kg (13,8%)`, Dung sai cho phép `±2%`; red primary button "Lưu & gửi cảnh báo" and secondary button "Kiểm tra lại" | Entered received weight deviates from collected weight by more than ±2% (`FR-04-02`) |
-| Success / confirmation | Time 10:31; check mark, "Đã lưu khối lượng nhận" — "COL-00891 - nhận 32,3 kg, khớp với khối lượng thu gom."; detail card (Khối lượng thu gom `32,5 kg`, Khối lượng nhận `32,3 kg`, Chênh lệch `-0,2 kg (0,6%)`, Thời điểm nhận `11:05 · 25/09/2026`); buttons "Quản lý lô hàng" and "Về trang chủ" | Receiving weight saved and added to the warehouse UCO inventory (`FR-04-01`) |
+| Error / Warning | Red banner "Chênh lệch vượt mức cho phép - Nhận 28,0 kg, thấp hơn 32,5 kg đã thu. Kiểm tra lại cân hoặc ghi chú nguyên nhân."; lookup card kept; red-tinted "Khối lượng nhận" card with input `28,0 kg`, status "! Vượt mức chênh lệch cho phép", Chênh lệch `-4,5 kg (13,8%)`, Dung sai cho phép `±2%`; red primary button "Lưu & gửi cảnh báo" and secondary button "Kiểm tra lại" | Entered received weight deviates from collected weight by more than ±2% (`FR-04-02`, `FR-04-03`) |
+| Success / confirmation | Time 10:31; check mark, "Đã lưu khối lượng nhận" — "COL-00891 - nhận 32,3 kg, khớp với khối lượng thu gom."; detail card (Khối lượng thu gom `32,5 kg`, Khối lượng nhận `32,3 kg`, Chênh lệch `-0,2 kg (0,6%)`, Thời điểm nhận `11:05 · 25/09/2026`); buttons "Quản lý lô hàng" and "Về trang chủ" | Receiving weight saved, signed transaction amount preserved unchanged (`FR-04-04`), and collection status updated to Received (`FR-04-05`) |
 
 ## 5. Interactions and navigation
 
@@ -88,33 +88,36 @@ All colours, fonts and corners come from the design tokens in
 | 1 | Quét mã / Quét mã QR (`#5`) | tap | Opens camera QR scanner to read the collection QR code, then queries `collection.id` | stays (camera overlay, then loading → default) |
 | 2 | Nhập mã (`#18`, empty state) | tap | Switches from empty card to the `Collection_ID` text input (`#4`) and focuses keyboard | stays |
 | 3 | Collection ID input (`#4`) | input & submit | Queries collection record by `COL-xxxxx` | stays (loading, then default or lookup error) |
-| 4 | Actual received weight input (`#11`) | input number | Recalculates discrepancy (`#13`) and tolerance status (`#12`) in real time; switches between Default (within ±2%) and Warning (exceeds ±2%) | stays (default or error/warning state) |
-| 5 | Xác nhận nhập kho (`#15`, default) | tap | Saves received weight (`FR-04-01`), updates warehouse inventory for batching, and transitions to Success state | stays (success state) |
-| 6 | Lưu & gửi cảnh báo (`#15`, error/warning) | tap | Saves received weight with a discrepancy flag (`FR-04-02`), sends alert notification to Operations/Admin, and transitions to Success state | stays (success state) |
+| 4 | Actual received weight input (`#11`) | input number | Recalculates discrepancy (`#13`) and tolerance status (`#12` via `FR-04-02`) in real time; switches between Default (within ±2%) and Warning (exceeds ±2%) | stays (default or error/warning state) |
+| 5 | Xác nhận nhập kho (`#15`, default) | tap | Saves received weight (`FR-04-01`), preserves signed transaction amount (`FR-04-04`), updates collection status to Received (`FR-04-05`), and transitions to Success state | stays (success state) |
+| 6 | Lưu & gửi cảnh báo (`#15`, error/warning) | tap | Saves received weight (`FR-04-01`), logs a discrepancy alert for internal reconciliation (`FR-04-03`), preserves signed transaction amount (`FR-04-04`), updates status to Received (`FR-04-05`), and transitions to Success state | stays (success state) |
 | 7 | Kiểm tra lại (`#21`, error/warning) | tap | Focuses and selects `#11` so staff can re-weigh and re-enter the actual weight | stays |
-| 8 | Quản lý lô hàng (`#25`, success) | tap | Opens batch creation & mass-balance management with the newly received UCO available | S-F04-02 |
-| 9 | Về trang chủ (`#26`, success) | tap | Returns to the warehouse staff home screen | Warehouse main menu |
-| 10 | Back (`#1`) | tap | Returns without saving the receiving record | Warehouse main menu |
+| 8 | Quản lý lô hàng (`#25`, success) | tap | Opens batch creation & mass-balance management with the newly received UCO available | `S-F04-02` |
+| 9 | Về trang chủ (`#26`, success) | tap | Returns to the warehouse staff home screen | `S-F00-03` |
+| 10 | Back (`#1`) | tap | Returns to the warehouse home screen without saving the receiving record | `S-F00-03` |
 
 ## 6. Screen-level rules
 
 | Rule ID | Rule | Source |
 |---|---|---|
-| SR-001 | Warehouse staff can receive collections assigned to their own `warehouse.id` (`WH-xx`). | FR-06-03 |
-| SR-002 | `collection.actual_quantity` (`#9`) is read-only from the signed handover (`FR-03-01`) and cannot be modified at the warehouse. | FR-04-01 |
-| SR-003 | Discrepancy (`#13`) is calculated automatically as `actual_weight - collected_quantity` and expressed in both `kg` (1 decimal) and `%` (1 decimal). | FR-04-01 |
-| SR-004 | If `abs(discrepancy_pct) <= 2.0%`, the receiving card displays green status "✓ Khớp" and primary button "Xác nhận nhập kho". | BR-04-01 |
-| SR-005 | If `abs(discrepancy_pct) > 2.0%`, the screen triggers the out-of-tolerance warning (`#20`), changes primary action to "Lưu & gửi cảnh báo" (`#15`), and requires either re-checking or logging an alert upon save. | FR-04-02; BR-04-01 |
-| SR-006 | Saved received weight is immediately recorded into the warehouse's unbatched UCO pool for batch creation (`S-F04-02`), without retroactively altering the supplier's signed payout (`S-F03-01` / `S-F03-02`). | BR-04-02 |
-| SR-007 | Statuses and warnings are shown with text and icon ("✓ Khớp", "! Vượt mức chênh lệch cho phép"), never by colour alone. | ui-conventions §5 |
+| SR-001 | Warehouse staff can receive collections assigned to their own `warehouse.id` (`WH-xx`) when permitted by their role. | `FR-06-04` |
+| SR-002 | `collection.actual_quantity` (`#9`) is read-only from the signed handover (`FR-02-15`, `FR-03-06`) and cannot be modified at the warehouse. | `FR-04-01` |
+| SR-003 | Discrepancy (`#13`) is calculated automatically as `actual_weight - collected_quantity` (`FR-04-02`) and expressed in both `kg` (1 decimal) and `%` (1 decimal). | `FR-04-02` |
+| SR-004 | If `abs(discrepancy_pct) <= 2.0%`, the receiving card displays green status "✓ Khớp" and primary button "Xác nhận nhập kho". | `FR-04-02` |
+| SR-005 | If `abs(discrepancy_pct) > 2.0%`, the screen triggers the out-of-tolerance warning (`#20`), changes primary action to "Lưu & gửi cảnh báo" (`#15`), and logs a discrepancy alert for internal reconciliation without halting receiving (`FR-04-03`). | `FR-04-02`, `FR-04-03` |
+| SR-006 | Saved received weight updates collection status to Received (`FR-04-05`) and is recorded into the warehouse's unbatched UCO pool for batch creation (`S-F04-02`), while keeping the supplier's signed transaction amount unchanged (`FR-04-04`). | `FR-04-04`, `FR-04-05` |
+| SR-007 | Statuses and warnings are shown with text and icon ("✓ Khớp", "! Vượt mức chênh lệch cho phép"), never by colour alone. | `ui-conventions.md` §5 |
 
 ## 7. Linked requirements
 
 | FR ID | What this screen does for it |
 |---|---|
-| FR-04-01 | Looks up a collection via QR scan or `Collection_ID`, records the actual received weight at the warehouse, calculates discrepancy, and saves the receiving record |
-| FR-04-02 | Detects weight discrepancies exceeding the ±2% tolerance threshold, warns the warehouse staff, and flags/notifies Operations when saved with discrepancy |
-| FR-06-03 | Restricts warehouse receiving operations to the signed-in warehouse staff's assigned warehouse (`WH-01`) |
+| `FR-04-01` | Looks up a signed collection via QR scan or `Collection_ID` and records the actual received quantity at the warehouse |
+| `FR-04-02` | Compares the recorded received quantity with the collection record against the configured ±2% tolerance limit |
+| `FR-04-03` | Logs a discrepancy alert for internal reconciliation without halting receiving when the difference exceeds the tolerance limit |
+| `FR-04-04` | Preserves the supplier's signed transaction amount unchanged regardless of whether receiving is within or outside tolerance |
+| `FR-04-05` | Updates the collection status to `Received` once quantity comparison and any discrepancy alert are processed |
+| `FR-06-04` | Restricts warehouse receiving operations to authenticated warehouse staff with permission for their assigned warehouse (`WH-01`) |
 
 ## 8. Responsive and accessibility notes
 
