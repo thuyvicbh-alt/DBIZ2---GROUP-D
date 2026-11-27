@@ -125,8 +125,9 @@ All colours, fonts and corners come from the design tokens in
 
 | # | Question | Blocking? | Status |
 |---|---|---|---|
-| 1 | [NEEDS CLARIFICATION: in the mockups, labels `#4`, `#6`, and `#7` differ slightly between Default ("Chi tiết giao dịch", "Thời điểm ký", "Địa điểm thu gom") and Error ("Biên nhận giao dịch UCO", "Thời gian giao dịch:", "Địa điểm thu gom:"). Unify them?] | No | Open. Default: use the Default state labels across both states. |
-| 2 | [NEEDS CLARIFICATION: the note "Chứng từ giao dịch, không thay thế hóa đơn GTGT" uses slightly different phrasing from S-F03-01 ("Đây là chứng từ giao dịch, không phải hóa đơn thuế."). Confirm standard legal wording with ReFeed.] | No | Open. Default: keep the wording shown on S-F03-02. |
+| 1 | [NEEDS CLARIFICATION: in the mockups, labels `#4`, `#6`, and `#7` differ slightly between Default ("Chi tiết giao dịch", "Thời điểm ký", "Điểm phát sinh") and Error ("Biên nhận giao dịch UCO", "Thời gian giao dịch:", "Địa điểm thu gom:"). Unify them?] | No | Open. Default: use the Default state labels across both states. |
+| 2 | [NEEDS CLARIFICATION: "Về số dư tích lũy" in the success state goes to S-F05-01 (which combines transaction history and accumulated balance) or a dedicated payout balance screen?] | No | Open. Default: goes to S-F05-01. |
+| 3 | [NEEDS CLARIFICATION: the note "Chứng từ giao dịch, không thay thế hóa đơn GTGT" uses slightly different phrasing from S-F03-01 ("Đây là chứng từ giao dịch, không phải hóa đơn thuế."). Confirm standard legal wording with ReFeed.] | No | Open. Default: keep the wording shown on S-F03-02. |
 
 ---
 
