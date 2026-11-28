@@ -3,10 +3,10 @@
 | Field             | Value |
 | ----------------- | ----- |
 | Screen ID         | S-F05-01 |
-| Screen name       | My wallet (Vietnamese title: "Ví của tôi") |
+| Screen name       | Loyalty and payout balance |
 | Actor             | Supplier |
-| Priority          | Must [TBC: confirm in the Screen List] |
-| Feature           | F-05 Loyalty, payout balance and Green Profile [TBC: confirm the feature name in the Function List] |
+| Priority          | Must |
+| Feature           | F-05 Loyalty, payout balance and Green Profile|
 | Activity diagrams | [TBC: AD not checked; the screen is read-only, and no withdrawal flow exists any more] |
 | Mockup images     | `img/S-F05-01-default.png` (default), `img/S-F05-01-default-numbered.png`, four state images and four numbered state images (section 2) |
 | Frame width       | 370px screen inside a 390 × 844 device frame, exported at 3x; state images are 1170 × 2532 pixels, numbered images are 1230 × 2592 pixels (30px transparent padding so that the number badges have room) |
