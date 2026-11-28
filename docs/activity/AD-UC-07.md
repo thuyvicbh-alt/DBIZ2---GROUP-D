@@ -1,7 +1,7 @@
 # AD-UC-07: Input Handover Information
 
 | Field | Value |
-|---|---|
+| --- | --- |
 | AD ID | AD-UC-07 |
 | Use case | UC-07 Input Handover Information |
 | Feature | F-02 |
@@ -22,7 +22,7 @@
 Notation follows the DBIZ2 activity profile (`mermaid-activity-patterns.md`). Rendered with `swimlane-beta`. Every action node maps 1-to-1 to a distinct L3 work item in W1 (`-FE` for Driver / Collector actions, `-BE` for System actions); control nodes (`start1`, `m1`, `d1`, `stop1`) do not add functions.
 
 ```mermaid
-swimlane-beta LR
+swimlane-beta TB
   subgraph DVR["Driver / Collector"]
     start1@{ shape: sm-circ }
     a1("Capture & submit actual quantity, handover time, and evidence (FR-02-14-FE)")
@@ -51,7 +51,7 @@ swimlane-beta LR
 Every action node cites a unique W1 L3 Function List ID. Control nodes (`start1`, `m1`, `d1`, `stop1`) govern control flow only and do not add functions.
 
 | Node | Kind | Text | Traces to |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | `a1` | Actor action | Capture & submit actual quantity, handover time, and evidence | `FR-02-14-FE` |
 | `m1` | Merge | Merge initial submission and correction loop | Control flow (no separate FR) |
 | `a2` | Action | Validate actual quantity, handover time, and evidence | `FR-02-14-BE` |
@@ -68,14 +68,14 @@ Every action node cites a unique W1 L3 Function List ID. Control nodes (`start1`
 One row per outgoing branch of every decision. DBIZ3 turns each row into at least one test.
 
 | Branch | Given | When | Then |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | `d1` `[Valid]` | The driver inputs valid actual quantity (e.g. 50 kg), handover time, and uploads required evidence photo | They submit the handover form | The handover record is stored (`FR-02-15-BE`), transaction amount is calculated (`FR-02-16-BE`), and a draft agreement is generated (`FR-02-17-BE`) and displayed (`FR-02-17-FE`). |
 | `d1` `[Invalid]` | The driver leaves the mandatory actual quantity field blank or has no required evidence photo | They submit the handover form | No record is saved; the submission is rejected (`FR-02-18-BE`) and the app displays validation feedback prompting to fill all mandatory fields (`FR-02-18-FE`). |
 
 ## 4. Object states used
 
 | Object | States that appear in this diagram | Full state list (all diagrams) |
-|---|---|---|
+| --- | --- | --- |
 | Handover Record | Validated, Draft | Draft, Validated, Rejected |
 
 These state names become the allowed values of `handover.status` in the DBIZ3 data model. Keep the spelling identical everywhere.
@@ -85,7 +85,7 @@ These state names become the allowed values of `handover.status` in the DBIZ3 da
 Filled in during Lesson 8, from the Screen List.
 
 | Driver / Collector action | Screen ID |
-|---|---|
+| --- | --- |
 | Capture & submit actual quantity, handover time, and evidence (`FR-02-14-FE`) | S-F02-03 (Mobile Handover Form) |
 | See rejection prompt & correct invalid information (`FR-02-18-FE`) | S-F02-03 (Mobile form with error state) |
 | Display generated draft handover agreement (`FR-02-17-FE`) | S-F02-03 (Mobile Draft Agreement View) |
@@ -93,17 +93,17 @@ Filled in during Lesson 8, from the Screen List.
 ## 6. Open questions
 
 | # | Question | Blocking? | Default applied |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | 1 | `[NEEDS CLARIFICATION: What are the specific rules for 'evidence' in FR-02-14 (e.g., photo file type, size limits, or GPS location match)?]` (W1 marks `FR-02-14` `EARS precise? = No` for this reason.) | No | Photo upload via mobile app is assumed as evidence for now. |
 
 ## 7. Verification log
 
 | Check | Result | By | Date |
-|---|---|---|---|
-| Renders on mermaid.live | Pass | | |
-| Every decision has guards on all outgoing flows | Pass | | |
-| Every fork has a matching join | N/A (no forks) | | |
-| Every action node cites a unique W1 Function ID | Pass (8 of 8 L3 items: `FR-02-14-FE` to `FR-02-18-BE`) | | |
-| Every FR of UC-07 appears in the diagram | Pass (5 of 5 L2; 8 of 8 L3) | | |
-| Lane names match the Context Diagram | Pass (`Driver / Collector · System`) | | |
-| AI critic prompt run, findings resolved or logged | Pass, 1 finding → open question 1 | | |
+| --- | --- | --- | --- |
+| Renders on mermaid.live | Pass |  |  |
+| Every decision has guards on all outgoing flows | Pass |  |  |
+| Every fork has a matching join | N/A (no forks) |  |  |
+| Every action node cites a unique W1 Function ID | Pass (8 of 8 L3 items: `FR-02-14-FE` to `FR-02-18-BE`) |  |  |
+| Every FR of UC-07 appears in the diagram | Pass (5 of 5 L2; 8 of 8 L3) |  |  |
+| Lane names match the Context Diagram | Pass (`Driver / Collector · System`) |  |  |
+| AI critic prompt run, findings resolved or logged | Pass, 1 finding → open question 1 |  |  |
