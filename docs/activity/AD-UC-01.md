@@ -7,14 +7,14 @@
 | Feature | F-01 Supplier Portal & Account Management |
 | Primary actor | Supplier |
 | Lanes | Supplier · ReFeed system |
-| Inputs (L3-L5) | Context Diagram v2 (Supplier) · Use Case Diagram v2 · Sequence: SD-UC-01 · Architecture v2 · W1 row FR-01-01 |
+| Inputs (L3-L5) | Context Diagram v2 (Supplier) · Use Case Diagram v2 · Sequence: SD-UC-01 · Architecture v2 · W1 row FR-01-01 (Register/Login as a UCO supplier) |
 | Trigger | The supplier submits credentials or registration data on the portal |
 | Preconditions | The supplier has access to the ReFeed Web/Mobile Portal. |
 | Success end state | Account is successfully authenticated or created; `Supplier` account is in state `Active`, session token is issued, and Dashboard is displayed. |
 | Failure end state | No account/session is created; error message displayed to prompt retry. |
-| FRs covered | FR-01-01 |
+| FRs covered | FR-01-01 Register/Login as a UCO supplier |
 | Business rules applied | BR-01 (Unique Supplier Identifier & Tax ID validation) |
-| Version / status | v1.0 · Reviewed |
+| Version / status | v1.1 · Updated to the revised W1 function list |
 | Author | Nguyen Thuy Vi - 2411560050 |
 
 ## 1. Diagram
@@ -44,16 +44,16 @@ end
 
 subgraph system ["ReFeed System"]
 validateAuth("Validate Credentials and Compliance Data (FR-01-01)")
-createAccount("Create Supplier Account with Unique Supplier_ID (FR-01-01)")
-authenticateUser("Display Account Already Exists & Redirect to Login (FR-01-01)")
+createAccount("Create Supplier Account with Unique Supplier_ID")
+authenticateUser("Display Account Already Exists & Redirect to Login")
 finalLogin@{ shape: fr-circ, label: " " }
 
 
-displayAuthSuccess("Display Dashboard & Authentication Result (FR-01-01)")
+displayAuthSuccess("Display Dashboard & Authentication Result")
 finalSuccess@{ shape: fr-circ, label: " " }
 
 
-displayAuthError("Display Error Message & Prompt Retry (FR-01-01)")
+displayAuthError("Display Error Message & Prompt Retry")
 end
 
 
@@ -88,19 +88,19 @@ Reading notes:
 
 ## 2. Node trace
 
-Every action in the system lane cites a requirement. Every decision cites the rule or requirement
-that decides it.
+UC-01 has a single requirement, **FR-01-01 Register/Login as a UCO supplier**. It is tagged once in the
+diagram, on the first system action. The other nodes belong to the same FR and are not tagged again.
 
 | Node | Kind | Text | Traces to |
 |---|---|---|---|
-| s1 | Action | Validate Credentials and Compliance Data | FR-01-01, BR-01 |
-| d1 | Decision | Authentication valid? | FR-01-01 |
-| s2 | Action | Display Error Message & Prompt Retry | FR-01-01 |
-| d2 | Decision | New registration or existing login? | FR-01-01 |
-| s3 | Action | Create Supplier Account with Unique Supplier_ID | FR-01-01, BR-01 |
-| o1 | Object node | Supplier Account [Active] | FR-01-01 (state value) |
-| s4 | Action | Display Dashboard & Authentication Result | FR-01-01 |
-| s5 | Action | Display Account Already Exists & Redirect to Login | FR-01-01 |
+| s1 | Action | Validate Credentials and Compliance Data | **FR-01-01** Register/Login as a UCO supplier (the only node that carries the FR tag), BR-01 |
+| d1 | Decision | Authentication valid? | BR-01 |
+| s2 | Action | Display Error Message & Prompt Retry | Part of the FR-01-01 flow (not tagged again) |
+| d2 | Decision | New registration or existing login? | Part of the FR-01-01 flow (not tagged again) |
+| s3 | Action | Create Supplier Account with Unique Supplier_ID | Part of the FR-01-01 flow, BR-01 |
+| o1 | Object node | Supplier Account [Active] | State value |
+| s4 | Action | Display Dashboard & Authentication Result | Part of the FR-01-01 flow (not tagged again) |
+| s5 | Action | Display Account Already Exists & Redirect to Login | Part of the FR-01-01 flow (not tagged again) |
 
 ## 3. Branches and acceptance tests
 
@@ -137,15 +137,15 @@ Filled in during Lesson 8, from the Screen List.
 | # | Question | Blocking? | Default applied |
 |---|---|---|---|
 | 1 | [NEEDS CLARIFICATION: Is OTP/2FA required upon initial registration?] | No | Yes: Standard email/password authentication is verified first; 2FA can be configured post-registration. |
-| 2 | [NEEDS CLARIFICATION: Does account activation require immediate manual compliance check by Admin?] | No | Account is created in `Active` status for basic portal access, with extended pickup functions locked until profile completeness (FR-01-02 / FR-01-03). |
+| 2 | [NEEDS CLARIFICATION: Does account activation require immediate manual compliance check by Admin?] | No | Account is created in `Active` status for basic portal access, with extended pickup functions locked until profile completeness (FR-01-02 / FR-01-03 in the revised W1). |
 
 ## 7. Verification log
 
 | Check | Result | By | Date |
 |---|---|---|---|
-| Renders on mermaid.live | Pass | | 06/11/2026 |
+| Renders (mermaid-cli 11.16.0) | Pass | | 28/11/2026 |
 | Every decision has guards on all outgoing flows | Pass | | 06/11/2026 |
-| Every system action cites an FR | Pass (FR-01-01)| | 06/11/2026 |
-| Every FR of UC-01 appears in the diagram | Pass (1 of 1) || 06/11/2026 |
+| FR-01-01 appears once in the diagram, with the exact W1 name | Pass | | 28/11/2026 |
+| Every FR of UC-01 appears in the diagram | Pass (1 of 1) || 28/11/2026 |
 | Lane names match the Context Diagram | Pass || 06/11/2026 |
 | AI critic prompt run, findings resolved or logged | Pass, 2 findings → open questions 1 and 2| | 06/11/2026 |
