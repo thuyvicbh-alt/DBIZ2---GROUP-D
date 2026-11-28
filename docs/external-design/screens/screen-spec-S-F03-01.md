@@ -7,7 +7,7 @@
 | Actor | Supplier |
 | Priority | Must |
 | Feature | F-03 UCO Transaction |
-| Activity diagrams | [AD-UC-08](../../activity/AD-UC-08.md); interactions in [SD-UC-08](../../use-case/SD-UC-08.md). FR IDs below use the current W1 numbering. |
+| Activity diagrams | AD-UC-08 (system actions "Retrieve supplier draft agreement", "Display handover and calculated amount", "Display no transaction awaiting signature", "Validate signature and confirmation", "Return signing validation feedback", "Lock agreement and calculated amount", "Store electronic signature", "Mark pickup as Completed", "Return signing failure and prompt retry", "Display signing success"); sequence SD-UC-08 |
 | Mockup images | `img/S-F03-01-default.png` (default), `img/S-F03-01-default-numbered.png`, four state images and four numbered state images (section 2) |
 | Frame width | 370px screen inside a 390 × 844 device frame (exported at 3x with a 50px shadow margin, 1470 × 2832 pixels) |
 | Figma frame | Frames "S-F03-01 / 1" to "S-F03-01 / 5", page "4 màn × 5 trạng thái" in the ReFeed Figma file |
@@ -25,10 +25,8 @@
 
 **Numbered:** each number is the # of the element inventory in section 3. Element 19 (Message
 area) appears only in the error state and element 20 (Empty message) only in the empty state, so
-each is numbered on that state's image. In the error state the agreement card (4–8) and the amount
-card (9–13) stay on screen, the signature pad (14) is empty, and the confirmation checkbox (16) and the
-document note (18) sit below the visible part of the screen (the content scrolls), so they are not
-numbered on the error image. The empty and loading images number the
+each is numbered on that state's image. In the error state the agreement card (4–8) and the document
+note (18) are not shown and the signature pad (14) is empty. The empty and loading images number the
 header (1–3), the loading image also the disabled button (17); the success image numbers the header
 and the locked signature pad (14), and its summary card is described in section 4.
 
@@ -59,12 +57,12 @@ All colours, fonts and corners come from the design tokens in
 | 6 | Point of origin | Text | "Điểm phát sinh" · `supplier.address` (Point-of-Origin) | Yes | |
 | 7 | Collection time | Text | "Thời gian thu gom" · `collection.collected_at` (FR-02-12) | Yes | `HH:mm · dd/MM/yyyy` |
 | 8 | Collector | Text | "Người thu gom" · "Tài xế " + `driver.id` · `vehicle.plate` | Yes | |
-| 9 | Actual quantity | Text | `collection.actual_quantity` (FR-02-15) | Yes | 1 decimal + " kg" |
+| 9 | Actual quantity | Text | `collection.actual_quantity` (FR-02-15, FR-03-02) | Yes | 1 decimal + " kg" |
 | 10 | Base price | Text | `transaction.base_price` | Yes | integer + " đ/kg" |
 | 11 | Loyalty bonus | Text | "Thưởng tích lũy (Hạng " + `transaction.loyalty_tier` + ")" · `transaction.loyalty_bonus_rate` | Yes | "+" + integer + " đ/kg" |
 | 12 | Applied price | Text | base price + loyalty bonus | Yes | integer + " đ/kg" |
-| 13 | Total amount | Total row | "Tổng tiền" · `transaction.amount` (FR-02-16) | Yes | integer + " đ" |
-| 14 | Signature pad | Drawing input | "Ký nhận điện tử"; caption "Chữ ký nhà cung cấp"; `transaction.signature` (FR-03-07); after signing: "Đã ký · đã khóa" | Yes | must not be empty |
+| 13 | Total amount | Total row | "Tổng tiền" · `transaction.amount` (FR-02-16, FR-03-02) | Yes | integer + " đ" |
+| 14 | Signature pad | Drawing input | "Ký nhận điện tử"; caption "Chữ ký nhà cung cấp"; `transaction.signature` (FR-03-04, FR-03-07); after signing: "Đã ký · đã khóa" | Yes | must not be empty |
 | 15 | Xóa / Ký lại | Button | static | No | none; hidden after signing |
 | 16 | Confirmation checkbox | Checkbox | static: "Tôi xác nhận khối lượng và số tiền trên. Sau khi ký, biên bản bị khóa và không thể sửa." | Yes | must be ticked |
 | 17 | Xác nhận thông tin | Primary button | static label | Yes | disabled until the signature is drawn and the checkbox is ticked |
@@ -76,11 +74,11 @@ All colours, fonts and corners come from the design tokens in
 
 | State | What the user sees | Trigger |
 |---|---|---|
-| Default | Header "Biên bản giao nhận", "Quán Phở Hàng Bài · SUP-00125"; agreement "Biên bản giao nhận & mua bán UCO" PK-00125 · COL-00891 (Điểm phát sinh 12 Hàng Bài, Hoàn Kiếm; Thời gian thu gom 10:24 · 25/09/2026; Người thu gom Tài xế D018 · 29C-123.45); 32,5 kg, Giá gốc 10.000 đ/kg, Thưởng tích lũy (Hạng 1) +300 đ/kg, Giá áp dụng 10.300 đ/kg, Tổng tiền 334.750 đ; signature pad with the supplier's signature and "Xóa / Ký lại"; checkbox ticked; "Xác nhận thông tin" enabled; document note below. The mockup shows this state. | Screen opened with one transaction awaiting signature |
-| Empty (no data) | Card with receipt icon "Không có giao dịch nào chờ ký" — "Khi tài xế ghi nhận bàn giao, biên bản sẽ hiện ở đây để bạn xem và ký." with button "Xem lịch sử giao dịch"; no agreement, no signature pad, no footer button | No transaction of this supplier is awaiting signature (e.g. already signed) |
-| Loading | Two cards of grey placeholders and the text "Đang tải biên bản…"; "Xác nhận thông tin" disabled | The agreement is being fetched |
-| Error | Red banner "Chưa ký được giao dịch — Mất kết nối khi gửi chữ ký. Biên bản chưa bị khóa và chưa cộng tiền vào số dư."; agreement card (PK-00125 · COL-00891, 12 Hàng Bài, Hoàn Kiếm, 10:24 · 25/09/2026, Tài xế D018 · 29C-123.45) and amount card (32,5 kg … Tổng tiền 334.750 đ) kept; signature pad empty with "Xóa / Ký lại"; the confirmation checkbox stays ticked below the signature pad (reached by scrolling); "Xác nhận thông tin" disabled until the supplier signs again | The signing request failed |
-| Success / confirmation | Time 10:33; check mark, "Đã ký giao dịch" — "COL-00891 · 32,5 kg · 334.750 đ. Số tiền đã được cộng vào số dư tích lũy của bạn."; card (Thời điểm ký 10:33 · 25/09/2026, Biên bản "Hoàn tất", Cộng vào số dư +334.750 đ); signature shown "Đã ký · đã khóa"; buttons "Xem biên nhận" and "Về trang chủ" | Agreement locked, signature stored and pickup Completed (FR-03-06, FR-03-07, FR-03-08); amount added to the balance (FR-05-03) |
+| Default | Header "Biên bản giao nhận", "Quán Phở Hàng Bài · SUP-00125"; agreement "Biên bản giao nhận & mua bán UCO" PK-00125 · COL-00891 (Điểm phát sinh 12 Hàng Bài, Hoàn Kiếm; Thời gian thu gom 10:24 · 25/09/2026; Người thu gom Tài xế D018 · 29C-123.45); 32,5 kg, Giá gốc 10.000 đ/kg, Thưởng tích lũy (Hạng 1) +300 đ/kg, Giá áp dụng 10.300 đ/kg, Tổng tiền 334.750 đ; signature pad with the supplier's signature and "Xóa / Ký lại"; checkbox ticked; "Xác nhận thông tin" enabled; document note below. The mockup shows this state. | Screen opened with one transaction awaiting signature (FR-03-01, FR-03-02) |
+| Empty (no data) | Card with receipt icon "Không có giao dịch nào chờ ký" — "Khi tài xế ghi nhận bàn giao, biên bản sẽ hiện ở đây để bạn xem và ký." with button "Xem lịch sử giao dịch"; no agreement, no signature pad, no footer button | No transaction of this supplier is awaiting signature (e.g. already signed) (FR-03-03) |
+| Loading | Two cards of grey placeholders and the text "Đang tải biên bản…"; "Xác nhận thông tin" disabled | The agreement is being fetched (FR-03-01) |
+| Error | Red banner "Chưa ký được giao dịch — Mất kết nối khi gửi chữ ký. Biên bản chưa bị khóa và chưa cộng tiền vào số dư."; amount card kept; signature pad empty with "Xóa / Ký lại"; checkbox kept; "Xác nhận thông tin" disabled until the supplier signs again | The signing request failed (FR-03-09) |
+| Success / confirmation | Time 10:33; check mark, "Đã ký giao dịch" — "COL-00891 · 32,5 kg · 334.750 đ. Số tiền đã được cộng vào số dư tích lũy của bạn."; card (Thời điểm ký 10:33 · 25/09/2026, Biên bản "Hoàn tất", Cộng vào số dư +334.750 đ); signature shown "Đã ký · đã khóa"; buttons "Xem biên nhận" and "Về trang chủ" | Agreement locked (FR-03-06), signature stored (FR-03-07) and pickup Completed (FR-03-08); amount added to the balance (FR-05-03); confirmation shown (FR-03-10) |
 
 ## 5. Interactions and navigation
 
@@ -89,8 +87,8 @@ All colours, fonts and corners come from the design tokens in
 | 1 | Signature pad | draw | Captures the signature; the button is enabled once the checkbox is also ticked | stays |
 | 2 | Xóa / Ký lại | tap | Clears the signature; the button is disabled | stays |
 | 3 | Confirmation checkbox | tap | Ticks or unticks the confirmation | stays |
-| 4 | Xác nhận thông tin | tap | Opens the modal "Xác nhận & ký điện tử" with the amount 334.750 đ | stays (modal) |
-| 5 | Ký và khóa biên bản (modal) | tap | Locks the agreement (document hash) with the amount, stores the signature, marks the pickup Completed (FR-03-06, FR-03-07, FR-03-08) and adds the amount to the balance (FR-05-03), or shows the error state | stays (loading, then success or error state) |
+| 4 | Xác nhận thông tin | tap | Opens the modal "Xác nhận & ký điện tử" with the amount 334.750 đ (FR-03-04) | stays (modal) |
+| 5 | Ký và khóa biên bản (modal) | tap | Validates the signature and confirmation (FR-03-04), locks the agreement (document hash) with the amount (FR-03-06), stores the signature (FR-03-07), marks the pickup Completed (FR-03-08) and adds the amount to the balance (FR-05-03); or shows the error state (FR-03-05, FR-03-09) | stays (loading, then success or error state) |
 | 6 | Quay lại (modal) | tap | Closes the modal; nothing is signed | stays |
 | 7 | Xem biên nhận | tap (success state) | Opens the receipt of this transaction | S-F03-02 |
 | 8 | Về trang chủ | tap (success state) | Returns to the supplier home | S-F00-02 |
@@ -101,33 +99,32 @@ All colours, fonts and corners come from the design tokens in
 
 | Rule ID | Rule | Source |
 |---|---|---|
-| SR-001 | The supplier sees only transactions of their own `supplier.id`. | FR-06-04 |
-| SR-002 | Quantity, prices and amount are read-only; they come from the handover recorded by the driver. | FR-02-15, FR-02-16, FR-02-17; FR-03-02 |
-| SR-003 | "Xác nhận thông tin" is enabled only when the signature is drawn and the checkbox is ticked. | FR-03-04 |
+| SR-001 | The supplier sees only transactions of their own `supplier.id`. | FR-03-01, FR-03-03; FR-06-04 |
+| SR-002 | Quantity, prices and amount are read-only; they come from the handover recorded by the driver. | FR-02-16, FR-03-02 |
+| SR-003 | "Xác nhận thông tin" is enabled only when the signature is drawn and the checkbox is ticked. | FR-03-04, FR-03-05 |
 | SR-004 | Signing always goes through the confirmation modal "Xác nhận & ký điện tử". | Screen List (modals); ui-conventions §3 |
 | SR-005 | On signing, the agreement is locked (document hash) with the amount, the signature is stored and the pickup becomes Completed. | FR-03-06, FR-03-07, FR-03-08 |
 | SR-006 | After signing, the base payment and loyalty bonus are added to the payout balance and the quantity to the verified UCO volume. | FR-05-03, FR-05-04 |
-| SR-007 | If signing fails, the agreement stays unlocked and the balance is unchanged; the supplier signs again. | FR-03-09 |
-| SR-008 | A signed agreement and its signature cannot be edited or cleared. | FR-03-06, FR-03-07 |
+| SR-007 | If signing fails, the agreement stays unlocked and the balance is unchanged; the supplier signs again. | FR-03-09 (error state) |
+| SR-008 | A signed agreement and its signature cannot be edited or cleared. | FR-03-06 |
 | SR-009 | Statuses are shown with text and icon, never by colour alone. | ui-conventions §5 |
 
 ## 7. Linked requirements
 
 | FR ID | What this screen does for it |
 |---|---|
-| FR-03-01 | Opens and retrieves the supplier's own unsigned draft |
-| FR-03-02 | Shows the recorded handover, prices and amount read-only |
-| FR-03-03 | Shows the no-transaction-awaiting-signature state |
-| FR-03-04 | Captures and validates a nonempty signature and checked confirmation through the modal |
-| FR-03-05 | Shows correction feedback for missing signing inputs |
-| FR-03-06 | Locks the reviewed agreement hash and amount on successful signing |
-| FR-03-07 | Stores and displays the locked signature and signing time |
-| FR-03-08 | Marks the linked pickup Completed after successful signing |
-| FR-03-09 | Shows signing failure and allows retry while the agreement remains unsigned |
-| FR-03-10 | Shows signing success and receipt/home navigation |
-| FR-05-03, FR-05-04 | Existing UC-12 post-signing balance and verified-volume updates; outside AD-UC-08 |
-| FR-05-05, FR-05-06 | Existing UC-12 conditional tier upgrade and bonus; outside AD-UC-08 |
-| FR-06-04 | Enforces the signed-in supplier's access to their own transaction |
+| FR-03-01 | Retrieves the signed-in supplier's own unsigned draft agreement |
+| FR-03-02 | Displays the recorded quantity, base price, loyalty bonus and calculated amount as read-only values |
+| FR-03-03 | Shows the empty state when no transaction awaits signature |
+| FR-03-04 | Captures the signature and the confirmation checkbox and validates them before signing |
+| FR-03-05 | Keeps the button disabled and shows feedback while the signature or confirmation is missing |
+| FR-03-06 | Locks the agreement document hash together with the calculated amount |
+| FR-03-07 | Stores the electronic signature and signing time |
+| FR-03-08 | Marks the linked pickup as Completed |
+| FR-03-09 | Shows the signing failure with the agreement still unlocked and lets the supplier sign again |
+| FR-03-10 | Shows the signing confirmation, locked signature, signing time and amount, with receipt and home navigation |
+| FR-05-03, FR-05-04 | Shows that the signed amount was added to the payout balance and the quantity to the verified UCO volume (success state) |
+| FR-06-04 | Restricts the transaction shown to the signed-in supplier (role permission) |
 
 ## 8. Responsive and accessibility notes
 
@@ -153,10 +150,10 @@ All colours, fonts and corners come from the design tokens in
 - [x] The mockup is a separate cropped image file, named with the Screen ID, at the frame width.
 - [x] The numbered image exists, and its numbers match the # column of the element inventory.
 - [x] Every visible element in the mockup appears in the element inventory.
-- [ ] Every colour in the mockup is a design token from ui-conventions.md.
+- [x] Every colour in the mockup is a design token from ui-conventions.md.
 - [x] Every input element has a validation rule or an explicit "none".
 - [x] All five states are filled in.
 - [x] Every navigation target is a Screen ID that exists in the Screen List.
 - [x] Every element that displays data names the field it displays.
-- [x] Every linked FR exists in the Function List, and every action of this screen in its activity diagram is
-      covered by an interaction row; UC-08 is documented in AD-UC-08 and SD-UC-08.
+- [x] Every linked FR exists in the Function List, and every action of this screen in AD-UC-08 is
+      covered by an interaction row.
