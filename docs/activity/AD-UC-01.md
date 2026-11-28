@@ -14,7 +14,7 @@
 | Failure end state | No account or session is created, or no new pickup request is created or changed; the supplier sees why (invalid credentials, incomplete profile, or request not eligible). |
 | FRs covered | FR-01-01 Register/Login as a UCO supplier · FR-01-02 Manage Point-of-Origin and compliance profile · FR-01-03 Request and schedule a UCO pickup · FR-01-04 Manage an existing pickup request · FR-01-05 Track pickup status |
 | Business rules applied | BR-01 (Unique Supplier Identifier & Tax ID validation) |
-| Version / status | v1.4 · LabDesk pattern: every system action carries one FR, each FR appears once |
+| Version / status | v1.5 · LabDesk pattern: every system action carries one FR, each FR appears once |
 | Author | Nguyen Thuy Vi - 2411560050 |
 
 ## 1. Diagram
@@ -29,7 +29,8 @@ swimlane-beta TB
     a1("Submit credentials or registration data")
     a2("Submit or update Point-of-Origin and compliance data")
     a3("Submit pickup request with preferred time window")
-    a4("Choose to change, cancel or track a request")
+    a4("Change or cancel the pickup request")
+    a5("Request pickup status")
     stop1@{ shape: fr-circ }
     stop2@{ shape: fr-circ }
   end
@@ -55,17 +56,17 @@ swimlane-beta TB
   d2 -->|"[returning login]"| m2
   m2 --> a3 --> s3 --> d3
   d3 -->|"[no, prompt profile update]"| m1
-  d3 -->|"[yes]"| o1 --> a4 --> d4
-  d4 -->|"[change or cancel]"| s4 --> d5
+  d3 -->|"[yes]"| o1 --> d4
+  d4 -->|"[change or cancel]"| a4 --> s4 --> d5
   d5 -->|"[no, show reason]"| stop1
   d5 -->|"[yes, status updated]"| stop2
-  d4 -->|"[track status]"| s5 --> stop2
+  d4 -->|"[track status]"| a5 --> s5 --> stop2
 ```
 
 Reading notes:
 
 - Every action in the system lane carries one FR with its exact W1 name, and each FR appears once: `s1` FR-01-01, `s2` FR-01-02, `s3` FR-01-03, `s4` FR-01-04, `s5` FR-01-05.
-- Supplier actions (submit, choose) and the object node `o1` carry no FR. Decisions follow the LabDesk example: the label has no tag, and section 2 gives the FR that decides each branch.
+- Supplier actions (submit, change or cancel, request status) and the object node `o1` carry no FR. Decisions follow the LabDesk example: the label has no tag, and section 2 gives the FR that decides each branch.
 - `m1` is a **merge** node. It joins the new-registration flow and the flow back from an incomplete profile, so the supplier returns to the profile step instead of the diagram ending.
 - `m2` is a merge node. A new supplier reaches it after the profile step. A returning supplier reaches it straight from `d2`, so a returning login does not repeat the profile step.
 - The error message, the profile-update prompt, the creation of the request and the status update are parts of `s1`, `s3` and `s4`. They are written on the flow guards and do not need a separate FR.
@@ -123,7 +124,7 @@ Filled in during Lesson 8, from the Screen List.
 | Submit credentials or registration data, see error | S-F01-01 (Supplier registration) · S-F00-01 (Sign in) |
 | Submit or update Point-of-Origin and compliance data | S-F01-02 (Point-of-Origin and compliance profile) |
 | Submit pickup request, see profile-incomplete prompt | S-F01-03 (Pickup request form) |
-| Choose to change, cancel or track a request | S-F01-04 (My pickup requests) · S-F01-05 (Pickup request detail) |
+| Change or cancel the pickup request, request pickup status | S-F01-04 (My pickup requests) · S-F01-05 (Pickup request detail) |
 
 ## 6. Open questions
 
