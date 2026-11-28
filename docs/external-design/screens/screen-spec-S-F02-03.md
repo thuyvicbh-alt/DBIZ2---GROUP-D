@@ -7,7 +7,7 @@
 | Actor | Driver / Collector |
 | Priority | Must |
 | Feature | F-02 Collection Operations & Handover |
-| Activity diagrams | AD-UC-06 (actions "Open assigned collection route", "Select supplier point and confirm arrival" — the select part; the loop through `d2` "More assigned pickup points remain?") |
+| Activity diagrams | AD-UC-06 (actions `a1` "Open assigned collection route" and `s1` "Display assigned route and pickup points", `a2` "Select supplier point and confirm arrival" — the select part; the loop through `d2` "More assigned pickup points remain?"); sequence SD-UC-06 |
 | Mockup images | `img/S-F02-03-default.png` (default), `img/S-F02-03-default-numbered.png`, four state images and four numbered state images (section 2) |
 | Frame width | 370px screen inside a 390 × 844 device frame (exported at 3x with a 50px shadow margin, 1470 × 2832 pixels) |
 | Figma frame | Frames "S-F02-03 / 1" to "S-F02-03 / 5", page "4 màn × 5 trạng thái" in the ReFeed Figma file |
@@ -15,7 +15,7 @@
 
 ## 1. Purpose
 
-**Shown when:** the driver / collector signs in (this is the driver home, S-F00-01 → S-F02-03), opens the dispatch notification sent when ReFeed staff dispatch a route (FR-02-01), or comes back from S-F02-04 after a pickup is saved or cancelled.
+**Shown when:** the driver / collector signs in (this is the driver home, S-F00-01 → S-F02-03), opens the dispatch notification sent when ReFeed staff dispatch a route (FR-02-05, FR-02-07), or comes back from S-F02-04 after a pickup is saved or cancelled.
 
 **The user leaves this screen when:** they open a pickup point ("Mở điểm thu gom" or tap a stop card → S-F02-04), or they sign out (→ S-F00-01).
 
@@ -56,7 +56,7 @@ All colours, fonts and corners come from the design tokens in
 | 5 | Route progress | Stat card (highlight) | `route.done_count` " / " `route.stop_count` " điểm"; `route.area` (FR-02-01) | Yes | done = stops whose `pickup.status` is not Driver Assigned |
 | 6 | Collected today | Stat card | sum of `collection.actual_quantity` of the route; "Ước tính cả tuyến: " `route.estimated_volume` (FR-02-01 grouped volume) | Yes | 1 decimal + " kg" |
 | 7 | Section label | Text | static: "Thứ tự điểm thu gom" | Yes | |
-| 8 | Stop list | Scrollable list of stop cards | `route.stops` ordered by `stop.sequence` (optimized order from FR-02-01) | Yes | one card per pickup of the route; list scrolls, header stays fixed |
+| 8 | Stop list | Scrollable list of stop cards | `route.stops` ordered by `stop.sequence` (optimized order from FR-02-02) | Yes | one card per pickup of the route; list scrolls, header stays fixed |
 | 9 | Stop header | Text | "Điểm " + `stop.sequence` + " · " + `pickup.time_window` | Yes | `HH:mm - HH:mm` |
 | 10 | Status badge | Status badge | `pickup.status`: Đã phân tài xế · Đã đến · Hoàn tất · Đã hủy; a collected stop shows "Đã hoàn thành" with a check icon (open question 1) | Yes | text + icon + colour (ui-conventions §3, §5) |
 | 11 | Supplier name | Text | `supplier.business_name` | Yes | |
@@ -93,9 +93,9 @@ All colours, fonts and corners come from the design tokens in
 
 | Rule ID | Rule | Source |
 |---|---|---|
-| SR-001 | The driver sees only the route assigned to their own `driver.id`. | FR-06-03 |
-| SR-002 | Stops are listed in the optimized visiting order set at dispatch; the driver may still open any remaining stop. | FR-02-01; AD-UC-06 open question 7 (default) |
-| SR-003 | "Mở điểm thu gom" appears on one card only: the first stop in order whose `pickup.status` is Driver Assigned (the current stop, green border). | FR-02-02 |
+| SR-001 | The driver sees only the route assigned to their own `driver.id`. | FR-02-08; FR-06-04 |
+| SR-002 | Stops are listed in the optimized visiting order set at dispatch; the driver may still open any remaining stop. | FR-02-02; AD-UC-06 open question 4 (default) |
+| SR-003 | "Mở điểm thu gom" appears on one card only: the first stop in order whose `pickup.status` is Driver Assigned (the current stop, green border). | FR-02-08, FR-02-09 |
 | SR-004 | Statuses are shown with text and icon, never by colour alone. | ui-conventions §5 |
 | SR-005 | When no stop is left in Driver Assigned, the screen shows the success state instead of the list. | AD-UC-06 `d2` [No] |
 | SR-006 | When the route cannot be refreshed, the last loaded copy is shown with its time ("dữ liệu lúc 10:12"); saving at a pickup point still needs a connection. | AD-UC-06 open question 3 (default) |
@@ -104,9 +104,10 @@ All colours, fonts and corners come from the design tokens in
 
 | FR ID | What this screen does for it |
 |---|---|
-| FR-02-02 | Displays the assigned route and its pickups in visiting order and opens the pickup point for arrival and collection |
-| FR-02-01 | Shows the route, order, area and estimated volume created at dispatch; the dispatch notification opens this screen |
-| FR-06-03 | Restricts the route shown to the signed-in driver |
+| FR-02-08 | Displays the assigned route and its pickup points and opens the pickup point for arrival and collection |
+| FR-02-01, FR-02-02 | Shows the area and estimated volume of the grouped pickups and lists them in the optimized visiting order |
+| FR-02-05, FR-02-07 | Opens from the notification sent when the route is dispatched to the driver |
+| FR-06-04 | Restricts the route shown to the signed-in driver (role permission) |
 
 ## 8. Responsive and accessibility notes
 
@@ -120,7 +121,7 @@ All colours, fonts and corners come from the design tokens in
 
 | # | Question | Blocking? | Status |
 |---|---|---|---|
-| 1 | [NEEDS CLARIFICATION: the mockup shows "Đã hoàn thành" on Điểm 1 (collected, waiting for the supplier's signature). This label is not one of the pickup statuses in ui-conventions §3: by FR-02-02 a visited pickup is Arrived ("Đã đến"), and it becomes Completed ("Hoàn tất") only after the supplier signs (FR-03-01). Add a status such as Collected ("Đã hoàn thành") to W1 and ui-conventions, or show "Đã đến"?] | No | Open. Default: "Đã hoàn thành" is shown as in the mockup and is proposed as a new status Collected; it does not count as Completed. |
+| 1 | [NEEDS CLARIFICATION: the mockup shows "Đã hoàn thành" on Điểm 1 (collected, waiting for the supplier's signature). This label is not one of the pickup statuses in ui-conventions §3: by FR-02-09 a visited pickup is Arrived ("Đã đến"), and it becomes Completed ("Hoàn tất") only after the supplier signs (FR-03-08). Add a status such as Collected ("Đã hoàn thành") to W1 and ui-conventions, or show "Đã đến"?] | No | Open. Default: "Đã hoàn thành" is shown as in the mockup and is proposed as a new status Collected; it does not count as Completed. |
 | 2 | [NEEDS CLARIFICATION: the notification list and the account menu are not screens in the Screen List. Are they overlays of this screen?] | No | Open. Default: both are overlays on S-F02-03. |
 | 3 | [NEEDS CLARIFICATION: should the route refresh by itself when ReFeed staff change it after dispatch?] | No | Open. Default: refresh on open, on "Thử lại" and on return from S-F02-04. |
 
@@ -131,7 +132,7 @@ All colours, fonts and corners come from the design tokens in
 - [x] The mockup is a separate cropped image file, named with the Screen ID, at the frame width.
 - [x] The numbered image exists, and its numbers match the # column of the element inventory.
 - [x] Every visible element in the mockup appears in the element inventory.
-- [ ] Every colour in the mockup is a design token from ui-conventions.md.
+- [x] Every colour in the mockup is a design token from ui-conventions.md.
 - [x] Every input element has a validation rule or an explicit "none".
 - [x] All five states are filled in.
 - [x] Every navigation target is a Screen ID that exists in the Screen List.
