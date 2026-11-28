@@ -1,25 +1,26 @@
-# Screen Spec: S-F05-01 My wallet (loyalty tier and payout balance)
+# Screen Spec: S-F05-01 Loyalty and payout balance
 
 | Field             | Value |
 | ----------------- | ----- |
 | Screen ID         | S-F05-01 |
-| Screen name       | Loyalty and payout balance |
+| Screen name       | Loyalty and payout balance (Vietnamese title: "Ví của tôi") |
 | Actor             | Supplier |
 | Priority          | Must |
-| Feature           | F-05 Loyalty, payout balance and Green Profile|
-| Activity diagrams | [TBC: AD not checked; the screen is read-only, and no withdrawal flow exists any more] |
+| Feature           | F-05 Supplier Value & ESG / Green Profile |
+| Use case          | UC-12 Manage loyalty status and accumulated payout balance |
+| Activity diagrams | [AD-UC-12](../../activity/AD-UC-12.md) (open the Loyalty and Payout section; no withdrawal) |
 | Mockup images     | `img/S-F05-01-default.png` (default), `img/S-F05-01-default-numbered.png`, four state images and four numbered state images (section 2) |
 | Frame width       | 370px screen inside a 390 × 844 device frame, exported at 3x; state images are 1170 × 2532 pixels, numbered images are 1230 × 2592 pixels (30px transparent padding so that the number badges have room) |
-| Figma frame       | Board "S-F05-01 · Loyalty and payout balance - 5 stages", five frames, one per state (not re-checked against the Figma file in this version) |
+| Figma frame       | Board "S-F05-01 · Loyalty and payout balance - 5 stages", five frames, one per state. The repository holds no Figma link for this board, so the images in `img/` are the reference |
 | Status            | Draft |
 
 **Scope change in this version.** The app has no connection to a bank, so the supplier **cannot withdraw money** here. The former screen "Payout withdrawal" (and its confirmation modal and "withdrawal requested" result) is removed. This screen only shows the accumulated balance, the loyalty tier, and whether each amount has been **received** (`Đã nhận`) or is **pending** (`Chờ nhận`).
 
 ## 1. Purpose
 
-**Shown when:** the supplier taps the tab "Ví của tôi" (or a link to the wallet), or comes back from the Green Profile (S-F05-02).
+**Shown when:** the supplier taps the bottom navigation tab "Ví của tôi" on the supplier home (S-F00-02) or a link to the wallet, comes back from the transaction receipt (S-F03-02) or the Green Profile (S-F05-02), or taps "Xem lịch sử giao dịch" in the empty state of S-F03-01.
 
-**The user leaves this screen when:** they tap the back button, tap "Xem và ký giao dịch" on the pending transaction banner, tap "Yêu cầu thu gom", tap "Xem hồ sơ xanh", or tap "Tải lại dữ liệu" after an error (the screen stays and reloads).
+**The user leaves this screen when:** they tap the back button, tap a transaction row, tap "Xem và ký giao dịch" on the pending transaction banner, tap "Yêu cầu thu gom", tap "Xem hồ sơ xanh", or tap "Tải lại dữ liệu" after an error (the screen stays and reloads).
 
 ## 2. Mockup
 
@@ -49,11 +50,11 @@ In the Loading image, the number on a grey block names the element the block hol
 | Error   | [`img/S-F05-01-error.png`](img/S-F05-01-error.png) (reward and balance data could not be loaded) |
 | Success | [`img/S-F05-01-success.png`](img/S-F05-01-success.png) (data loaded again after the error; COL-00891 now counted) |
 
-Colours, fonts and corners follow the design tokens in ui-conventions.md section 6. [TBC: the conventions file could not be read in this version, so no pixel check against the token table was made; open question 14.]
+Colours, fonts and corners must follow the design tokens in [ui-conventions.md](../ui-conventions.md#6-design-tokens). Pixel check of the five state images: white `color/surface` matches; `#F4F7F6` matches `color/background`. Other large areas differ from the tokens, for example `#1B2B26` (token `color/ink` `#14231E`), `#E6F4EE` (`color/green-light` `#E6F6F1`), `#0F7A57` (`color/green-dark` `#0B7A5F`) and `#A9D6C4` (no close token). The tokens are the rule; the images need to be redrawn. The images are 1170 × 2532 pixels, while ui-conventions §6 states 1470 × 2832 pixels with a shadow margin.
 
 ## 3. Element inventory
 
-Data field names are proposed; align them with the data dictionary.
+Data field names are defined by this spec; the repository has no data dictionary.
 
 | #  | Element | Type | Content / data source | Required | Validation |
 | -- | ------- | ---- | --------------------- | -------- | ---------- |
@@ -71,14 +72,14 @@ Data field names are proposed; align them with the data dictionary.
 | 12 | Pending amount | Metric | clock icon + "Chờ nhận"; `wallet.pending_amount` (example: "7.650 đ"), amber | No | integer >= 0; hidden in the empty and error states |
 | 13 | Balance helper text | Text | error only: "Chưa thể hiển thị số dư khi chưa tải được dữ liệu." (the mockup still shows an old sentence about withdrawing; open question 6) | No | static |
 | 14 | History title | Section title | static "Lịch sử giao dịch" | No | hidden in the error state |
-| 15 | Transaction row | List row | "+" icon; title `transaction.type_label` ("Tiền dầu gốc" or "Thưởng tích lũy"); meta `transaction.date` · `collection.id` and, for "Tiền dầu gốc", · `collection.actual_quantity` + " kg"; amount "+" + `transaction.amount` + " đ" | No | `dd/MM/yyyy`; `COL-` + 5 digits; newest first |
+| 15 | Transaction row | List row | "+" icon; title `transaction.type_label` ("Tiền dầu gốc", "Thưởng tích lũy" or, for a tier upgrade bonus, "Thưởng lên hạng"); meta `transaction.date` · `collection.id` and, for "Tiền dầu gốc", · `collection.actual_quantity` + " kg"; amount "+" + `transaction.amount` + " đ" | No | `dd/MM/yyyy`; `COL-` + 5 digits; newest first |
 | 16 | Payout status chip | Chip | `transaction.payout_status`: "✓ Đã nhận" (green) or "◷ Chờ nhận" (amber) | Yes, on every row | enum: received, pending |
 | 17 | Empty history card | Empty state card | clock icon; "Chưa có giao dịch nào"; "Sau khi bạn ký giao dịch, tiền dầu gốc và thưởng tích lũy sẽ hiện ở đây. Hãy yêu cầu thu gom để bắt đầu tích lũy." | No | shown only when the supplier has no transaction |
 | 18 | Loading text | Text | static "Đang tải số dư..." | No | shown only in the loading state |
 | 19 | Yêu cầu thu gom | Primary button | static label | Yes | none; not tappable while loading |
 | 20 | Tải lại dữ liệu | Primary button | static label; replaces button 19 in the error state | No | none |
 | 21 | Xem hồ sơ xanh | Secondary button | static label | Yes | none; hidden while loading |
-| 22 | Success toast | Toast | check icon + "Đã tải lại số dư tích lũy" (same pattern as "Đã tải lại hồ sơ xanh." on S-F05-02) | No | shown after a successful reload; floats above the buttons and may cover the last visible history row |
+| 22 | Success toast | Toast | check icon + "Đã tải lại số dư tích lũy" (same pattern as "Đã tải lại hồ sơ xanh." on S-F05-02) | No | shown after a successful reload; dismisses after 4 seconds (ui-conventions §3); floats above the buttons and may cover the last visible history row |
 
 ## 4. States
 
@@ -97,25 +98,25 @@ Data field names are proposed; align them with the data dictionary.
 
 ## 5. Interactions and navigation
 
-Target Screen IDs come from the Screen List and the Screen Transition diagram [TBC: not re-checked in this version]. Withdrawal is removed, so no interaction leads to a withdrawal screen.
+Target Screen IDs were checked against [screen-list.md](../screen-list.md) and [screen-transition.md](../screen-transition.md). Withdrawal is removed, so no interaction leads to a withdrawal screen.
 
 | #  | Element | User action | System response | Goes to screen |
 | -- | ------- | ----------- | --------------- | -------------- |
-| 1  | Back button (1) | tap | Returns to the previous screen | previous screen (S-F00-02 when opened from the home tab; open question 16) |
+| 1  | Back button (1) | tap | Returns to the previous screen; if there is none, opens the supplier home | previous screen, or S-F00-02 |
 | 2  | "Xem và ký giao dịch" in banner 4 | tap | Opens the signing screen for the pending transaction `COL-00891` | S-F03-01 |
 | 3  | Yêu cầu thu gom (19) | tap | Opens the pickup request form | S-F01-03 |
 | 4  | Xem hồ sơ xanh (21) | tap | Opens the supplier's Green Profile | S-F05-02 |
 | 5  | Tải lại dữ liệu (20) | tap | Re-fetches the wallet data | stays (loading, then default, empty, success or error state) |
 | 6  | Balance card (10), tier card (6), chips (16) | tap | Display only; nothing can be changed or withdrawn from here | stays |
-| 7  | Transaction row (15) | tap | Display only [TBC: open question 15] | stays |
-| 8  | Screen body | pull down | Re-fetches the data and shows the Loading state [TBC: open question 5] | stays |
+| 7  | Transaction row (15) | tap | Opens the receipt of the signed transaction of that row | S-F03-02 |
+| 8  | Screen body | pull down | Re-fetches the data and shows the Loading state (open question 5) | stays |
 
 ## 6. Screen-level rules
 
 | Rule ID | Rule | Source |
 | ------- | ---- | ------ |
 | SR-001 | The supplier only sees the balance, tier and transactions that belong to their own `supplier.id`. | FR-06-04 |
-| SR-002 | Balance, verified weight, tier and bonus change only after a transaction is signed and verified; the screen displays the values the system returns and never calculates money itself. | FR-05-03, FR-05-04, FR-05-05 |
+| SR-002 | Balance, verified UCO volume, tier and bonus change only after a transaction is signed; the screen displays the values the system returns and never calculates money itself. Warehouse verification does not change the balance. | FR-05-03, FR-05-04, FR-05-05, FR-05-06; S-F03-02 SR-003 |
 | SR-003 | The screen is read-only. It has no withdrawal button, no bank account field and no bank connection. | Scope change (no bank API) |
 | SR-004 | `wallet.balance` = `wallet.received_amount` + `wallet.pending_amount`. Each transaction has exactly one `payout_status`: received or pending. The status is set by the system; the supplier cannot change it here. | Screen design |
 | SR-005 | The pending transaction banner (4) stays above the tier card until the transaction is signed. | Screen design |
@@ -126,16 +127,17 @@ Target Screen IDs come from the Screen List and the Screen Transition diagram [T
 
 ## 7. Linked requirements
 
-FR IDs below are taken from the S-F00-02 spec. [TBC: names and wording must be checked against the W1 Function List, which could not be read in this version.]
+FR IDs and the function names in quotes are copied from [w1-function-list.md](../../function-list/w1-function-list.md).
 
 | FR ID | What this screen does for it |
 | ----- | ---------------------------- |
-| FR-05-01 | Shows the supplier's loyalty tier, the progress to the next tier and the accumulated payout balance |
-| FR-05-03 / FR-05-04 / FR-05-05 | Displays the balance, verified weight and tier after a signed transaction (display only) |
-| FR-05-06 | Displays the tier bonus when the system returns it (open question 12) |
-| FR-06-04 | Opens only for a role that has the supplier permission |
+| FR-05-01 "Retrieve Loyalty Tier & Payout Balance" | Shows the supplier's loyalty tier, the progress to the next tier and the accumulated payout balance |
+| FR-05-02 "Display Loyalty Tier & History Details" | Shows the current tier, verified UCO volume, progress and the itemized base-payment, loyalty-bonus and tier-upgrade-bonus history directly on the screen (open question 17) |
+| FR-05-03 "Add signed transaction payment to payout balance" / FR-05-04 "Add signed transaction quantity to verified UCO volume" / FR-05-05 "Upgrade loyalty tier" | Displays the balance, verified volume and tier after a signed transaction (display only) |
+| FR-05-06 "Award tier upgrade bonus" | Displays the tier upgrade bonus in the history when the system returns it (open question 12) |
+| FR-06-04 "Check role permission for protected action" | Opens only for a role that has the supplier permission |
 
-**Related functions, entry only** (carried out on the target screen): FR-01-11 (pickup form, S-F01-03), FR-03-01 (draft awaiting signature, S-F03-01), FR-05-07 (Green Profile, S-F05-02). [TBC: if W1 still has a payout withdrawal function, mark it as removed; open question 1.]
+**Related functions, entry only** (carried out on the target screen): FR-01-11 "Validate pickup location, estimated volume and time window" (pickup form, S-F01-03), FR-03-01 "Retrieve supplier draft agreement" (S-F03-01), FR-03-11 "Check receipt ownership and signed status" (S-F03-02), FR-05-07 "View Green Profile and UCO contribution history" (S-F05-02). W1 has no payout withdrawal function.
 
 ## 8. Responsive and accessibility notes
 
@@ -146,24 +148,28 @@ FR IDs below are taken from the S-F00-02 spec. [TBC: names and wording must be c
 
 ## 9. Open questions
 
-| # | Question | Blocking? | Status |
-| - | -------- | --------- | ------ |
-| 1 | [NEEDS CLARIFICATION: The withdrawal screen was removed. Do the Function List, Screen List, Screen Transition and the S-F05 numbering also change (Green Profile S-F05-03 → S-F05-02, ESG reports S-F05-04 → S-F05-03)?] | No | Open. Default: yes; this spec uses S-F05-02 for the Green Profile and S-F05-03 for ESG reports. |
-| 2 | [NEEDS CLARIFICATION: Who sets "Đã nhận" / "Chờ nhận", and when? ReFeed Staff after a manual transfer, an accounting import, or the supplier's own confirmation?] | No | Open. Default: the system or ReFeed Staff sets it; the supplier only reads it. |
-| 3 | [NEEDS CLARIFICATION: In the mockups the base amount ("Tiền dầu gốc") is "Đã nhận" and the bonus ("Thưởng tích lũy") is "Chờ nhận". Is that a rule or only sample data?] | No | Open. Default: sample data; the status is stored per transaction. |
-| 4 | [NEEDS CLARIFICATION: The updated Success mockup now has the history rows and the toast, but still shows "Chờ nhận 17.000 đ" (the rows add up to 17.400 đ), the pill "+400 đ/L", and a stray check mark at the top left above the tier card. Also, the toast covers part of the third row and the fourth row is not visible.] | No | Open. Default: redraw with 17.400 đ and "+400 đ/kg", delete the stray check mark, and keep the toast "Đã tải lại số dư tích lũy"; the list scrolls under the toast. |
-| 5 | [NEEDS CLARIFICATION: Is there a pull-to-refresh on this screen? The Success state is reached after "Tải lại dữ liệu" in the Error state; no other reload control is drawn.] | No | Open. Default: yes, pull down re-fetches and shows the Loading state. |
-| 6 | [NEEDS CLARIFICATION: The Error mockup helper text still says "Chưa thể rút tiền khi chưa tải được số dư."] | No | Open. Default: change to "Chưa thể hiển thị số dư khi chưa tải được dữ liệu." |
-| 7 | [NEEDS CLARIFICATION: In the Empty mockup the button "Yêu cầu thu gom" is greyed out, although the text asks the supplier to request a collection.] | No | Open. Default: the button is active (SR-008). |
-| 8 | [NEEDS CLARIFICATION: The Loading mockup does not match the loaded layout: the last bar of the second block runs outside the block, a stray bar sits between block 2 and block 3, and block heights are larger than the content.] | No | Open. Default: redraw per SR-007: tier block, balance block, title bar, list block, each as high as its content. |
-| 9 | [NEEDS CLARIFICATION: Weight format differs from ui-conventions §2 (1 decimal, decimal comma): Success shows "58 kg".] | No | Open. Default: "25,5 kg", "0,0 kg", "58,0 kg". |
-| 10 | [NEEDS CLARIFICATION: The pending banner says COL-00891 awaits the supplier's signature, while S-F05-02 Default lists COL-00891 as "Đang chờ xác minh" (warehouse verification). Which comes first: signature or verification?] | No | Open. Default: follow the mockups; define one lifecycle for a collection and use the same wording on both screens. |
-| 11 | [NEEDS CLARIFICATION: When two or more transactions await the signature, does banner 4 show only the oldest, a count, or several banners?] | No | Open. Default: as S-F00-02: count and the oldest transaction. |
-| 12 | [NEEDS CLARIFICATION: Tier 2 pays "+400 đ/kg", but the bonus of COL-00891 in the sample is 9.750 đ (32,5 kg × 300). Is the bonus rate the one of the tier at the time of the collection? Is there a tier upgrade bonus (FR-05-06)?] | No | Open. Default: the screen shows whatever balance the system returns. |
-| 13 | [NEEDS CLARIFICATION: S-F00-02 links the Green Profile and the tab "Xanh" to S-F05-03.] | No | Open. Default: change S-F00-02 to S-F05-02 after the renumbering (question 1). |
-| 14 | [NEEDS CLARIFICATION: The design token table could not be read, so the colours of the images (green, mint, amber, red, greys) were not checked against ui-conventions §6.] | No | Open. Default: tokens are the rule; redraw if a shade is not a token. |
-| 15 | [NEEDS CLARIFICATION: Does tapping a transaction row open the receipt (S-F03-02)?] | No | Open. Default: no; rows are display only. |
-| 16 | [NEEDS CLARIFICATION: The five frames show no bottom tab bar, while S-F00-02 has one (with the tab "Ví của tôi"). Is this screen a detail screen without tabs, and where does the back button go?] | No | Open. Default: no tab bar, as in the mockups; back returns to the previous screen. |
+"Closed (source)" is settled by a repository document. "Closed for this spec" applies a design default so that the spec has no gap; the team or client has not confirmed it, and the last column says what is still to be done.
+
+| # | Question | Blocking? | Status and decision |
+| - | -------- | --------- | ------------------- |
+| 1 | Does the removal of the withdrawal screen change the Function List, Screen List and numbering? | No | Closed (source). W1, the Screen List and the Screen Transition have no withdrawal and use S-F05-02 Green Profile and S-F05-03 ESG contribution reports. Still to update: usage-flow.md, activity-index.md, use-case-diagram.md and the "Rút tiền" examples in ui-conventions.md. |
+| 2 | Who sets "Đã nhận" / "Chờ nhận", and when? | No | Closed for this spec. ADR-003: the finance team pays outside the app. The supplier only reads `transaction.payout_status`. No W1 FR records the payment status, and AD-UC-12 question 1 covers this gap; the W1 owner needs to confirm who updates it. |
+| 3 | Is "base amount received, bonus pending" a rule? | No | Closed for this spec: it is sample data only; the status is stored per transaction. |
+| 4 | The Success mockup shows "Chờ nhận 17.000 đ", the pill "+400 đ/L" and a stray check mark; the toast covers part of the history. | No | Closed for this spec: the correct values are 17.400 đ and "+400 đ/kg" (ui-conventions §2), with no stray check mark. The toast stays and the list scrolls under it. The image still needs to be redrawn. |
+| 5 | Is there a pull-to-refresh? | No | Closed for this spec: yes, pull down re-fetches and shows the Loading state. |
+| 6 | The Error mockup helper text mentions withdrawing money. | No | Closed (source: no withdrawal, AD-UC-12). The text is "Chưa thể hiển thị số dư khi chưa tải được dữ liệu." The image still needs to be redrawn. |
+| 7 | In the Empty mockup "Yêu cầu thu gom" is greyed out. | No | Closed for this spec: the button is active (SR-008). The image still needs to be redrawn. |
+| 8 | The Loading mockup does not match the loaded layout. | No | Closed (source: ui-conventions §3 Skeleton, same layout as the loaded screen). The image still needs to be redrawn. |
+| 9 | Success shows "58 kg". | No | Closed (source: ui-conventions §2). The format is "58,0 kg"; likewise "42,0 kg" in the progress hint. The image still needs to be redrawn. |
+| 10 | Which comes first for a collection: signature or warehouse verification? | No | Closed (source). Signature first: FR-04-01 receives only UCO whose transaction has been signed. The names of the warehouse states after "Received" are still open (W3 D-08). |
+| 11 | What does banner 4 show when two or more transactions await the signature? | No | Closed for this spec: as on S-F00-02, the count and the oldest transaction. |
+| 12 | Which bonus rate applies to COL-00891, and where is the tier upgrade bonus? | No | Closed for this spec. FR-05-03 adds the locked bonus of the signed transaction (9.750 đ = 32,5 kg × 300 đ). A tier upgrade bonus (FR-05-06) appears as its own row when returned. The sample data contains none, and its amount and the BR-05 thresholds are not defined in the repository; the screen shows what the system returns. |
+| 13 | Which screen ID do the Green Profile links on S-F00-02 use? | No | Closed (source: Screen List). S-F05-02. screen-spec-S-F00-02.md still points to S-F05-03 and needs to be corrected. |
+| 14 | Do the mockup colours match the design tokens? | No | Closed: checked, not passed (section 2). Redraw the images with the tokens. |
+| 15 | What does tapping a transaction row do? | No | Closed (source). It opens the receipt S-F03-02 (Screen Transition "History: View receipt"; Screen List entry point of S-F03-02). |
+| 16 | The frames have no bottom navigation, and ui-conventions §3 names the third tab "Tích lũy". | No | Closed for this spec: no tab bar, as in the mockups; the tab is called "Ví của tôi", as on S-F00-02. ui-conventions §3 needs to be aligned. |
+| 17 | FR-05-02 starts with "View tier and history details", but no such control is drawn. | No | Closed for this spec: the details are shown directly on this screen. The W1 owner needs to confirm. |
+| 18 | ui-conventions §4 has a "Balance not updated" banner and another empty-list text for this screen. | No | Closed for this spec: the five mockup states and their texts are kept; the "Balance not updated" banner is not part of this version. The team needs to align ui-conventions §4 or the mockups. |
 
 ---
 
@@ -171,10 +177,10 @@ FR IDs below are taken from the S-F00-02 spec. [TBC: names and wording must be c
 
 - [x] The mockup is a separate cropped image file, named with the Screen ID, at the frame width (`img/S-F05-01-<state>.png`).
 - [x] The numbered images exist for all five states, and their numbers match the # column of the element inventory.
-- [ ] Every visible element in the mockup appears in the element inventory. (The Success image has a stray check mark at the top left that belongs to no element: open question 4.)
-- [ ] Every colour in the mockup is a design token from ui-conventions.md. (Not checked: open question 14.)
+- [ ] Every visible element in the mockup appears in the element inventory. **Checked, not passed:** the Success image has a stray check mark (open question 4).
+- [ ] Every colour in the mockup is a design token from ui-conventions.md. **Checked, not passed:** see section 2.
 - [x] Every input element has a validation rule or an explicit "none".
 - [x] All five states are filled in.
-- [ ] Every navigation target is a Screen ID that exists in the Screen List. (Not checked after the renumbering: open question 1.)
-- [x] Every element that displays data names the field it displays (proposed names).
-- [ ] Every linked FR exists in the Function List. (Not checked: open question list above, section 7.)
+- [x] Every navigation target is a Screen ID that exists in the Screen List (S-F00-02, S-F01-03, S-F03-01, S-F03-02, S-F05-02).
+- [x] Every element that displays data names the field it displays.
+- [x] Every linked FR exists in the Function List.
