@@ -9,7 +9,7 @@ are shown in the activity diagram [AD-UC-03](../activity/AD-UC-03.md), not here.
 |---|---|
 | Use case | UC-03 Request and schedule a UCO pickup |
 | Version | v1 |
-| FRs | FR-01-03 |
+| FRs | FR-01-09, FR-01-10, FR-01-11, FR-01-12, FR-01-13, FR-01-14 |
 
 ```mermaid
 sequenceDiagram
@@ -22,13 +22,13 @@ sequenceDiagram
   P->>D: read supplier profile (GPS, compliance data)
   D-->>P: supplier profile
   alt profile incomplete (GPS or compliance data missing)
-    P-->>A: rejected: update the supplier profile first (FR-01-03)
+    P-->>A: rejected: update the supplier profile first (FR-01-10)
   else request details missing or invalid
-    P-->>A: rejected: validation errors (FR-01-03)
+    P-->>A: rejected: validation errors (FR-01-12)
   else profile complete and details valid
     P->>D: save pickup request [Requested] with the time window, linked to Supplier_ID
     D-->>P: Pickup_Request_ID
-    P-->>A: request created, Pickup_Request_ID (FR-01-03)
+    P-->>A: request created, Pickup_Request_ID (FR-01-13, FR-01-14)
   end
   A-->>S: result
 ```
