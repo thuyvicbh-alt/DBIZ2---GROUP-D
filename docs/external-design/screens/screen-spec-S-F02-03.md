@@ -7,7 +7,7 @@
 | Actor | Driver / Collector |
 | Priority | Must |
 | Feature | F-02 Collection Operations & Handover |
-| Activity diagrams | AD-UC-06 (actions `a1` "Open assigned collection route" and `s1` "Display assigned route and pickup points", `a2` "Select supplier point and confirm arrival" — the select part; the loop through `d2` "More assigned pickup points remain?"); sequence SD-UC-06 |
+| Activity diagrams | AD-UC-06 (actions "Open assigned collection route" and "Display assigned route and pickup points", "Select supplier point and confirm arrival" — the select part; the loop through "More assigned pickup points remain?"); sequence SD-UC-06 |
 | Mockup images | `img/S-F02-03-default.png` (default), `img/S-F02-03-default-numbered.png`, four state images and four numbered state images (section 2) |
 | Frame width | 370px screen inside a 390 × 844 device frame (exported at 3x with a 50px shadow margin, 1470 × 2832 pixels) |
 | Figma frame | Frames "S-F02-03 / 1" to "S-F02-03 / 5", page "4 màn × 5 trạng thái" in the ReFeed Figma file |
