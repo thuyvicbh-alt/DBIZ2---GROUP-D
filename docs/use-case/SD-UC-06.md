@@ -9,7 +9,7 @@ next, whether UCO is ready, correcting the details) are shown in the activity di
 | Field | Value |
 |---|---|
 | Use case | UC-06 Check scheduled collection route and Confirm Delivery to supplier points |
-| Version | v2 |
+| Version | v1 |
 | FRs | FR-02-08, FR-02-09, FR-02-10, FR-02-11, FR-02-12, FR-02-13 |
 
 ```mermaid
