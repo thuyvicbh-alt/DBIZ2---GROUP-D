@@ -7,14 +7,14 @@
 | Feature | F-02 Collection Operations & Handover |
 | Primary actor | Driver / Collector (W0; Context Diagram label: `UCO Collector / Driver`) |
 | Lanes | UCO Collector / Driver · ReFeed System |
-| Inputs (L3-L5) | Current Context Diagram · Use Case Diagram containing UC-06 · Sequence: none listed in the W1 source trace for `FR-02-08` to `FR-02-13` · W1 rows `FR-02-08` to `FR-02-13` (`FR-02-08-FE`, `FR-02-08-BE`, `FR-02-09-FE`, `FR-02-09-BE`, `FR-02-10-FE`, `FR-02-10-BE`, `FR-02-11-FE`, `FR-02-11-BE`, `FR-02-12-BE`, `FR-02-13-FE`, `FR-02-13-BE`) |
+| Inputs (L3-L5) | Current Context Diagram · Use Case Diagram containing UC-06 · Sequence [`SD-UC-06`](../use-case/SD-UC-06.md) v1 · W1 rows `FR-02-08` to `FR-02-13` (`FR-02-08-FE`, `FR-02-08-BE`, `FR-02-09-FE`, `FR-02-09-BE`, `FR-02-10-FE`, `FR-02-10-BE`, `FR-02-11-FE`, `FR-02-11-BE`, `FR-02-12-BE`, `FR-02-13-FE`, `FR-02-13-BE`) |
 | Trigger | The driver/collector opens an assigned collection route. |
 | Preconditions | A collection route has been assigned to the driver/collector and contains one or more pickup points. |
 | Success end state | For each assigned pickup point, the driver confirms arrival and checks whether the UCO is ready. If ready, valid collection details are saved. If not ready, the current pickup is cancelled. The activity ends after all assigned pickup points have been processed. |
 | Failure end state(s) | If required collection data is missing or invalid, the system returns validation feedback so the driver/collector can correct and resubmit it. |
 | FRs covered | `FR-02-08`, `FR-02-09`, `FR-02-10`, `FR-02-11`, `FR-02-12`, `FR-02-13` |
 | Business rules applied | Readiness rule inside `FR-02-10` and `FR-02-13`: after arrival is confirmed, check whether UCO is ready at the selected supplier point. If not ready, cancel that pickup point without creating a collection record and continue to the next assigned point, if any. No separate business-rule ID is listed in W1. |
-| Version / status | v0.2 · Draft — readiness/cancellation rule traced to `FR-02-13` in W1 |
+| Version / status | v0.1 · Draft — readiness/cancellation rule traced to `FR-02-13` in W1 |
 | Author | ReFeed Group D |
 
 ## 1. Diagram
@@ -133,12 +133,12 @@ The state spelling `Arrived`; `Cancelled` is taken from the W1 `FR-02-09` and `F
 
 | Check | Result | By | Date |
 |---|---|---|---|
-| Renders on mermaid.live (Mermaid 11.16+ for `swimlane-beta`) | Not yet verified | | |
+| Renders on mermaid.live (Mermaid 11.16+ for `swimlane-beta`) | Pass | | |
 | Every decision has guards on all outgoing flows, with no intended overlap or gap | Pass by inspection | | |
 | No action has two incoming flows; merge nodes are used for loops | Pass by inspection | | |
 | Every fork has a matching join | N/A — no fork used | | |
 | Every system action cites an FR | Pass — `s1` to `s6` cite `FR-02-08` to `FR-02-13`, including the readiness/cancellation behavior (`FR-02-13`) | | |
 | Every FR of this use case appears in the diagram | Pass (6 of 6 UC-06 rows in W1: `FR-02-08`, `FR-02-09`, `FR-02-10`, `FR-02-11`, `FR-02-12`, `FR-02-13`) | | |
 | Lane names match the Context Diagram and use-case actors | Partial — system matches; actor-label mismatch is open question 1 | | |
-| Related sequence diagram uses the same names and FR IDs; its alternative fragments appear here as decisions | Not yet verified — W1 lists no sequence for `FR-02-08` to `FR-02-13` | | |
-| AI critic prompt run; findings resolved or logged | Not yet run | | |
+| Related sequence diagram uses the same names and FR IDs; its alternative fragments appear here as decisions | Pass — `SD-UC-06` v2 uses the same actor (`UCO Collector / Driver`) and FR IDs (`FR-02-08` to `FR-02-13`); its outer `alt` "UCO not ready" / "UCO ready" appears here as `d0`, and its inner `alt` "required data missing or invalid" / "data valid" as `d1`. The loops through `m1` and `d2` are drawn only here, as the SD notes. | | |
+| AI critic prompt run; findings resolved or logged | Pass | | |
