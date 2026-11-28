@@ -7,7 +7,7 @@
 | Actor | Driver / Collector |
 | Priority | Must |
 | Feature | F-02 Collection Operations & Handover |
-| Activity diagrams | AD-UC-07 (driver action "Capture/submit actual quantity, handover time and evidence; allow correction"; system actions "Validate actual quantity, handover time, and evidence", "Store handover record against assigned pickup", "Calculate transaction amount", "Generate draft agreement", "Reject and prompt for correction") |
+| Activity diagrams | AD-UC-07 (driver actions: `"Capture & submit actual quantity, handover time, and evidence (FR-02-14-FE)"`, `"Display generated draft handover agreement (FR-02-17-FE)"`, `"See rejection prompt & correct invalid information (FR-02-18-FE)"`; system actions: `"Validate actual quantity, handover time, and evidence (FR-02-14-BE)"`, `"Store handover record against assigned pickup (FR-02-15-BE)"`, `"Calculate transaction amount (FR-02-16-BE)"`, `"Generate draft agreement (FR-02-17-BE)"`, `"Reject and prompt for correction (FR-02-18-BE)"`) |
 | Mockup images | `img/S-F02-05-default.png` (default), `img/S-F02-05-default-numbered.png`, four state images and four numbered state images (section 2) |
 | Frame width | 370px screen inside a 390 × 844 device frame (exported at 3x with a 50px shadow margin, 1470 × 2832 pixels) |
 | Figma frame | Frames "S-F02-05 / 1" to "S-F02-05 / 5", page "4 màn × 5 trạng thái" in the ReFeed Figma file |
@@ -39,7 +39,7 @@ agreement status (14) in its summary card.
 | Default | [`img/S-F02-05-default.png`](img/S-F02-05-default.png) |
 | Empty | [`img/S-F02-05-empty.png`](img/S-F02-05-empty.png) |
 | Loading | [`img/S-F02-05-loading.png`](img/S-F02-05-loading.png) |
-| Error | [`img/S-F02-05-error.png`](img/S-F02-05-error.png) (amount not calculated; the network error on send is described in section 4 only) |
+| Error | [`img/S-F02-05-error.png`](img/S-F02-05-error.png) (amount not calculated on load; validation rejection on send and network error are described in section 4) |
 | Success | [`img/S-F02-05-success.png`](img/S-F02-05-success.png) |
 
 All colours, fonts and corners come from the design tokens in
@@ -64,7 +64,7 @@ All colours, fonts and corners come from the design tokens in
 | 13 | Draft agreement | Card | static title "Biên bản giao nhận & mua bán UCO"; `collection.id` + " · bản nháp. Nhà cung cấp sẽ nhận thông báo để xem và ký." (FR-02-17) | Yes | ID format `COL-` + 5 digits |
 | 14 | Agreement status | Status badge | `transaction.status`: "Chờ ký" | Yes | text + icon (ui-conventions §3, §5) |
 | 15 | Gửi yêu cầu xác nhận | Primary button | static label | Yes | disabled until the amount is calculated and the draft agreement is generated |
-| 16 | Message area | Banner | warning or error messages (amount not calculated, network) | No | |
+| 16 | Message area | Banner | warning or error messages (amount not calculated, validation rejection, network) | No | |
 | 17 | Missing evidence card | Card with secondary button | static: "Ảnh bằng chứng" — "Lần thu gom này chưa có ảnh bằng chứng. Ảnh giúp kho và nhà cung cấp đối chiếu khi có chênh lệch khối lượng."; button "Thêm ảnh bằng chứng" | No | shown only when `collection.photos` is empty |
 
 ## 4. States
@@ -74,18 +74,18 @@ All colours, fonts and corners come from the design tokens in
 | Default | Header "Chi tiết bàn giao", "PK-00125 · Quán Phở Hàng Bài"; "Thông tin bàn giao" (Thời gian bàn giao 10:25 · 25/09/2026, Khối lượng thực tế 32,5 kg, Ảnh bằng chứng IMG-001); "Thành tiền" (Giá gốc 10.000 đ/kg, Thưởng tích lũy (Hạng 1) +300 đ/kg, Giá áp dụng 10.300 đ/kg, "32,5 kg × 10.300 đ" = 334.750 đ); draft card "Biên bản giao nhận & mua bán UCO" with badge "Chờ ký" and COL-00891; footer "Gửi yêu cầu xác nhận". The mockup shows this state. | Screen opened, handover data loaded, amount calculated and draft generated |
 | Empty (no data) | "Ảnh bằng chứng: Chưa có"; dashed card "Ảnh bằng chứng" with the explanation and button "Thêm ảnh bằng chứng"; amount and draft agreement shown as in Default; "Gửi yêu cầu xác nhận" stays available | Collection saved on S-F02-04 without a photo (photo is optional, FR-02-10) |
 | Loading | Two cards of grey placeholders and the text "Đang tải biên bản…"; "Gửi yêu cầu xác nhận" disabled | Handover data, amount and draft agreement are being fetched |
-| Error | Orange banner "Chưa tính được thành tiền — Không lấy được giá gốc hoặc hạng tích lũy của nhà cung cấp. Thông tin bàn giao đã được lưu." with link "Thử lại"; handover card shown; "Thành tiền" rows Giá gốc, Thưởng tích lũy, Thành tiền show "—"; no draft card; "Gửi yêu cầu xác nhận" disabled. Network failure on send: "Không lưu được thay đổi. Kiểm tra kết nối mạng và thử lại." | Base price or loyalty tier could not be read (FR-02-16), the handover information was rejected (FR-02-18), or the send request failed |
-| Success / confirmation | Time 10:47; check mark, "Gửi biên bản thành công" — "Thông báo đã được gửi tới Quán Phở Hàng Bài. Biên bản chỉ được khóa sau khi nhà cung cấp xem và ký xác nhận."; summary card (Mã thu gom COL-00891, Khối lượng · thành tiền 32,5 kg · 334.750 đ, Trạng thái "Chờ ký"); button "Về trang chủ" | Handover record stored (FR-02-15) and the draft agreement sent to the supplier (FR-02-17) |
+| Error | **Case 1 — Pricing lookup error on load (shown in mockup):** Orange banner `"Chưa tính được thành tiền — Không lấy được giá gốc hoặc hạng tích lũy của nhà cung cấp. Thông tin bàn giao đã được lưu."` (referring to the collection data saved on S-F02-04; the handover record itself is not persisted yet) with link `"Thử lại"`; handover card shown; "Thành tiền" rows Giá gốc, Thưởng tích lũy, Thành tiền show `"—"`; no draft card; `"Gửi yêu cầu xác nhận"` disabled.<br>**Case 2 — Validation rejection or network failure on send:** Banner displays field-validation feedback (FR-02-18-FE) or `"Không lưu được thay đổi. Kiểm tra kết nối mạng và thử lại."` without saving a handover record. | **Case 1:** Base price or loyalty tier cannot be read when calculating the amount (`FR-02-16-BE`).<br>**Case 2:** Handover data fails validation (`FR-02-14-BE` → `FR-02-18-BE`) or the network request fails when tapping `"Gửi yêu cầu xác nhận"`. |
+| Success / confirmation | Time 10:47; check mark, "Gửi biên bản thành công" — "Thông báo đã được gửi tới Quán Phở Hàng Bài. Biên bản chỉ được khóa sau khi nhà cung cấp xem và ký xác nhận."; summary card (Mã thu gom COL-00891, Khối lượng · thành tiền 32,5 kg · 334.750 đ, Trạng thái "Chờ ký"); button "Về trang chủ" | Handover record stored (`FR-02-15-BE`) and the draft agreement generated and sent to the supplier (`FR-02-17-BE`, `FR-02-17-FE`) |
 
 ## 5. Interactions and navigation
 
 | # | Element | User action | System response | Goes to screen |
 |---|---|---|---|---|
 | 1 | Thêm ảnh bằng chứng | tap (empty state) | Opens the camera or photo library; the photo ID replaces "Chưa có" and the missing evidence card disappears | stays (default state) |
-| 2 | Thử lại / warning banner | tap (error state) | Reads the base price and loyalty tier again, recalculates the amount (FR-02-16) and generates the draft (FR-02-17) | stays |
-| 3 | Gửi yêu cầu xác nhận | tap | Validates (FR-02-14) and stores the handover record (FR-02-15) and sends the draft agreement to the supplier (FR-02-17), or shows the error state (FR-02-18) | stays (loading, then success or error state) |
+| 2 | Thử lại / warning banner | tap (error state) | Reads the base price and loyalty tier again, recalculates the amount (`FR-02-16-BE`) and generates the draft (`FR-02-17-BE`) | stays |
+| 3 | Gửi yêu cầu xác nhận | tap | Validates (`FR-02-14-BE`) and stores the handover record (`FR-02-15-BE`) and sends the draft agreement to the supplier (`FR-02-17-BE`, `FR-02-17-FE`), or rejects and shows the error state (`FR-02-18-BE`, `FR-02-18-FE`) | stays (loading, then success or error state) |
 | 4 | Về trang chủ | tap (success state) | Returns to the route; the next pickup becomes the current stop | S-F02-03 |
-| 5 | Back | tap | Returns without sending; saved collection details are kept | S-F02-04 |
+| 5 | Back | tap | Returns without sending; saved collection details on S-F02-04 are kept | S-F02-04 |
 
 ## 6. Screen-level rules
 
@@ -95,7 +95,7 @@ All colours, fonts and corners come from the design tokens in
 | SR-002 | Applied price = base price + the supplier's current loyalty bonus rate; amount = actual quantity × applied price, shown as whole đồng. | FR-02-16; ui-conventions §2 |
 | SR-003 | The loyalty bonus uses the supplier's tier at the time of handover. | FR-02-16 (supplier current loyalty bonus rate) |
 | SR-004 | "Gửi yêu cầu xác nhận" is disabled until the amount is calculated and the draft agreement is generated. | FR-02-16, FR-02-17 |
-| SR-005 | If the amount cannot be calculated, the handover information stays saved and no draft agreement is shown. | FR-02-15, FR-02-16 (error state) |
+| SR-005 | If the amount cannot be calculated, the collection data from S-F02-04 stays saved, no handover record is created, and no draft agreement is shown. | FR-02-15, FR-02-16 (error state) |
 | SR-006 | The agreement stays a draft with status "Chờ ký"; it is locked with the amount only after the supplier signs. | FR-03-06 |
 | SR-007 | After sending, the supplier receives the notification "draft agreement ready", which opens S-F03-01. | screen-transition (Driver to Supplier, UC-07 to UC-08) |
 | SR-008 | Only the driver assigned to the route can open and send this handover. | FR-06-04 |
@@ -103,14 +103,14 @@ All colours, fonts and corners come from the design tokens in
 
 ## 7. Linked requirements
 
-| FR ID | What this screen does for it |
-|---|---|
-| FR-02-14 | Validates the actual quantity, handover time and evidence before sending |
-| FR-02-15 | Stores the handover record against the assigned pickup |
-| FR-02-16 | Calculates and shows the transaction amount from the actual quantity, base price and the supplier's current loyalty bonus rate |
-| FR-02-17 | Generates the draft handover agreement and sends it to the supplier |
-| FR-02-18 | Rejects invalid handover information without saving and prompts the driver to correct it |
-| FR-06-04 | Allows the handover actions only to the driver assigned to the route (role permission) |
+| FR ID (L2) | L3 Work Items | What this screen does for it |
+|---|---|---|
+| FR-02-14 | `FR-02-14-FE`, `FR-02-14-BE` | Captures/reuses and validates the actual quantity, handover time and evidence before sending |
+| FR-02-15 | `FR-02-15-BE` | Stores the handover record against the assigned pickup |
+| FR-02-16 | `FR-02-16-BE` | Calculates and shows the transaction amount from the actual quantity, base price and the supplier's current loyalty bonus rate |
+| FR-02-17 | `FR-02-17-FE`, `FR-02-17-BE` | Generates and displays the draft handover agreement and sends it to the supplier |
+| FR-02-18 | `FR-02-18-FE`, `FR-02-18-BE` | Rejects invalid handover information without saving a handover record and prompts the driver to correct it |
+| FR-06-04 | `FR-06-04-BE` | Allows the handover actions only to the driver assigned to the route (role permission) |
 
 ## 8. Responsive and accessibility notes
 
@@ -141,5 +141,4 @@ All colours, fonts and corners come from the design tokens in
 - [x] All five states are filled in.
 - [x] Every navigation target is a Screen ID that exists in the Screen List.
 - [x] Every element that displays data names the field it displays.
-- [x] Every linked FR exists in the Function List, and every action of this screen in AD-UC-07 is
-      covered by an interaction row.
+- [x] Every linked FR exists in the Function List, and every action of this screen in AD-UC-07 is covered by an interaction row.
