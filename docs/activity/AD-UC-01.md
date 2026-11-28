@@ -1,26 +1,27 @@
-# Activity Diagram: AD-UC-01 Register / Login as a UCO supplier
+# Activity Diagram: AD-UC-01 Supplier Onboarding & Pickup Management
 
 | Field | Value |
 |---|---|
 | AD ID | AD-UC-01 |
-| Use case | UC-01 Register / Login as a UCO supplier |
-| Feature | F-01 Supplier Portal & Account Management |
+| Use case | UC-01 Register/Login as a UCO supplier, extended through the F-01 flow to UC-02, UC-03 and UC-04 |
+| Feature | F-01 Supplier Onboarding & Pickup Management |
 | Primary actor | Supplier |
-| Lanes | Supplier · ReFeed system |
-| Inputs (L3-L5) | Context Diagram v2 (Supplier) · Use Case Diagram v2 · Sequence: SD-UC-01 · Architecture v2 · W1 row FR-01-01 (Register/Login as a UCO supplier) |
+| Lanes | Supplier · ReFeed System |
+| Inputs (L3-L5) | Context Diagram v2 (Supplier) · Use Case Diagram v2 · Sequence: SD-UC-01 · Architecture v2 · W1 rows FR-01-01 to FR-01-05 |
 | Trigger | The supplier submits credentials or registration data on the portal |
 | Preconditions | The supplier has access to the ReFeed Web/Mobile Portal. |
-| Success end state | Account is successfully authenticated or created; `Supplier` account is in state `Active`, session token is issued, and Dashboard is displayed. |
-| Failure end state | No account/session is created; error message displayed to prompt retry. |
-| FRs covered | FR-01-01 Register/Login as a UCO supplier |
+| Success end state | The supplier is authenticated, the Point-of-Origin and compliance profile is stored, a pickup request is created with status `Requested`, and the supplier can change, cancel or track it. |
+| Failure end state | No account/session is created, or no pickup request is created; the supplier sees an error or a prompt to complete the profile. |
+| FRs covered | FR-01-01 Register/Login as a UCO supplier · FR-01-02 Manage Point-of-Origin and compliance profile · FR-01-03 Request and schedule a UCO pickup · FR-01-04 Manage an existing pickup request · FR-01-05 Track pickup status |
 | Business rules applied | BR-01 (Unique Supplier Identifier & Tax ID validation) |
-| Version / status | v1.1 · Updated to the revised W1 function list |
+| Version / status | v1.2 · Rebuilt on the revised W1 function list, each FR appears once |
 | Author | Nguyen Thuy Vi - 2411560050 |
 
 ## 1. Diagram
 
 Notation follows the DBIZ2 activity profile (`mermaid-activity-patterns.md`). Rendered with
-`swimlane-beta`, which needs Mermaid 11.16 or later.
+`swimlane-beta`, which needs Mermaid 11.16 or later. Each FR is written on **one** node only, with its
+exact W1 name.
 
 ```mermaid
 ---
@@ -31,76 +32,104 @@ config:
 ---
 
 
-swimlane-beta LR
-%% UC01: Register/Login as a UCO supplier (F-01)
+swimlane-beta TB
+%% UC01: Supplier Onboarding & Pickup Management (F-01)
 %% ReFeed group project
 subgraph supplier ["Supplier"]
 initial@{ shape: f-circ, label: " " }
 submitAuth("Submit Credentials or Registration Data")
-choiceAuth{" "}
+submitProfile("Submit Point-of-Origin and Compliance Data")
+submitPickup("Submit Pickup Request with Preferred Time Window")
+choiceNext{"Next action?"}
+changeRequest("Change or Cancel Pickup Request")
+trackRequest("Request Pickup Status")
 finalFail@{ shape: fr-circ, label: " " }
+finalRejected@{ shape: fr-circ, label: " " }
+finalManaged@{ shape: fr-circ, label: " " }
+finalTracked@{ shape: fr-circ, label: " " }
 end
 
 
 subgraph system ["ReFeed System"]
-validateAuth("Validate Credentials and Compliance Data (FR-01-01)")
-createAccount("Create Supplier Account with Unique Supplier_ID")
-authenticateUser("Display Account Already Exists & Redirect to Login")
-finalLogin@{ shape: fr-circ, label: " " }
+registerLogin("Register/Login as a UCO supplier (FR-01-01)")
+choiceAuth{"Authentication valid?"}
+displayError("Display Error Message & Prompt Retry")
 
+manageProfile("Manage Point-of-Origin and compliance profile (FR-01-02)")
 
-displayAuthSuccess("Display Dashboard & Authentication Result")
-finalSuccess@{ shape: fr-circ, label: " " }
+requestPickup("Request and schedule a UCO pickup (FR-01-03)")
+choiceProfile{"Profile complete?"}
+rejectRequest("Reject Request & Prompt Profile Update")
+createRequest("Create Pickup Request and Return Request ID")
+requested["Pickup Request [Requested]"]
 
+manageRequest("Manage an existing pickup request (FR-01-04)")
+updateStatus("Update Request Status & Retain Appointment Information")
 
-displayAuthError("Display Error Message & Prompt Retry")
+trackStatus("Track pickup status (FR-01-05)")
+displayStatus("Display Status, Schedule, Driver, Vehicle & Last Update")
 end
 
 
 initial --> submitAuth
-submitAuth --> validateAuth
-validateAuth -->|Authentication Valid?| choiceAuth
+submitAuth --> registerLogin
+registerLogin --> choiceAuth
 
+choiceAuth -->|"[no]"| displayError
+displayError --> finalFail
 
-choiceAuth -->|No - Invalid Data/Credentials| displayAuthError
-displayAuthError --> finalFail
+choiceAuth -->|"[yes]"| submitProfile
+submitProfile --> manageProfile
+manageProfile --> submitPickup
+submitPickup --> requestPickup
+requestPickup --> choiceProfile
 
+choiceProfile -->|"[no]"| rejectRequest
+rejectRequest --> finalRejected
 
-choiceAuth -->|Yes - New Registration| createAccount
-createAccount --> displayAuthSuccess
+choiceProfile -->|"[yes]"| createRequest
+createRequest --> requested
+requested --> choiceNext
 
+choiceNext -->|"[change or cancel]"| changeRequest
+changeRequest --> manageRequest
+manageRequest --> updateStatus
+updateStatus --> finalManaged
 
-choiceAuth -->|Yes - Existing Supplier Login| authenticateUser
-authenticateUser --> finalLogin
-
-
-displayAuthSuccess --> finalSuccess
-
-
-%% Invisible link for layout only, not a process transition
-finalLogin ~~~ displayAuthSuccess
+choiceNext -->|"[track status]"| trackRequest
+trackRequest --> trackStatus
+trackStatus --> displayStatus
+displayStatus --> finalTracked
 ```
+
 Reading notes:
 
-- The process starts when the **Supplier** submits authentication credentials or new account registration data to the ReFeed system.
-- Decision `d1` validates the input credentials and compliance data. If invalid, the system displays the error message via `s2` and terminates at `stop2`.
-- Decision `d2` branches between two scenarios: New account registration (generating a unique `Supplier_ID` and transitioning the account object `o1` to state `Active`) and Returning login for an existing registered supplier (`s5`).
+- The process starts when the **Supplier** submits credentials or registration data. `FR-01-01` registers a new supplier with a unique `Supplier_ID` or authenticates a returning one. Invalid data ends with an error and a prompt to retry.
+- A valid supplier submits or updates the Point-of-Origin and compliance profile (`FR-01-02`), then requests a pickup (`FR-01-03`).
+- The profile-completeness decision rejects the request when GPS or compliance data is missing. Otherwise the pickup request is created in state `Requested`.
+- The supplier then either changes or cancels the request (`FR-01-04`) or tracks its status (`FR-01-05`).
+- Each FR is tagged on exactly one node. The untagged nodes belong to the FR of the node before them.
 
 ## 2. Node trace
 
-UC-01 has a single requirement, **FR-01-01 Register/Login as a UCO supplier**. It is tagged once in the
-diagram, on the first system action. The other nodes belong to the same FR and are not tagged again.
+Each FR appears once. Untagged nodes inherit the FR of the tagged node they follow.
 
 | Node | Kind | Text | Traces to |
 |---|---|---|---|
-| s1 | Action | Validate Credentials and Compliance Data | **FR-01-01** Register/Login as a UCO supplier (the only node that carries the FR tag), BR-01 |
-| d1 | Decision | Authentication valid? | BR-01 |
-| s2 | Action | Display Error Message & Prompt Retry | Part of the FR-01-01 flow (not tagged again) |
-| d2 | Decision | New registration or existing login? | Part of the FR-01-01 flow (not tagged again) |
-| s3 | Action | Create Supplier Account with Unique Supplier_ID | Part of the FR-01-01 flow, BR-01 |
-| o1 | Object node | Supplier Account [Active] | State value |
-| s4 | Action | Display Dashboard & Authentication Result | Part of the FR-01-01 flow (not tagged again) |
-| s5 | Action | Display Account Already Exists & Redirect to Login | Part of the FR-01-01 flow (not tagged again) |
+| s1 | Action | Register/Login as a UCO supplier | **FR-01-01**, BR-01 |
+| d1 | Decision | Authentication valid? | FR-01-01 (inherited), BR-01 |
+| s2 | Action | Display Error Message & Prompt Retry | FR-01-01 (inherited) |
+| s3 | Action | Manage Point-of-Origin and compliance profile | **FR-01-02** |
+| s4 | Action | Request and schedule a UCO pickup | **FR-01-03** |
+| d2 | Decision | Profile complete? | FR-01-03 (inherited) |
+| s5 | Action | Reject Request & Prompt Profile Update | FR-01-03 (inherited) |
+| s6 | Action | Create Pickup Request and Return Request ID | FR-01-03 (inherited) |
+| o1 | Object node | Pickup Request [Requested] | FR-01-03 (state value) |
+| d3 | Decision | Next action? | FR-01-04, FR-01-05 (inherited) |
+| s7 | Action | Manage an existing pickup request | **FR-01-04** |
+| s8 | Action | Update Request Status & Retain Appointment Information | FR-01-04 (inherited) |
+| s9 | Action | Track pickup status | **FR-01-05** |
+| s10 | Action | Display Status, Schedule, Driver, Vehicle & Last Update | FR-01-05 (inherited) |
 
 ## 3. Branches and acceptance tests
 
@@ -108,44 +137,46 @@ One row per outgoing branch of every decision. DBIZ3 turns each row into at leas
 
 | Branch | Given | When | Then |
 |---|---|---|---|
-| d1 [no] | a supplier inputs invalid credentials or incomplete compliance data | they submit authentication data | no session is created and an error message is shown prompting retry |
-| d1 [yes] → d2 [new registration] | a new supplier provides valid compliance data and credentials | they submit registration data | a unique Supplier_ID is generated, account state becomes Active, and Dashboard access is granted |
-| d1 [yes] → d2 [existing login] | an existing registered supplier enters valid credentials | they attempt to login or register | system authenticates the user, notifies account existence, and redirects to login/dashboard |
+| d1 [no] | a supplier enters invalid credentials or incomplete compliance data | they submit authentication data | no account or session is created and an error message prompts a retry |
+| d1 [yes] | a new supplier submits valid data, or a returning supplier submits valid credentials | they submit the data | a unique Supplier_ID is created for a new supplier, or the returning supplier is authenticated |
+| d2 [no] | the supplier profile is missing GPS or compliance data | the supplier submits a pickup request | the request is rejected and the supplier is prompted to update the profile |
+| d2 [yes] | the supplier profile is complete | the supplier submits a pickup request with a preferred time window | the request is created with status `Requested` and the request ID is returned |
+| d3 [change or cancel] | an eligible pickup request exists | the supplier changes or cancels it | the request status is updated and the appointment information is retained |
+| d3 [track status] | a pickup request exists | the supplier requests the pickup status | the system displays the status, scheduled collection date/time, assigned driver and vehicle when available, and the last status-update timestamp |
 
 ## 4. Object states used
 
 | Object | States that appear in this diagram | Full state list (all diagrams) |
 |---|---|---|
-| Supplier Account | Active | Pending Verification, Active, Suspended |
+| Pickup Request | Requested | Requested, Driver Assigned, Arrived, Completed, Cancelled |
 
-These state names become the allowed values of `supplier_account.status` in the DBIZ3 data model. Keep the
+These state names become the allowed values of `pickup_request.status` in the DBIZ3 data model. Keep the
 spelling identical everywhere.
 
 ## 5. Screens touched
 
-Filled in during Lesson 8, from the Screen List.
-
 | Supplier action | Screen ID |
 |---|---|
-| Submit Credentials or Registration Data | S-F01-01 (Authentication & Registration Portal) |
-| See Error Message & Prompt Retry | S-F01-01 (Error State Feedback) |
-| See Dashboard & Authentication Result | S-F01-02 (Supplier Dashboard) |
-| See Login Redirection & Sign-in | S-F01-01 (Redirection Modal) |
+| Submit credentials or registration data, see error | S-F01-01 (Supplier registration) · S-F00-01 (Sign in) |
+| Submit Point-of-Origin and compliance data | S-F01-02 (Point-of-Origin and compliance profile) |
+| Submit pickup request, see profile-incomplete prompt | S-F01-03 (Pickup request form) |
+| Change or cancel pickup request | S-F01-05 (Pickup request detail) |
+| Request pickup status | S-F01-04 (My pickup requests) · S-F01-05 (Pickup request detail) |
 
 ## 6. Open questions
 
 | # | Question | Blocking? | Default applied |
 |---|---|---|---|
-| 1 | [NEEDS CLARIFICATION: Is OTP/2FA required upon initial registration?] | No | Yes: Standard email/password authentication is verified first; 2FA can be configured post-registration. |
-| 2 | [NEEDS CLARIFICATION: Does account activation require immediate manual compliance check by Admin?] | No | Account is created in `Active` status for basic portal access, with extended pickup functions locked until profile completeness (FR-01-02 / FR-01-03 in the revised W1). |
+| 1 | [NEEDS CLARIFICATION: Is OTP/2FA required upon initial registration?] | No | Standard email/password authentication first; 2FA can be configured after registration. |
+| 2 | [NEEDS CLARIFICATION: Which statuses allow a change or cancellation?] | No | Only a pickup request that is not yet dispatched is eligible (for example `Requested`). |
 
 ## 7. Verification log
 
 | Check | Result | By | Date |
 |---|---|---|---|
 | Renders (mermaid-cli 11.16.0) | Pass | | 28/11/2026 |
-| Every decision has guards on all outgoing flows | Pass | | 06/11/2026 |
-| FR-01-01 appears once in the diagram, with the exact W1 name | Pass | | 28/11/2026 |
-| Every FR of UC-01 appears in the diagram | Pass (1 of 1) || 28/11/2026 |
-| Lane names match the Context Diagram | Pass || 06/11/2026 |
-| AI critic prompt run, findings resolved or logged | Pass, 2 findings → open questions 1 and 2| | 06/11/2026 |
+| Every decision has guards on all outgoing flows | Pass | | 28/11/2026 |
+| Every FR of F-01 appears in the diagram | Pass (5 of 5: FR-01-01 to FR-01-05) | | 28/11/2026 |
+| Each FR appears exactly once in the diagram | Pass | | 28/11/2026 |
+| FR names match W1 | Pass | | 28/11/2026 |
+| Lane names match the Context Diagram | Pass | | 28/11/2026 |
