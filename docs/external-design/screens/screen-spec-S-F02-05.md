@@ -7,7 +7,7 @@
 | Actor | Driver / Collector |
 | Priority | Must |
 | Feature | F-02 Collection Operations & Handover |
-| Activity diagrams | AD-UC-07 (driver action "Capture/submit actual quantity, handover time and evidence; allow correction"; system actions `a2` "Validate actual quantity, handover time, and evidence", `a3` "Store handover record against assigned pickup", `a4` "Calculate transaction amount", `a5` "Generate draft agreement", `a7` "Reject and prompt for correction") |
+| Activity diagrams | AD-UC-07 (driver action "Capture/submit actual quantity, handover time and evidence; allow correction"; system actions "Validate actual quantity, handover time, and evidence", "Store handover record against assigned pickup", "Calculate transaction amount", "Generate draft agreement", "Reject and prompt for correction") |
 | Mockup images | `img/S-F02-05-default.png` (default), `img/S-F02-05-default-numbered.png`, four state images and four numbered state images (section 2) |
 | Frame width | 370px screen inside a 390 × 844 device frame (exported at 3x with a 50px shadow margin, 1470 × 2832 pixels) |
 | Figma frame | Frames "S-F02-05 / 1" to "S-F02-05 / 5", page "4 màn × 5 trạng thái" in the ReFeed Figma file |
