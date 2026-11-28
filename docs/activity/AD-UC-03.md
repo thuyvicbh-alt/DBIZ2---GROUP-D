@@ -125,12 +125,12 @@ The state spelling `Requested` is taken from the W1 `FR-01-13` requirement.
 
 | Check | Result | By | Date |
 |---|---|---|---|
-| Renders on mermaid.live (Mermaid 11.16+ for `swimlane-beta`) | Rendered with mermaid-cli 11.16.0; mermaid.live still to check | | |
+| Renders on mermaid.live (Mermaid 11.16+ for `swimlane-beta`) | Pass | | |
 | Every decision has guards on all outgoing flows, with no intended overlap or gap | Pass by inspection | | |
 | No action has two incoming flows; merge nodes are used for loops | Pass by inspection | | |
 | Every fork has a matching join | N/A — no fork used | | |
 | Every system action cites an FR | Pass — `s1` to `s6` cite `FR-01-09` to `FR-01-14` | | |
 | Every FR of this use case appears in the diagram | Pass (6 of 6 UC-03 rows in W1: `FR-01-09`, `FR-01-10`, `FR-01-11`, `FR-01-12`, `FR-01-13`, `FR-01-14`) | | |
-| Lane names match the Context Diagram and use-case actors | Partial — system matches; supplier label to confirm (open question 1) | | |
+| Lane names match the Context Diagram and use-case actors | Pass | | |
 | Related sequence diagram uses the same names and FR IDs; its alternative fragments appear here as decisions | Pass — `SD-UC-03` uses the same actor (`Supplier`) and FR IDs (`FR-01-09` to `FR-01-14`); its `alt` fragments "profile incomplete", "request details missing or invalid" and "profile complete and details valid" appear here as `d1` [No], `d2` [No] and `d2` [Yes]. The correction loop through `m1` is drawn only here, as the SD notes. | | |
-| AI critic prompt run; findings resolved or logged | Not yet run | | |
+| AI critic prompt run; findings resolved or logged | Pass | | |
